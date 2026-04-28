@@ -1,0 +1,82 @@
+/* ══════════════════════════════════════════════════
+   HIDRA — Paleta Institucional + Full System v2
+══════════════════════════════════════════════════ */
+
+:root {
+  /* Paleta Institucional HIDRA */
+  --azul-inst:     #003366;   /* Azul Institucional — navs, botones primary, headers tabla */
+  --azul-agua:     #0072CE;   /* Azul Agua — iconos activos, links, btn pagar */
+  --celeste-claro: #E3F2FD;   /* Celeste Claro — fondos sección, filas alternas */
+  --gris-texto:    #455A64;   /* Gris Texto — párrafos, etiquetas formularios */
+  --blanco:        #FFFFFF;   /* Blanco Puro — fondo principal, texto en botones oscuros */
+
+  /* Derivados y auxiliares */
+  --azul-inst-dk:  #002244;
+  --azul-inst-lt:  #004080;
+  --azul-agua-lt:  #3399E0;
+  --azul-agua-dk:  #005BA8;
+  --celeste-md:    #BBDEFB;
+  --celeste-dk:    #90CAF9;
+
+  /* Fondos UI (modo claro/institucional) */
+  --bg-page:       #F4F8FC;
+  --bg-sidebar:    var(--azul-inst);
+  --bg-sidebar-dk: var(--azul-inst-dk);
+  --bg-card:       var(--blanco);
+  --bg-card-alt:   var(--celeste-claro);
+  --bg-input:      var(--blanco);
+  --bg-thead:      var(--azul-inst);
+
+  /* Bordes */
+  --border-subtle:  #D0E4F7;
+  --border-active:  var(--azul-agua);
+  --border-focus:   var(--azul-agua);
+
+  /* Texto */
+  --text-primary:   #1A2A3A;
+  --text-secondary: var(--gris-texto);
+  --text-muted:     #90A4AE;
+  --text-sidebar:   rgba(255,255,255,0.75);
+  --text-sidebar-active: #FFFFFF;
+  --text-on-dark:   #FFFFFF;
+
+  /* Estados */
+  --success:   #00897B;
+  --warning:   #F57C00;
+  --danger:    #C62828;
+  --info:      var(--azul-agua);
+  --pending:   #1565C0;
+
+  /* Dimensiones */
+  --sidebar-w:    256px;
+  --sidebar-w-sm: 68px;
+  --navbar-h:     60px;
+  --radius-sm:    8px;
+  --radius:       12px;
+  --radius-lg:    16px;
+  --radius-xl:    24px;
+
+  /* Sombras */
+  --shadow-sm:    0 1px 4px rgba(0,51,102,0.08);
+  --shadow-card:  0 4px 20px rgba(0,51,102,0.10);
+  --shadow-modal: 0 24px 64px rgba(0,0,0,0.22);
+  --shadow-sidebar: 4px 0 20px rgba(0,30,80,0.18);
+
+  /* Gradientes clave */
+  --grad-brand:   linear-gradient(135deg, #003366 0%, #0072CE 60%, #4FC3F7 100%);
+  --grad-agua:    linear-gradient(135deg, #0072CE, #4FC3F7);
+  --grad-card:    linear-gradient(145deg, #FFFFFF 0%, #F0F8FF 100%);
+  --grad-hero:    linear-gradient(160deg, #003366 0%, #0072CE 55%, #29B6F6 100%);
+  --grad-stripe:  linear-gradient(90deg, #003366, #0072CE, #4FC3F7, #0072CE, #003366);
+
+  /* Tipo */
+  --font-main:  'Outfit', sans-serif;
+  --font-brand: 'Cinzel', serif;
+  --font-mono:  'JetBrains Mono', monospace;
+
+  /* Transiciones */
+  --t-fast:   150ms ease;
+  --t-normal: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-bounce: 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
