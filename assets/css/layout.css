@@ -1,0 +1,158 @@
+/* ── MAIN ─────────────────────────────────────────── */
+.main-area {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  transition: margin-left var(--t-normal);
+  min-width: 0;
+}
+.sidebar.collapsed ~ .main-area { margin-left: var(--sidebar-w-sm); }
+
+/* ── TOP NAVBAR ───────────────────────────────────── */
+.top-navbar {
+  height: var(--navbar-h);
+  background: var(--blanco);
+  border-bottom: 2px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  box-shadow: 0 2px 12px rgba(0,51,102,0.07);
+}
+
+.navbar-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.breadcrumb-item { font-size: 0.8rem; color: var(--text-muted); }
+.breadcrumb-item.active { color: var(--azul-inst); font-weight: 700; }
+.breadcrumb-sep { color: var(--border-subtle); font-size: 0.8rem; }
+
+.navbar-actions { display: flex; align-items: center; gap: 8px; }
+
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-subtle);
+  background: var(--bg-page);
+  color: var(--gris-texto);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+  position: relative;
+}
+.btn-icon:hover {
+  background: var(--celeste-claro);
+  color: var(--azul-inst);
+  border-color: var(--azul-agua);
+  transform: translateY(-1px);
+}
+.btn-icon .notif-dot {
+  position: absolute;
+  top: 7px; right: 7px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--danger);
+  border: 1.5px solid var(--blanco);
+}
+
+/* Búsqueda navbar */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-page);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0 12px;
+  height: 36px;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.navbar-search:focus-within {
+  border-color: var(--azul-agua);
+  box-shadow: 0 0 0 3px rgba(0,114,206,0.12);
+}
+.navbar-search input {
+  background: none; border: none; outline: none;
+  font-size: 0.82rem; color: var(--text-primary);
+  width: 180px;
+}
+.navbar-search input::placeholder { color: var(--text-muted); }
+
+/* ── PAGE CONTENT ─────────────────────────────────── */
+.page-content { flex: 1; padding: 28px; overflow-y: auto; }
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-family: var(--font-brand);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--azul-inst);
+  letter-spacing: 1px;
+}
+
+.page-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* ── VIEWS ────────────────────────────────────────── */
+.view { display: none; }
+.view.active { display: block; animation: fadeUp 230ms ease both; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION TABS ─────────────────────────────────── */
+.section-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 2px solid var(--border-subtle);
+  margin-bottom: 24px;
+}
+
+.section-tab {
+  padding: 10px 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: pointer;
+  transition: color var(--t-fast), background var(--t-fast);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-tab:hover { color: var(--azul-inst); background: var(--celeste-claro); }
+.section-tab.active {
+  color: var(--azul-inst);
+  border-bottom-color: var(--azul-agua);
+  background: var(--celeste-claro);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeUp 200ms ease both; }
+

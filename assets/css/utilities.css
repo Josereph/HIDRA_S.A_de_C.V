@@ -1,0 +1,139 @@
+/* ── UTILITIES ───────────────────────────────────── */
+.mb-0  { margin-bottom: 0 !important; }
+.mb-8  { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.gap-8 { gap: 8px; }
+.w-full { width: 100%; }
+.text-right  { text-align: right; }
+.text-muted  { color: var(--text-muted) !important; }
+.text-accent { color: var(--azul-agua) !important; }
+.text-success{ color: var(--success) !important; }
+.text-danger { color: var(--danger) !important; }
+.text-warning{ color: var(--warning) !important; }
+.flex-center  { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-gap     { display: flex; align-items: center; gap: 10px; }
+
+/* ── KPI GLOW PULSE ──────────────────────────────── */
+@keyframes pulseBlue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,114,206,0); }
+  50%       { box-shadow: 0 0 16px 6px rgba(0,114,206,0.18); }
+}
+.kpi-card.glow { animation: pulseBlue 3s ease-in-out infinite; }
+
+/* ── STAT ROW ──────────────────────────────────────── */
+.stat-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+.stat-row:last-child { border-bottom: none; }
+
+/* ── OPERACIONES HERO CARD ─────────────────────────── */
+.ops-hero {
+  background: var(--grad-hero);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  color: var(--blanco);
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ops-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+
+.ops-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 40%;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.ops-hero-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
+.ops-hero-sub   { font-size: 0.85rem; opacity: 0.75; }
+.ops-hero-actions { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+
+.btn-hero {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-hero-primary {
+  background: var(--blanco);
+  color: var(--azul-inst);
+  border: none;
+}
+.btn-hero-primary:hover { background: var(--celeste-claro); transform: translateY(-1px); }
+.btn-hero-outline {
+  background: rgba(255,255,255,0.12);
+  color: var(--blanco);
+  border: 1.5px solid rgba(255,255,255,0.35);
+}
+.btn-hero-outline:hover { background: rgba(255,255,255,0.22); }
+
+/* ── LECTURA CARD ──────────────────────────────────── */
+.lectura-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color var(--t-fast);
+}
+.lectura-input-group:focus-within { border-color: var(--azul-agua); }
+.lectura-input-group .lbl {
+  background: var(--azul-inst);
+  color: var(--blanco);
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.lectura-input-group input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  background: var(--blanco);
+}
+.lectura-input-group .unit {
+  background: var(--celeste-claro);
+  color: var(--azul-inst);
+  padding: 10px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .main-area { margin-left: 0 !important; }
+  .kpi-grid  { grid-template-columns: 1fr 1fr; }
+  .page-content { padding: 16px; }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+}
