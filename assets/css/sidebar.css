@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════
-   LAYOUT
+   SIDEBAR - HIDRA
 ══════════════════════════════════════════════════ */
 
 .app-shell { display: flex; min-height: 100vh; }
@@ -45,6 +45,11 @@
 @keyframes logoGlow {
   0%, 100% { filter: drop-shadow(0 0 0px rgba(0,114,206,0)); }
   50%       { filter: drop-shadow(0 0 12px rgba(0,114,206,0.6)) drop-shadow(0 0 4px rgba(79,195,247,0.4)); }
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-2px) scale(1.04); }
 }
 
 .sidebar.collapsed { width: var(--sidebar-w-sm); }
@@ -109,7 +114,7 @@
 /* brand-text oculto — texto va dentro del PNG */
 .brand-text, .brand-name, .brand-sub { display: none; }
 
-/* Toggle — botón elegante */
+/* ── TOGGLE BUTTON ──────────────────────────────── */
 .sidebar-toggle {
   position: absolute;
   right: -14px;
@@ -136,11 +141,6 @@
   50%       { box-shadow: 0 2px 14px rgba(0,50,120,0.45), 0 0 0 5px rgba(0,114,206,0); }
 }
 
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50%       { transform: translateY(-2px) scale(1.04); }
-}
-
 .sidebar-toggle svg {
   width: 11px;
   height: 11px;
@@ -154,7 +154,7 @@
 
 .sidebar.collapsed .sidebar-toggle { transform: translateY(-50%) rotate(180deg); }
 
-/* Nav */
+/* ── NAV ──────────────────────────────────────────── */
 .sidebar-nav {
   flex: 1;
   padding: 12px 0;
@@ -235,7 +235,7 @@
 }
 .sidebar.collapsed .nav-badge { opacity: 0; }
 
-/* Footer sidebar */
+/* ── FOOTER SIDEBAR ───────────────────────────────── */
 .sidebar-footer {
   padding: 12px;
   border-top: 1px solid rgba(255,255,255,0.1);
@@ -273,3 +273,12 @@
 .user-name { font-size: 0.8rem; font-weight: 700; color: var(--blanco); }
 .user-role  { font-size: 0.62rem; color: rgba(255,255,255,0.45); }
 
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}
