@@ -13,8 +13,8 @@
 .map-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(0,114,206,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,114,206,0.08) 1px, transparent 1px);
+    linear-gradient(rgba(102,179,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102,179,255,0.08) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -34,9 +34,9 @@
   letter-spacing: 0.5px;
 }
 .sector-block:hover { transform: scale(1.05); z-index: 5; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-.sector-block.active  { background: rgba(0,114,206,0.12); border-color: var(--azul-agua); color: var(--azul-inst); }
+.sector-block.active  { background: rgba(102,179,255,0.12); border-color: var(--celeste); color: var(--negro); }
 .sector-block.warning { background: rgba(245,124,0,0.1); border-color: var(--warning); color: var(--warning); }
-.sector-block.inactive{ background: rgba(0,51,102,0.05); border-color: #BBDEFB; color: var(--text-muted); }
+.sector-block.inactive{ background: rgba(0,0,0,0.05); border-color: #BBDEFB; color: var(--text-muted); }
 .sector-count { font-size: 1.1rem; font-weight: 800; line-height: 1; }
 
 /* ── TIMELINE ────────────────────────────────────── */
@@ -58,12 +58,12 @@
 .timeline-dot.pending{ background: #FFF8E1; border-color: var(--warning); color: var(--warning); }
 
 .timeline-body { flex: 1; padding-top: 4px; }
-.timeline-title  { font-size: 0.82rem; font-weight: 700; color: var(--azul-inst); }
+.timeline-title  { font-size: 0.82rem; font-weight: 700; color: var(--negro); }
 .timeline-meta   { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
-.timeline-amount { font-size: 0.82rem; font-weight: 700; font-family: var(--font-mono); color: var(--azul-agua); }
+.timeline-amount { font-size: 0.82rem; font-weight: 700; font-family: var(--font-mono); color: var(--celeste); }
 
 /* ── PROGRESS BAR ────────────────────────────────── */
-.progress-bar-wrap { height: 6px; background: var(--celeste-claro); border-radius: 20px; overflow: hidden; }
+.progress-bar-wrap { height: 6px; background: var(--celeste-xlt); border-radius: 20px; overflow: hidden; }
 .progress-bar-fill { height: 100%; border-radius: 20px; background: var(--grad-agua); transition: width 0.9s ease; }
 
 /* ── SKELETON ────────────────────────────────────── */
@@ -113,7 +113,7 @@
   justify-content: space-between;
   padding: 20px 24px;
   border-bottom: 1.5px solid var(--border-subtle);
-  background: var(--azul-inst);
+  background: var(--negro);
   color: var(--blanco);
 }
 .modal-title { font-size: 1rem; font-weight: 800; color: var(--blanco); }
@@ -150,6 +150,6 @@
 
 .toast-success { background: #E8F5E9; border-color: var(--success); color: var(--success); }
 .toast-danger  { background: #FFEBEE; border-color: var(--danger);  color: var(--danger); }
-.toast-info    { background: var(--celeste-claro); border-color: var(--azul-agua); color: var(--azul-inst); }
+.toast-info    { background: var(--celeste-xlt); border-color: var(--celeste); color: var(--negro); }
 .toast-warning { background: #FFF8E1; border-color: var(--warning); color: var(--warning); }
 

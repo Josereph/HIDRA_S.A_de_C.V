@@ -1,75 +1,154 @@
 /* ══════════════════════════════════════════════════
-   SIDEBAR - HIDRA
+   SIDEBAR — HIDRA v3 (Paleta Celeste/Blanco/Negro)
+   Logo blanco en header + animación icono al colapsar
 ══════════════════════════════════════════════════ */
 
+/* ── CONTENEDOR PRINCIPAL ── */
 .sidebar {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: var(--sidebar-w);
   height: 100vh;
-  background: #0c3b66;
-  color: #fff;
+  background: #000000;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
+  overflow: hidden;
+  box-shadow: var(--shadow-sidebar);
 }
 
-/* ── BRAND ───────────────────────────── */
+/* ── Línea animada superior ── */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--grad-stripe);
+  background-size: 300% 100%;
+  animation: stripeMove 5s linear infinite;
+  z-index: 2;
+}
+
+@keyframes stripeMove {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+/* ══════════════════════════════════════════
+   BRAND (header con fondo blanco — igual a Frontend1)
+══════════════════════════════════════════ */
 .sidebar-brand {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 120px;
-  padding: 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 14px;
+  border-bottom: 2px solid var(--celeste);
+  background: var(--blanco);          /* fondo blanco como en Frontend1 */
   position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-/* 🔥 LOGO PRINCIPAL */
+/* Reflejo sutil en el área del logo */
+.sidebar-brand::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-celeste);
+  opacity: 0.7;
+}
+
+/* ── Logo principal (expandido) ── */
 .brand-logo {
   width: 180px;
   max-width: 90%;
   height: auto;
   object-fit: contain;
-  transition: all 0.3s ease;
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: logoEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) both,
+             logoFloat    5s ease-in-out 0.7s infinite;
 }
 
-/* 🔥 LOGO ICONO (modo colapsado) */
+/* ── Logo icono / trinche (colapsado) ── */
 .brand-logo-icon {
-  display: none;
+  display: none;          /* oculto por defecto */
   width: 42px;
   height: 42px;
   object-fit: contain;
+  opacity: 0;
+  transform: scale(0.5);
 }
 
-/* ── BOTÓN COLAPSAR ─────────────────── */
+/* ══════════════════════════════════════════
+   BOTÓN TOGGLE
+══════════════════════════════════════════ */
 .sidebar-toggle {
-  position: absolute;
-  right: -14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  position: fixed;
+  top: 44px;
+  left: calc(var(--sidebar-w) - 14px);
+  transform: translateY(-50%) rotate(0deg);
+  width: 28px; height: 28px;
   border-radius: 50%;
-  background: #0c3b66;
-  color: #fff;
-  border: 2px solid #fff;
+  background: #66B3FF;
+  color: #000000;
+  border: 2px solid #ffffff;
+  font-size: 0.7rem;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
+  transition:
+    left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 2px 10px rgba(102,179,255,0.55);
+  z-index: 200;
+  line-height: 1;
+}
+.sidebar-toggle:hover {
+  background: #3E96F0;
+  box-shadow: 0 4px 14px rgba(102,179,255,0.7);
+}
+.sidebar.collapsed .sidebar-toggle {
+  left: calc(var(--sidebar-w-sm) - 14px);
+  transform: translateY(-50%) rotate(180deg);
 }
 
-/* ── NAV ────────────────────────────── */
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
 .sidebar-nav {
   flex: 1;
   padding: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* scrollbar personalizado */
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(102,179,255,0.3);
+  border-radius: 2px;
 }
 
 .nav-section-title {
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  color: rgba(255,255,255,0.6);
-  margin: 12px 10px;
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #66B3FF;
+  margin: 14px 10px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }
 
 .nav-item {
@@ -77,80 +156,241 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-radius: 8px;
-  margin-bottom: 6px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 4px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  color: rgba(255,255,255,0.82);
 }
-
 .nav-item:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(102,179,255,0.18);
+  transform: translateX(2px);
+  color: #ffffff;
 }
-
 .nav-item.active {
-  background: rgba(255,255,255,0.2);
+  background: rgba(102,179,255,0.22);
+  box-shadow: inset 3px 0 0 #66B3FF;
+  color: #66B3FF;
+}
+.nav-item.active .nav-icon,
+.nav-item.active .nav-label {
+  color: #66B3FF;
 }
 
 .nav-icon {
   font-size: 1rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  color: inherit;
 }
+.nav-item:hover .nav-icon { transform: scale(1.15); }
 
 .nav-label {
   font-size: 0.85rem;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  color: inherit;
 }
 
-/* ── FOOTER ─────────────────────────── */
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
 .sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 14px;
+  border-top: 1px solid rgba(102,179,255,0.2);
+  flex-shrink: 0;
 }
 
 .user-card {
   display: flex;
   align-items: center;
   gap: 10px;
+  overflow: hidden;
 }
 
 .user-avatar {
-  width: 38px;
-  height: 38px;
-  background: #1f6fb2;
+  width: 38px; height: 38px;
+  background: #66B3FF;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-weight: bold;
+  color: #000000;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  box-shadow: 0 0 0 2px rgba(102,179,255,0.3);
 }
+
+.user-info { overflow: hidden; }
 
 .user-name {
   font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ffffff;
 }
 
 .user-role {
   font-size: 0.7rem;
-  opacity: 0.7;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ffffff;
 }
 
-/* ── MODO COLAPSADO ─────────────────── */
+/* ══════════════════════════════════════════
+   MODO COLAPSADO
+══════════════════════════════════════════ */
 .sidebar.collapsed {
   width: var(--sidebar-w-sm);
 }
 
-.sidebar.collapsed .nav-label {
-  display: none;
+/* Ocultar labels y secciones */
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .nav-section-title,
+.sidebar.collapsed .user-info {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  overflow: hidden;
 }
 
+/* Centrar los iconos */
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px;
+  overflow: visible;
+}
+
+/* ── BRAND colapsado: ocultar logo completo ── */
 .sidebar.collapsed .brand-logo {
   display: none;
 }
 
+/* ── BRAND colapsado: mostrar icono (trinche) ── */
 .sidebar.collapsed .brand-logo-icon {
   display: block;
 }
 
-/* ── RESPONSIVE ─────────────────────── */
+/* ── BRAND colapsado: ajustar altura ── */
+.sidebar.collapsed .sidebar-brand {
+  height: 68px;
+  padding: 10px;
+  justify-content: center;
+}
+
+
+/* ── Tooltip en modo colapsado ── */
+.nav-item {
+  position: relative;
+}
+.sidebar.collapsed .nav-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(var(--sidebar-w-sm) - 4px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--negro);
+  color: var(--blanco);
+  font-size: 0.78rem;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--celeste);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 200;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.sidebar.collapsed .nav-item:hover::after {
+  opacity: 1;
+}
+
+/* ══════════════════════════════════════════
+   ANIMACIONES DEL LOGO
+══════════════════════════════════════════ */
+
+/* Entrada con rebote */
+@keyframes logoEntrance {
+  0%   { opacity: 0; transform: scale(0.6) translateY(-8px); }
+  60%  { opacity: 1; transform: scale(1.05) translateY(2px); }
+  100% { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* Flotación suave */
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-4px); }
+}
+
+/* Resplandor celeste */
+@keyframes logoGlow {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(102,179,255,0.2)); }
+  50%     { filter: drop-shadow(0 0 12px rgba(102,179,255,0.7)); }
+}
+
+/* Entrada del icono al colapsar */
+@keyframes iconPop {
+  0%   { opacity: 0; transform: scale(0.4) rotate(-20deg); }
+  60%  { opacity: 1; transform: scale(1.15) rotate(5deg); }
+  100% { opacity: 1; transform: scale(1)   rotate(0deg); }
+}
+
+/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
+    transition:
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
   }
 }
+
+/* ══════════════════════════════════════════
+   NAV-BADGE (contador de notificaciones)
+══════════════════════════════════════════ */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background: #66B3FF;
+  color: #000000;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* En modo colapsado: badge flotante sobre el ícono */
+.sidebar.collapsed .nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  margin-left: 0;
+  min-width: 18px;
+  height: 18px;
+  font-size: 0.62rem;
+  background: #66B3FF;
+  border: 2px solid #000000;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  z-index: 5;
+}
+

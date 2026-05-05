@@ -1,53 +1,55 @@
 /* ══════════════════════════════════════════════════
-   HIDRA — Paleta Institucional + Full System v2
+   HIDRA — Paleta de Colores v3 (Celeste / Blanco / Negro)
 ══════════════════════════════════════════════════ */
 
 :root {
-  /* Paleta Institucional HIDRA */
-  --azul-inst:     #003366;   /* Azul Institucional — navs, botones primary, headers tabla */
-  --azul-agua:     #0072CE;   /* Azul Agua — iconos activos, links, btn pagar */
-  --celeste-claro: #E3F2FD;   /* Celeste Claro — fondos sección, filas alternas */
-  --gris-texto:    #455A64;   /* Gris Texto — párrafos, etiquetas formularios */
-  --blanco:        #FFFFFF;   /* Blanco Puro — fondo principal, texto en botones oscuros */
+  /* ── Paleta principal solicitada ── */
+  --celeste:       #66B3FF;   /* Celeste — apartados de enfoque, botones primary, activos */
+  --blanco:        #FFFFFF;   /* Blanco — fondo principal, texto en fondos oscuros        */
+  --negro:         #000000;   /* Negro — estética, bordes fuertes, texto principal        */
 
-  /* Derivados y auxiliares */
-  --azul-inst-dk:  #002244;
-  --azul-inst-lt:  #004080;
-  --azul-agua-lt:  #3399E0;
-  --azul-agua-dk:  #005BA8;
-  --celeste-md:    #BBDEFB;
-  --celeste-dk:    #90CAF9;
+  /* ── Derivados del celeste ── */
+  --celeste-dk:    #3E96F0;   /* Celeste oscuro — hover de botones, iconos activos        */
+  --celeste-lt:    #A8D4FF;   /* Celeste claro — fondos de sección, filas alternas        */
+  --celeste-xlt:   #E8F4FF;   /* Celeste muy claro — fondo página, card alt               */
+  --celeste-glow:  rgba(102,179,255,0.25);
 
-  /* Fondos UI (modo claro/institucional) */
-  --bg-page:       #F4F8FC;
-  --bg-sidebar:    var(--azul-inst);
-  --bg-sidebar-dk: var(--azul-inst-dk);
+  /* ── Grises funcionales ── */
+  --gris-borde:    #C8DFF7;
+  --gris-texto:    #2A3A4A;
+  --gris-muted:    #6A8098;
+  --gris-bg:       #F0F6FC;
+
+  /* ── Fondos UI ── */
+  --bg-page:       var(--gris-bg);
+  --bg-sidebar:    var(--negro);
+  --bg-sidebar-dk: #111111;
   --bg-card:       var(--blanco);
-  --bg-card-alt:   var(--celeste-claro);
+  --bg-card-alt:   var(--celeste-xlt);
   --bg-input:      var(--blanco);
-  --bg-thead:      var(--azul-inst);
+  --bg-thead:      var(--negro);
 
-  /* Bordes */
-  --border-subtle:  #D0E4F7;
-  --border-active:  var(--azul-agua);
-  --border-focus:   var(--azul-agua);
+  /* ── Bordes ── */
+  --border-subtle:  var(--gris-borde);
+  --border-active:  var(--celeste);
+  --border-focus:   var(--celeste);
 
-  /* Texto */
-  --text-primary:   #1A2A3A;
-  --text-secondary: var(--gris-texto);
-  --text-muted:     #90A4AE;
-  --text-sidebar:   rgba(255,255,255,0.75);
-  --text-sidebar-active: #FFFFFF;
-  --text-on-dark:   #FFFFFF;
+  /* ── Texto ── */
+  --text-primary:          var(--negro);
+  --text-secondary:        var(--gris-texto);
+  --text-muted:            var(--gris-muted);
+  --text-sidebar:          rgba(255,255,255,0.75);
+  --text-sidebar-active:   #FFFFFF;
+  --text-on-dark:          #FFFFFF;
 
-  /* Estados */
+  /* ── Estados ── */
   --success:   #00897B;
   --warning:   #F57C00;
   --danger:    #C62828;
-  --info:      var(--azul-agua);
+  --info:      var(--celeste);
   --pending:   #1565C0;
 
-  /* Dimensiones */
+  /* ── Dimensiones ── */
   --sidebar-w:    256px;
   --sidebar-w-sm: 68px;
   --navbar-h:     60px;
@@ -56,27 +58,26 @@
   --radius-lg:    16px;
   --radius-xl:    24px;
 
-  /* Sombras */
-  --shadow-sm:    0 1px 4px rgba(0,51,102,0.08);
-  --shadow-card:  0 4px 20px rgba(0,51,102,0.10);
-  --shadow-modal: 0 24px 64px rgba(0,0,0,0.22);
-  --shadow-sidebar: 4px 0 20px rgba(0,30,80,0.18);
+  /* ── Sombras ── */
+  --shadow-sm:      0 1px 4px rgba(0,0,0,0.08);
+  --shadow-card:    0 4px 20px rgba(102,179,255,0.15);
+  --shadow-modal:   0 24px 64px rgba(0,0,0,0.22);
+  --shadow-sidebar: 4px 0 20px rgba(0,0,0,0.25);
 
-  /* Gradientes clave */
-  --grad-brand:   linear-gradient(135deg, #003366 0%, #0072CE 60%, #4FC3F7 100%);
-  --grad-agua:    linear-gradient(135deg, #0072CE, #4FC3F7);
-  --grad-card:    linear-gradient(145deg, #FFFFFF 0%, #F0F8FF 100%);
-  --grad-hero:    linear-gradient(160deg, #003366 0%, #0072CE 55%, #29B6F6 100%);
-  --grad-stripe:  linear-gradient(90deg, #003366, #0072CE, #4FC3F7, #0072CE, #003366);
+  /* ── Gradientes ── */
+  --grad-brand:   linear-gradient(135deg, #000000 0%, #1a1a1a 40%, #66B3FF 100%);
+  --grad-celeste: linear-gradient(135deg, #66B3FF, #A8D4FF);
+  --grad-card:    linear-gradient(145deg, #FFFFFF 0%, #E8F4FF 100%);
+  --grad-hero:    linear-gradient(160deg, #000000 0%, #1a2a3a 50%, #66B3FF 100%);
+  --grad-stripe:  linear-gradient(90deg, #000000, #66B3FF, #A8D4FF, #66B3FF, #000000);
 
-  /* Tipo */
+  /* ── Tipografía ── */
   --font-main:  'Outfit', sans-serif;
   --font-brand: 'Cinzel', serif;
   --font-mono:  'JetBrains Mono', monospace;
 
-  /* Transiciones */
+  /* ── Transiciones ── */
   --t-fast:   150ms ease;
   --t-normal: 280ms cubic-bezier(0.4, 0, 0.2, 1);
   --t-bounce: 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
