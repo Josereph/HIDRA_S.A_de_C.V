@@ -111,10 +111,10 @@
 }
 
 .kpi-icon.blue   { background: var(--celeste-xlt); color: var(--celeste); }
-.kpi-icon.cyan   { background: #E0F7FA; color: #00838F; }
-.kpi-icon.green  { background: #E8F5E9; color: var(--success); }
-.kpi-icon.yellow { background: #FFF8E1; color: var(--warning); }
-.kpi-icon.red    { background: #FFEBEE; color: var(--danger); }
+.kpi-icon.cyan   { background: var(--celeste-xlt); color: var(--celeste-dk); }
+.kpi-icon.green  { background: rgba(0,137,123,0.1); color: var(--success); }
+.kpi-icon.yellow { background: rgba(245,124,0,0.1); color: var(--warning); }
+.kpi-icon.red    { background: rgba(198,40,40,0.1); color: var(--danger); }
 
 .kpi-label {
   font-size: 0.68rem;
@@ -147,8 +147,8 @@
   border-radius: 20px;
   position: relative; z-index: 1;
 }
-.kpi-delta.up   { background: #E8F5E9; color: var(--success); }
-.kpi-delta.down { background: #FFEBEE; color: var(--danger); }
+.kpi-delta.up   { background: rgba(0,137,123,0.1); color: var(--success); }
+.kpi-delta.down { background: rgba(198,40,40,0.1); color: var(--danger); }
 .kpi-delta.neutral { background: var(--celeste-xlt); color: var(--celeste); }
 
 /* ── GRIDS ─────────────────────────────────────────── */
@@ -182,7 +182,7 @@
   min-height: 4px;
 }
 .bar:hover { filter: brightness(1.15); }
-.bar.accent { background: linear-gradient(180deg, #4FC3F7, var(--celeste)); }
+.bar.accent { background: linear-gradient(180deg, var(--celeste-lt), var(--celeste)); }
 
 .bar-label { font-size: 0.6rem; color: var(--text-muted); text-align: center; font-family: var(--font-mono); }
 
@@ -224,7 +224,7 @@ td {
 
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: var(--celeste-xlt); }
-tr:hover td { background: #ddeeff !important; }
+tr:hover td { background: var(--celeste-lt) !important; }
 
 .td-primary { color: var(--negro); font-weight: 700; }
 .td-mono    { font-family: var(--font-mono); font-size: 0.78rem; color: var(--celeste); font-weight: 600; }
@@ -243,11 +243,11 @@ tr:hover td { background: #ddeeff !important; }
 }
 .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
 
-.badge-green  { background: #E8F5E9; color: var(--success); border: 1px solid #A5D6A7; }
+.badge-green  { background: rgba(0,137,123,0.1); color: var(--success); border: 1px solid var(--success); }
 .badge-green::before  { background: var(--success); }
-.badge-yellow { background: #FFF8E1; color: var(--warning); border: 1px solid #FFE082; }
+.badge-yellow { background: rgba(245,124,0,0.1); color: var(--warning); border: 1px solid var(--warning); }
 .badge-yellow::before { background: var(--warning); }
-.badge-red    { background: #FFEBEE; color: var(--danger);  border: 1px solid #EF9A9A; }
+.badge-red    { background: rgba(198,40,40,0.1); color: var(--danger);  border: 1px solid var(--danger); }
 .badge-red::before    { background: var(--danger); }
 .badge-blue   { background: var(--celeste-xlt); color: var(--celeste); border: 1px solid var(--celeste-lt); }
 .badge-blue::before   { background: var(--celeste); }
@@ -339,11 +339,11 @@ tr:hover td { background: #ddeeff !important; }
 .btn-ghost:hover { border-color: var(--celeste); color: var(--negro); background: var(--celeste-xlt); }
 
 .btn-danger {
-  background: #FFEBEE;
-  border: 1.5px solid #EF9A9A;
+  background: rgba(198,40,40,0.1);
+  border: 1.5px solid var(--danger);
   color: var(--danger);
 }
-.btn-danger:hover { background: #FFCDD2; }
+.btn-danger:hover { background: rgba(198,40,40,0.15); }
 
 .btn-sm { padding: 7px 13px; font-size: 0.75rem; }
 .btn-lg { padding: 13px 26px; font-size: 0.9rem; }
@@ -389,7 +389,7 @@ tr:hover td { background: #ddeeff !important; }
 .alert-title { font-weight: 700; margin-bottom: 3px; }
 .alert-msg   { font-size: 0.75rem; opacity: 0.75; }
 
-.alert-warning { background: #FFF8E1; border-color: #FFE082; color: var(--warning); }
-.alert-danger  { background: #FFEBEE; border-color: #EF9A9A; color: var(--danger); }
+.alert-warning { background: rgba(245,124,0,0.1); border-color: var(--warning); color: var(--warning); }
+.alert-danger  { background: rgba(198,40,40,0.1); border-color: var(--danger);  color: var(--danger); }
 .alert-info    { background: var(--celeste-xlt); border-color: var(--celeste-lt); color: var(--negro); }
-.alert-success { background: #E8F5E9; border-color: #A5D6A7; color: var(--success); }
+.alert-success { background: rgba(0,137,123,0.1); border-color: var(--success); color: var(--success); }

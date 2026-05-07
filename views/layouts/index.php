@@ -238,7 +238,7 @@
                 <div class="donut-legend">
                   <div class="legend-item"><div class="legend-dot" style="background:var(--celeste)"></div>Al día (92%)</div>
                   <div class="legend-item"><div class="legend-dot" style="background:var(--negro)"></div>Pendiente (5%)</div>
-                  <div class="legend-item"><div class="legend-dot" style="background:#C62828"></div>Moroso (3%)</div>
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--danger)"></div>Moroso (3%)</div>
                 </div>
               </div>
             </div>
