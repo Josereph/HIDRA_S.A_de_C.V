@@ -9,7 +9,7 @@
 .w-full { width: 100%; }
 .text-right  { text-align: right; }
 .text-muted  { color: var(--text-muted) !important; }
-.text-accent { color: var(--azul-agua) !important; }
+.text-accent { color: var(--celeste) !important; }
 .text-success{ color: var(--success) !important; }
 .text-danger { color: var(--danger) !important; }
 .text-warning{ color: var(--warning) !important; }
@@ -19,8 +19,8 @@
 
 /* ── KPI GLOW PULSE ──────────────────────────────── */
 @keyframes pulseBlue {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0,114,206,0); }
-  50%       { box-shadow: 0 0 16px 6px rgba(0,114,206,0.18); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(102,179,255,0); }
+  50%       { box-shadow: 0 0 16px 6px rgba(102,179,255,0.18); }
 }
 .kpi-card.glow { animation: pulseBlue 3s ease-in-out infinite; }
 
@@ -78,10 +78,10 @@
 }
 .btn-hero-primary {
   background: var(--blanco);
-  color: var(--azul-inst);
+  color: var(--negro);
   border: none;
 }
-.btn-hero-primary:hover { background: var(--celeste-claro); transform: translateY(-1px); }
+.btn-hero-primary:hover { background: var(--celeste-xlt); transform: translateY(-1px); }
 .btn-hero-outline {
   background: rgba(255,255,255,0.12);
   color: var(--blanco);
@@ -99,9 +99,9 @@
   overflow: hidden;
   transition: border-color var(--t-fast);
 }
-.lectura-input-group:focus-within { border-color: var(--azul-agua); }
+.lectura-input-group:focus-within { border-color: var(--celeste); }
 .lectura-input-group .lbl {
-  background: var(--azul-inst);
+  background: var(--negro);
   color: var(--blanco);
   padding: 10px 14px;
   font-size: 0.75rem;
@@ -119,8 +119,8 @@
   background: var(--blanco);
 }
 .lectura-input-group .unit {
-  background: var(--celeste-claro);
-  color: var(--azul-inst);
+  background: var(--celeste-xlt);
+  color: var(--negro);
   padding: 10px 12px;
   font-size: 0.75rem;
   font-weight: 700;

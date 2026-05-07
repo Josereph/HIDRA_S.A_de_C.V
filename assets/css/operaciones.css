@@ -1,7 +1,11 @@
 /* ══════════════════════════════════════════════════
-   PAGOS - HIDRA
+   OPERACIONES — HIDRA
+   Solo estilos exclusivos de esta vista.
+   Las clases globales (.card, .kpi-card, .alert, etc.)
+   viven en components.css — no se repiten aquí.
 ══════════════════════════════════════════════════ */
 
+/* ── Resumen de pago ──────────────────────────────── */
 .pago-resumen {
   display: flex;
   flex-direction: column;
@@ -28,128 +32,35 @@
 }
 
 .resumen-linea strong {
-  color: var(--azul-inst);
+  color: var(--negro);
   font-size: 0.95rem;
 }
 
 .resumen-total {
   border-bottom: none;
-  background: var(--celeste-claro);
+  background: var(--celeste-xlt);
   border-radius: var(--radius-sm);
   padding: 16px;
   margin-top: 4px;
 }
 
 .resumen-total strong {
-  color: var(--azul-inst);
+  color: var(--negro);
   font-size: 1.5rem;
   font-weight: 800;
 }
 
+/* ── Tabla de pagos ───────────────────────────────── */
 .tabla-pagos {
   margin-top: 18px;
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.search-bar input {
-  padding: 8px 12px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  width: 250px;
-  font-size: 0.9rem;
-}
-
-/* Tarjetas KPI */
-.kpi-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  background: var(--celeste-claro);
-  padding: 16px;
-  border-radius: 8px;
-  transition: background 0.3s;
-  width: 200px;
-}
-
-.kpi-card:hover {
-  background: var(--azul-claro);
-}
-
-.kpi-icon {
-  font-size: 1.5rem;
-  color: var(--text-muted);
-}
-
-.kpi-label {
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--text-muted);
-}
-
-.kpi-value {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--text-primary);
-}
-
-.kpi-delta {
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.kpi-delta.up { color: green; }
-.kpi-delta.down { color: red; }
-.kpi-delta.neutral { color: orange; }
-
-/* Estilo de las tarjetas de pago */
-.card-header {
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
+/* ── Card footer ─────────────────────────────────── */
 .card-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.card {
-  padding: 20px;
-  background: var(--fondo-card);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Alerta de información */
-.alert {
-  display: flex;
-  gap: 12px;
-  padding: 12px;
-  background: var(--celeste-claro);
-  border-radius: 8px;
-}
-
-.alert-title {
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.alert-body {
-  font-size: 0.9rem;
-}
-
-.alert-icon {
-  font-size: 1.2rem;
-  color: var(--azul-inst);
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 16px;
 }

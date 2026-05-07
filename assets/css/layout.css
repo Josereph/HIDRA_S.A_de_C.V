@@ -21,7 +21,7 @@
   position: sticky;
   top: 0;
   z-index: 90;
-  box-shadow: 0 2px 12px rgba(0,51,102,0.07);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
 }
 
 .navbar-breadcrumb {
@@ -32,7 +32,7 @@
 }
 
 .breadcrumb-item { font-size: 0.8rem; color: var(--text-muted); }
-.breadcrumb-item.active { color: var(--azul-inst); font-weight: 700; }
+.breadcrumb-item.active { color: var(--negro); font-weight: 700; }
 .breadcrumb-sep { color: var(--border-subtle); font-size: 0.8rem; }
 
 .navbar-actions { display: flex; align-items: center; gap: 8px; }
@@ -52,9 +52,9 @@
   position: relative;
 }
 .btn-icon:hover {
-  background: var(--celeste-claro);
-  color: var(--azul-inst);
-  border-color: var(--azul-agua);
+  background: var(--celeste-xlt);
+  color: var(--negro);
+  border-color: var(--celeste);
   transform: translateY(-1px);
 }
 .btn-icon .notif-dot {
@@ -79,8 +79,8 @@
   transition: border-color var(--t-fast), box-shadow var(--t-fast);
 }
 .navbar-search:focus-within {
-  border-color: var(--azul-agua);
-  box-shadow: 0 0 0 3px rgba(0,114,206,0.12);
+  border-color: var(--celeste);
+  box-shadow: 0 0 0 3px rgba(102,179,255,0.12);
 }
 .navbar-search input {
   background: none; border: none; outline: none;
@@ -105,7 +105,7 @@
   font-family: var(--font-brand);
   font-size: 1.45rem;
   font-weight: 700;
-  color: var(--azul-inst);
+  color: var(--negro);
   letter-spacing: 1px;
 }
 
@@ -146,11 +146,11 @@
   align-items: center;
   gap: 6px;
 }
-.section-tab:hover { color: var(--azul-inst); background: var(--celeste-claro); }
+.section-tab:hover { color: var(--negro); background: var(--celeste-xlt); }
 .section-tab.active {
-  color: var(--azul-inst);
-  border-bottom-color: var(--azul-agua);
-  background: var(--celeste-claro);
+  color: var(--negro);
+  border-bottom-color: var(--celeste);
+  background: var(--celeste-xlt);
 }
 
 .tab-panel { display: none; }
