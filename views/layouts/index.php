@@ -814,6 +814,7 @@
 <script src="../../assets/js/router.js"             defer></script>
 <script src="../../assets/js/dashboard.js"          defer></script>
 <script src="../../assets/js/territorio.js"         defer></script>
+<script src="../../assets/js/operaciones.js"        defer></script>
 <script src="../../assets/js/ui.js"                 defer></script>
 
 </body>
