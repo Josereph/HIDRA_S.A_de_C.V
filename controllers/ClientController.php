@@ -14,7 +14,7 @@ class ClientController {
     public function index() {
         $clientModel = new Client();
         $clientes = $clientModel->getAll();
-        $this->render('clients/index', [
+        $this->render('clientes', [
             'title' => 'Gestión de Clientes',
             'clientes' => $clientes
         ]);
@@ -50,7 +50,7 @@ class ClientController {
             }
         }
 
-        $this->render('clients/create', [
+        $this->render('clientes_crear', [
             'title' => 'Nuevo Cliente'
         ]);
     }

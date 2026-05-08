@@ -30,7 +30,7 @@ class TerritoryController {
 
         // Ya no insertamos mock data aquí porque usamos el mapa.
 
-        $this->render('territory/index', [
+        $this->render('territorio', [
             'title' => 'Gestión de Territorio',
             'sectores' => $sectores,
             'casasPorSector' => $casasPorSector,

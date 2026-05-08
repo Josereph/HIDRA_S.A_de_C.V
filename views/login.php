@@ -288,7 +288,7 @@
   <div class="login-card">
 
     <div class="login-logo">
-      <img src="../../assets/img/logos/HIDRA.png" alt="HIDRA S.A. de C.V." />
+      <img src="../assets/img/logos/HIDRA.png" alt="HIDRA S.A. de C.V." />
       <div class="login-tagline">Sistema Facturador de Agua</div>
     </div>
 
@@ -383,7 +383,7 @@
         btn.classList.remove('loading');
         if (validUser && validPass) {
           // Redirigir a pantalla de bienvenida
-          window.location.href = '../auth/welcome.php';
+          window.location.href = './welcome.php';
         } else {
           errMsg.classList.add('show');
           // Shake effect

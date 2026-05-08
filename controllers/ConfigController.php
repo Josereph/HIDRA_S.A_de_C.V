@@ -29,7 +29,7 @@ class ConfigController {
             $usuarios = $userModel->getAll();
         }
 
-        $this->render('config/index', [
+        $this->render('config', [
             'title' => 'Configuración del Sistema',
             'tarifas' => $tarifas,
             'usuarios' => $usuarios

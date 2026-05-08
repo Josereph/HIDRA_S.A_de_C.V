@@ -133,7 +133,7 @@
   <div class="welcome-card">
 
     <div class="logo-wrap">
-      <img src="../../assets/img/logos/HIDRA.png" alt="HIDRA" />
+      <img src="../assets/img/logos/HIDRA.png" alt="HIDRA" />
     </div>
 
     <div class="welcome-text">
@@ -161,7 +161,7 @@
       if (pct >= 100) {
         clearInterval(interval);
         setTimeout(() => {
-          window.location.href = '../layouts/index.php';
+          window.location.href = './layouts/index.php';
         }, 200);
       }
     }, 30); // ~1.5s total
