@@ -99,6 +99,17 @@
         <span class="nav-label">Reportes</span>
       </div>
 
+      <div class="nav-item" data-view="estadisticas" data-tooltip="Estadísticas">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </span>
+        <span class="nav-label">Estadísticas</span>
+      </div>
+
       <div class="nav-item" data-view="config" data-tooltip="Configuración">
         <span class="nav-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -427,207 +438,15 @@
       </div><!-- /clientes -->
 
 
-      <!-- ══════════════════════════════════
-           VISTA 3: TERRITORIO
-      ══════════════════════════════════ -->
-      <div class="view" id="view-territorio">
-        <div class="page-header">
-          <div><h1 class="page-title">Territorio</h1><p class="page-subtitle">Mapa de sectores y estado de casas</p></div>
-          <div class="btn-group">
-            <button class="btn btn-ghost btn-sm">+ Nuevo sector</button>
-            <button class="btn btn-secondary btn-sm">⚙ Configurar zonas</button>
-          </div>
-        </div>
-
-        <div class="section-tabs" data-group="terr-tabs">
-          <div class="section-tab active" data-panel="terr-mapa" data-group="terr-tabs">🗺 Mapa de sectores</div>
-          <div class="section-tab" data-panel="terr-estado" data-group="terr-tabs">🏠 Estado de casas</div>
-        </div>
-
-        <div class="tab-panel active" data-panel="terr-mapa" data-group="terr-tabs">
-          <div class="grid-2-1">
-            <div class="sector-map">
-              <div class="card-header" style="padding:14px 18px; border-bottom: 1.5px solid var(--border-subtle); background:var(--blanco);">
-                <span class="card-title">Vista general de sectores</span>
-                <div class="flex-gap">
-                  <span style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--celeste);font-weight:700;">■ Activo</span>
-                  <span style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--warning);font-weight:700;">■ Alerta</span>
-                  <span style="display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--text-muted);font-weight:700;">■ Inactivo</span>
-                </div>
-              </div>
-              <div class="sector-map-inner" id="sectorMapInner">
-                <div class="map-grid"></div>
-                <div class="sector-block active" data-sector="A-1" style="left:8%;top:12%;width:18%;height:22%"><div class="sector-count">28</div><span>A-1</span></div>
-                <div class="sector-block active" data-sector="A-2" style="left:28%;top:12%;width:18%;height:22%"><div class="sector-count">31</div><span>A-2</span></div>
-                <div class="sector-block active" data-sector="A-3" style="left:48%;top:12%;width:18%;height:22%"><div class="sector-count">24</div><span>A-3</span></div>
-                <div class="sector-block inactive" data-sector="A-4" style="left:68%;top:12%;width:18%;height:22%"><div class="sector-count">0</div><span>A-4</span></div>
-                <div class="sector-block active" data-sector="B-1" style="left:8%;top:40%;width:18%;height:22%"><div class="sector-count">35</div><span>B-1</span></div>
-                <div class="sector-block warning" data-sector="B-2" style="left:28%;top:40%;width:18%;height:22%"><div class="sector-count">29</div><span>B-2</span></div>
-                <div class="sector-block active" data-sector="B-3" style="left:48%;top:40%;width:18%;height:22%"><div class="sector-count">33</div><span>B-3</span></div>
-                <div class="sector-block active" data-sector="C-1" style="left:8%;top:68%;width:28%;height:22%"><div class="sector-count">42</div><span>C-1</span></div>
-                <div class="sector-block warning" data-sector="C-2" style="left:38%;top:68%;width:28%;height:22%"><div class="sector-count">38</div><span>C-2</span></div>
-                <div class="sector-block inactive" data-sector="D-1" style="left:68%;top:68%;width:18%;height:22%"><div class="sector-count">0</div><span>D-1</span></div>
-              </div>
-            </div>
-            <div class="card" id="sectorInfo">
-              <div style="text-align:center; padding:40px 0; color:var(--text-muted);">
-                <div style="font-size:2.5rem; margin-bottom:12px;">🗺</div>
-                <div style="font-size:.82rem; font-weight:600;">Haz clic en un sector<br>para ver su información</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-panel="terr-estado" data-group="terr-tabs">
-          <div class="flex-between mb-16" style="gap:12px; flex-wrap:wrap;">
-            <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar por dirección, sector…" /></div>
-            <select class="form-control" style="width:auto; padding:8px 12px;"><option>Todos los sectores</option><option>Sector A</option><option>Sector B</option><option>Sector C</option></select>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Casa / Predio</th><th>Dirección</th><th>Sector</th><th>Cliente</th><th>Servicio</th><th>Pago</th><th>Acciones</th></tr></thead>
-              <tbody>
-                <tr><td class="td-mono">P-0014</td><td>Col. San José #14</td><td>A-3</td><td class="td-primary">Ana Martínez</td><td><span class="badge badge-green">Activo</span></td><td><span class="badge badge-green">Al día</span></td><td><button class="btn btn-ghost btn-sm">Ver detalle</button></td></tr>
-                <tr><td class="td-mono">P-0007</td><td>Barrio El Centro #7</td><td>B-1</td><td class="td-primary">Carlos Rivas</td><td><span class="badge badge-green">Activo</span></td><td><span class="badge badge-yellow">Pendiente</span></td><td><button class="btn btn-ghost btn-sm">Ver detalle</button></td></tr>
-                <tr><td class="td-mono">P-0022</td><td>Res. Agua Viva #22</td><td>C-2</td><td class="td-primary">María López</td><td><span class="badge badge-yellow">Restringido</span></td><td><span class="badge badge-red">Moroso</span></td><td><button class="btn btn-ghost btn-sm">Ver detalle</button></td></tr>
-                <tr><td class="td-mono">P-0003</td><td>Col. Las Flores #3B</td><td>A-1</td><td class="td-primary">José Hernández</td><td><span class="badge badge-red">Cortado</span></td><td><span class="badge badge-red">Moroso</span></td><td><button class="btn btn-ghost btn-sm">Ver detalle</button></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div><!-- /territorio -->
+      <!-- ══ VISTA 3: TERRITORIO (partial) ══ -->
+      <?php include __DIR__ . '/partials/territorio.php'; ?>
 
 
-      <!-- ══════════════════════════════════
-           VISTA 4: OPERACIONES
-      ══════════════════════════════════ -->
-      <div class="view" id="view-operaciones">
-        <div class="page-header">
-          <div><h1 class="page-title">Operaciones</h1><p class="page-subtitle">Facturación, pagos y captura de lecturas</p></div>
-        </div>
+      <!-- ══ VISTA 4: OPERACIONES (partial) ══ -->
+      <?php include __DIR__ . '/partials/operaciones.php'; ?>
 
-        <div class="ops-hero">
-          <div style="position:relative;z-index:1;">
-            <div class="ops-hero-title">💧 Panel de Operaciones</div>
-            <div class="ops-hero-sub">Gestiona facturas, registra pagos y captura lecturas de medidores</div>
-          </div>
-          <div class="ops-hero-actions">
-            <button class="btn-hero btn-hero-primary" onclick="openModal()">📄 Generar Factura</button>
-            <button class="btn-hero btn-hero-outline" onclick="showToast('Exportando datos…','info')">↓ Exportar</button>
-          </div>
-        </div>
-
-        <div class="section-tabs" data-group="ops-tabs">
-          <div class="section-tab active" data-panel="ops-facturas" data-group="ops-tabs">📄 Facturas <span class="nav-badge" style="display:inline-flex;margin-left:4px;background:var(--celeste);">12</span></div>
-          <div class="section-tab" data-panel="ops-pagos" data-group="ops-tabs">💳 Registro de Pagos</div>
-          <div class="section-tab" data-panel="ops-lecturas" data-group="ops-tabs">📊 Captura Lecturas</div>
-          <div class="section-tab" data-panel="ops-vencidas" data-group="ops-tabs">⚠ Vencidas</div>
-        </div>
-
-        <div class="tab-panel active" data-panel="ops-facturas" data-group="ops-tabs">
-          <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px;">
-            <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar factura o cliente…" /></div>
-            <div class="flex-gap">
-              <select class="form-control" style="width:auto;padding:8px 12px;"><option>Todos los meses</option><option selected>Abril 2026</option></select>
-              <select class="form-control" style="width:auto;padding:8px 12px;"><option>Todos los estados</option><option>Pendiente</option><option>Pagado</option><option>Vencido</option></select>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th># Factura</th><th>Cliente</th><th>Mes</th><th>Tarifa</th><th>Vencimiento</th><th>Estado</th><th>Acción</th></tr></thead>
-              <tbody>
-                <tr><td class="td-mono">#2026-0432</td><td class="td-primary">Pedro Aguilar</td><td>Abril 2026</td><td class="td-mono">$12.50</td><td>05/05/2026</td><td><span class="badge badge-yellow">Pendiente</span></td><td><button class="btn btn-agua btn-sm" onclick="showToast('Pago registrado','success')">✓ Pagar factura</button></td></tr>
-                <tr><td class="td-mono">#2026-0433</td><td class="td-primary">Laura Vásquez</td><td>Abril 2026</td><td class="td-mono">$15.00</td><td>05/05/2026</td><td><span class="badge badge-yellow">Pendiente</span></td><td><button class="btn btn-agua btn-sm" onclick="showToast('Pago registrado','success')">✓ Pagar factura</button></td></tr>
-                <tr><td class="td-mono">#2026-0431</td><td class="td-primary">Ana Martínez</td><td>Abril 2026</td><td class="td-mono">$12.50</td><td>05/05/2026</td><td><span class="badge badge-green">Pagado</span></td><td><button class="btn btn-ghost btn-sm">📄 Ver</button></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-panel="ops-pagos" data-group="ops-tabs">
-          <div class="grid-2">
-            <div class="card">
-              <div class="card-header"><span class="card-title">Registrar Pago Manual</span></div>
-              <form onsubmit="event.preventDefault(); showToast('Pago registrado exitosamente','success');">
-                <div class="form-group">
-                  <label class="form-label">Buscar cliente / factura</label>
-                  <div class="search-bar" style="border-radius:var(--radius-sm);">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Nombre, código CLT o # factura…" style="min-width:0; flex:1;" />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group"><label class="form-label"># Factura</label><input type="text" class="form-control" value="#2026-0432" readonly /></div>
-                  <div class="form-group"><label class="form-label">Monto a pagar</label><input type="text" class="form-control" value="$12.50" /></div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group"><label class="form-label">Forma de pago</label><select class="form-control form-select"><option>Efectivo</option><option>Transferencia</option><option>Cheque</option></select></div>
-                  <div class="form-group"><label class="form-label">Fecha de pago</label><input type="date" class="form-control" value="2026-04-28" /></div>
-                </div>
-                <div class="form-group"><label class="form-label">Observaciones</label><textarea class="form-control" rows="2" placeholder="Nota opcional…" style="resize:vertical;"></textarea></div>
-                <div class="flex-gap mt-16">
-                  <button type="submit" class="btn btn-primary">💾 Registrar pago</button>
-                  <button type="reset" class="btn btn-ghost">Limpiar</button>
-                </div>
-              </form>
-            </div>
-            <div class="card">
-              <div class="card-header"><span class="card-title">Últimos pagos registrados</span></div>
-              <div class="timeline">
-                <div class="timeline-item"><div class="timeline-dot paid">💳</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — #2026-0431</div><div class="timeline-meta">Efectivo · 28/04/2026</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid">💳</div><div class="timeline-body"><div class="timeline-title">María López — #2026-0429</div><div class="timeline-meta">Transferencia · 26/04/2026</div><div class="timeline-amount">$15.00</div></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-panel="ops-lecturas" data-group="ops-tabs">
-          <div class="alert alert-info mb-24">
-            <span class="alert-icon">📊</span>
-            <div class="alert-body">
-              <div class="alert-title">Captura mensual de lecturas — Mayo 2026</div>
-              <div class="alert-msg">Ingresa las lecturas actuales de medidor para cada cliente.</div>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Cliente</th><th>Sector</th><th>Lectura Anterior</th><th>Lectura Actual</th><th>Consumo (m³)</th><th>Tarifa</th><th>Acción</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td class="td-primary">Ana Martínez</td><td>A-3</td>
-                  <td class="td-mono">1,240</td>
-                  <td><div class="lectura-input-group"><span class="lbl">m³</span><input type="number" value="1253" min="1240" /><span class="unit">actual</span></div></td>
-                  <td class="td-mono text-accent">13 m³</td>
-                  <td class="td-mono">$12.50</td>
-                  <td><button class="btn btn-primary btn-sm" onclick="showToast('Lectura guardada','success')">💾 Guardar</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="flex-gap mt-16">
-            <button class="btn btn-primary" onclick="showToast('Todas las lecturas guardadas y facturas generadas','success')">⚡ Guardar todas y generar facturas</button>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-panel="ops-vencidas" data-group="ops-tabs">
-          <div class="alert alert-danger mb-16">
-            <span class="alert-icon">⚠</span>
-            <div class="alert-body">
-              <div class="alert-title">8 facturas vencidas — Requieren atención</div>
-              <div class="alert-msg">Se recomienda iniciar proceso de corte para clientes con más de 30 días de mora.</div>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th># Factura</th><th>Cliente</th><th>Sector</th><th>Días vencida</th><th>Monto</th><th>Acciones</th></tr></thead>
-              <tbody>
-                <tr><td class="td-mono">#2026-0428</td><td class="td-primary">José Hernández</td><td>A-1</td><td style="color:var(--danger);font-weight:800;">45 días</td><td class="td-mono">$12.50</td><td><div class="flex-gap"><button class="btn btn-agua btn-sm">✓ Pagar</button><button class="btn btn-danger btn-sm">✂ Corte</button></div></td></tr>
-                <tr><td class="td-mono">#2026-0415</td><td class="td-primary">Roberto Díaz</td><td>B-3</td><td style="color:var(--warning);font-weight:800;">32 días</td><td class="td-mono">$12.50</td><td><div class="flex-gap"><button class="btn btn-agua btn-sm">✓ Pagar</button><button class="btn btn-danger btn-sm">✂ Corte</button></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div><!-- /operaciones -->
+      <!-- ══ VISTA 4b: ESTADÍSTICAS (partial) ══ -->
+      <?php include __DIR__ . '/partials/estadisticas.php'; ?>
 
 
       <!-- ══════════════════════════════════
