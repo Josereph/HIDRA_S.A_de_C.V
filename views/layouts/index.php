@@ -450,55 +450,8 @@
 
 
       <!-- ══════════════════════════════════
-           VISTA 5: REPORTES
-      ══════════════════════════════════ -->
-      <div class="view" id="view-reportes">
-        <div class="page-header">
-          <div><h1 class="page-title">Reportes</h1><p class="page-subtitle">Análisis de ingresos, morosos y exportación de datos</p></div>
-          <div class="btn-group">
-            <button class="btn btn-ghost btn-sm">↓ Exportar Excel</button>
-            <button class="btn btn-primary btn-sm" onclick="showToast('Generando PDF…','info')">↓ Exportar PDF</button>
-          </div>
-        </div>
-
-        <div class="section-tabs" data-group="rep-tabs">
-          <div class="section-tab active" data-panel="rep-ingresos" data-group="rep-tabs">💲 Ingresos</div>
-          <div class="section-tab" data-panel="rep-morosos" data-group="rep-tabs">⚠ Morosos</div>
-          <div class="section-tab" data-panel="rep-sectores" data-group="rep-tabs">🗺 Por sectores</div>
-        </div>
-
-        <div class="tab-panel active" data-panel="rep-ingresos" data-group="rep-tabs">
-          <div class="kpi-grid mb-24">
-            <div class="kpi-card"><div class="kpi-icon green">💲</div><div class="kpi-label">Total facturado</div><div class="kpi-value">$48,210</div><span class="kpi-delta up">↑ 6.5%</span></div>
-            <div class="kpi-card"><div class="kpi-icon blue">✓</div><div class="kpi-label">Cobrado</div><div class="kpi-value">$44,190</div><span class="kpi-delta up">↑ 5.8%</span></div>
-            <div class="kpi-card"><div class="kpi-icon red">⚠</div><div class="kpi-label">Pendiente</div><div class="kpi-value">$4,020</div><span class="kpi-delta down">↓ 3.1%</span></div>
-            <div class="kpi-card glow"><div class="kpi-icon cyan">%</div><div class="kpi-label">% cobranza</div><div class="kpi-value">91.7%</div><span class="kpi-delta up">↑ 0.7%</span></div>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-panel="rep-morosos" data-group="rep-tabs">
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Cliente</th><th>Sector</th><th>Facturas vencidas</th><th>Total adeudado</th><th>Días máximo</th><th>Estado</th><th>Acciones</th></tr></thead>
-              <tbody>
-                <tr><td class="td-primary">José Hernández</td><td>A-1</td><td style="text-align:center;font-weight:700;">3</td><td class="td-mono text-danger">$37.50</td><td style="color:var(--danger);font-weight:800;">45 días</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-agua btn-sm">✓ Cobrar</button><button class="btn btn-danger btn-sm">✂ Corte</button></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-panel="rep-sectores" data-group="rep-tabs">
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Sector</th><th>Total casas</th><th>Al día</th><th>Morosos</th><th>Facturado</th><th>Cobrado</th><th>% Cobranza</th></tr></thead>
-              <tbody>
-                <tr><td class="td-primary">A-1</td><td>28</td><td style="color:var(--success);font-weight:700;">26</td><td style="color:var(--danger);font-weight:700;">2</td><td class="td-mono">$350.00</td><td class="td-mono">$325.00</td><td><div class="flex-gap"><span class="td-mono">92.8%</span><div class="progress-bar-wrap" style="flex:1;"><div class="progress-bar-fill" style="width:92.8%"></div></div></div></td></tr>
-                <tr><td class="td-primary">A-2</td><td>31</td><td style="color:var(--success);font-weight:700;">31</td><td style="color:var(--danger);font-weight:700;">0</td><td class="td-mono">$387.50</td><td class="td-mono">$387.50</td><td><div class="flex-gap"><span class="td-mono">100%</span><div class="progress-bar-wrap" style="flex:1;"><div class="progress-bar-fill" style="width:100%"></div></div></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div><!-- /reportes -->
+      <!-- ══ VISTA 5: REPORTES (partial) ══ -->
+      <?php include __DIR__ . '/partials/reportes.php'; ?>
 
 
       <!-- ══════════════════════════════════
@@ -510,9 +463,10 @@
         </div>
 
         <div class="section-tabs" data-group="cfg-tabs">
-          <div class="section-tab active" data-panel="cfg-general" data-group="cfg-tabs">⚙ General</div>
-          <div class="section-tab" data-panel="cfg-tarifas" data-group="cfg-tabs">💲 Tarifas y Moras</div>
-          <div class="section-tab" data-panel="cfg-usuarios" data-group="cfg-tabs">👤 Perfiles de Usuario</div>
+          <div class="section-tab active" data-panel="cfg-general"  data-group="cfg-tabs">⚙ General</div>
+          <div class="section-tab"        data-panel="cfg-tarifas" data-group="cfg-tabs">💲 Tarifas</div>
+          <div class="section-tab"        data-panel="cfg-moras"   data-group="cfg-tabs">⚠ Moras</div>
+          <div class="section-tab"        data-panel="cfg-usuarios" data-group="cfg-tabs">👤 Usuarios y roles</div>
         </div>
 
         <div class="tab-panel active" data-panel="cfg-general" data-group="cfg-tabs">
@@ -557,6 +511,110 @@
             </div>
           </div>
         </div>
+
+        <!-- ── TAB: MORAS ──────────────────────────────── -->
+        <div class="tab-panel" data-panel="cfg-moras" data-group="cfg-tabs">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;">
+
+            <!-- Formulario de reglas de mora -->
+            <div class="card">
+              <div class="card-header"><h2 class="card-title">Regla de mora activa</h2></div>
+
+              <div class="alert alert-info mb-16">
+                <div class="alert-icon">⚠</div>
+                <div class="alert-body">
+                  <div class="alert-title">Solo administradores</div>
+                  <div class="alert-msg">Los cambios afectan el cálculo de todas las facturas futuras.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Días de gracia</label>
+                <input type="number" class="form-control" id="mora-dias" value="10" min="0" max="30" />
+                <span style="font-size:.72rem;color:var(--text-muted);margin-top:4px;display:block;">Días después del vencimiento antes de aplicar mora.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Tipo de recargo</label>
+                <select class="form-control form-select" id="mora-tipo" onchange="toggleMoraValor(this.value)">
+                  <option value="fijo">Monto fijo ($)</option>
+                  <option value="porcentaje">Porcentaje (%)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" id="mora-valor-label">Valor de mora ($)</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <input type="number" class="form-control" id="mora-valor" value="1.00" step="0.01" min="0" style="flex:1;" />
+                  <span id="mora-unidad" style="font-weight:700;color:var(--text-muted);white-space:nowrap;">$ por factura</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Aplica a partir de</label>
+                <select class="form-control form-select">
+                  <option selected>Fecha de vencimiento + días de gracia</option>
+                  <option>Fecha de emisión de factura</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Estado de la regla</label>
+                <select class="form-control form-select" id="mora-estado">
+                  <option value="activo" selected>✅ Activo</option>
+                  <option value="inactivo">⏸ Inactivo</option>
+                </select>
+              </div>
+
+              <div class="card-footer">
+                <button class="btn btn-ghost" type="button">Cancelar</button>
+                <button class="btn btn-primary" type="button"
+                  onclick="showToast('Regla de mora guardada correctamente','success')">
+                  💾 Guardar configuración
+                </button>
+              </div>
+            </div>
+
+            <!-- Historial de reglas -->
+            <div class="card">
+              <div class="card-header"><h2 class="card-title">Historial de reglas</h2></div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Fecha</th><th>Tipo</th><th>Valor</th><th>Gracia</th><th>Usuario</th><th>Estado</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>01/01/2026</td>
+                      <td>Monto fijo</td>
+                      <td class="td-mono">$1.00</td>
+                      <td>10 días</td>
+                      <td>Samuel A.</td>
+                      <td><span class="badge badge-green">Activo</span></td>
+                    </tr>
+                    <tr>
+                      <td>01/07/2025</td>
+                      <td>Monto fijo</td>
+                      <td class="td-mono">$0.75</td>
+                      <td>15 días</td>
+                      <td>Samuel A.</td>
+                      <td><span class="badge badge-yellow">Vencido</span></td>
+                    </tr>
+                    <tr>
+                      <td>01/01/2025</td>
+                      <td>Porcentaje</td>
+                      <td class="td-mono">5%</td>
+                      <td>10 días</td>
+                      <td>Samuel A.</td>
+                      <td><span class="badge badge-yellow">Vencido</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /cfg-moras -->
 
         <div class="tab-panel" data-panel="cfg-usuarios" data-group="cfg-tabs">
           <div class="flex-between mb-16">
@@ -635,6 +693,25 @@
 <script src="../../assets/js/territorio.js"         defer></script>
 <script src="../../assets/js/operaciones.js"        defer></script>
 <script src="../../assets/js/ui.js"                 defer></script>
+<script>
+function toggleMoraValor(tipo) {
+  const lbl   = document.getElementById('mora-valor-label');
+  const unidad = document.getElementById('mora-unidad');
+  const input  = document.getElementById('mora-valor');
+  if (!lbl) return;
+  if (tipo === 'porcentaje') {
+    lbl.textContent    = 'Porcentaje de mora (%)';
+    unidad.textContent = '% del saldo pendiente';
+    input.value        = '5';
+    input.step         = '0.5';
+  } else {
+    lbl.textContent    = 'Valor de mora ($)';
+    unidad.textContent = '$ por factura';
+    input.value        = '1.00';
+    input.step         = '0.01';
+  }
+}
+</script>
 
 </body>
 </html>
