@@ -3,7 +3,6 @@
 
 require_once __DIR__ . '/config/database.php';
 
-// Autocarga simple de clases
 spl_autoload_register(function ($class_name) {
     if (file_exists(__DIR__ . '/controllers/' . $class_name . '.php')) {
         require_once __DIR__ . '/controllers/' . $class_name . '.php';
@@ -12,21 +11,26 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
-// Enrutador Básico
 $request_uri = $_SERVER['REQUEST_URI'];
-$base_path = ''; // Cambiar si está en subcarpeta, pero usaremos php -S que mapea a /
 
-// Limpiar URI y parámetros GET
+$base_path = '/HIDRA_S.A_de_C.V';
+
 $uri = parse_url($request_uri, PHP_URL_PATH);
-$uri = str_replace($base_path, '', $uri);
+
+if (strpos($uri, $base_path) === 0) {
+    $uri = substr($uri, strlen($base_path));
+}
+
+$uri = '/' . trim($uri, '/');
 
 if ($uri === '/' || $uri === '') {
-    $controllerName = 'ClientController';
-    $action = 'index';
+    header('Location: ' . $base_path . '/views/login.php');
+    exit;
 } else {
     $parts = explode('/', trim($uri, '/'));
-    
+
     $controllerMap = [
+        'login' => 'AuthController',
         'clientes' => 'ClientController',
         'territorio' => 'TerritoryController',
         'configuracion' => 'ConfigController',
@@ -39,22 +43,21 @@ if ($uri === '/' || $uri === '') {
         $controllerName = $controllerMap[$route];
         $action = $actionPart;
     } else {
-        // 404
         http_response_code(404);
-        die("404 - Ruta no encontrada");
+        die("404 - Ruta no encontrada: " . htmlspecialchars($route));
     }
 }
 
-// Despachar a Controlador
 if (class_exists($controllerName)) {
     $controller = new $controllerName();
+
     if (method_exists($controller, $action)) {
         $controller->$action();
     } else {
         http_response_code(404);
-        die("404 - Acción no encontrada");
+        die("404 - Acción no encontrada: " . htmlspecialchars($action));
     }
 } else {
     http_response_code(404);
-    die("404 - Controlador no encontrado");
+    die("404 - Controlador no encontrado: " . htmlspecialchars($controllerName));
 }
