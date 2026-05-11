@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- ═══ Estilos HIDRA ═══ -->
   <link rel="stylesheet" href="../../assets/css/variables.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/sidebar.css" />
   <link rel="stylesheet" href="../../assets/css/layout.css" />
