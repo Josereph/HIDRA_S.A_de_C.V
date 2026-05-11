@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HIDRA — Acceso al sistema</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; font-family: 'Outfit', sans-serif; }
@@ -22,50 +22,6 @@
       position: relative;
     }
 
-    /* Animated gradient background */
-    .bg-grad {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(102,179,255,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(102,179,255,0.08) 0%, transparent 60%),
-        linear-gradient(160deg, #000 0%, #050d1a 50%, #000 100%);
-      animation: bgShift 10s ease-in-out infinite alternate;
-    }
-    @keyframes bgShift {
-      0%   { opacity: 1; filter: hue-rotate(0deg); }
-      100% { opacity: 1; filter: hue-rotate(15deg); }
-    }
-
-    /* Stripe line at top */
-    .bg-stripe {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #000, #66B3FF, #A8D4FF, #66B3FF, #000);
-      background-size: 300% 100%;
-      animation: stripe 5s linear infinite;
-    }
-    @keyframes stripe {
-      0%   { background-position: 0% 0%; }
-      100% { background-position: 300% 0%; }
-    }
-
-    /* Floating orbs */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      pointer-events: none;
-      animation: orbFloat 12s ease-in-out infinite;
-    }
-    .orb-1 { width: 400px; height: 400px; background: rgba(102,179,255,0.07); top: -100px; right: -100px; animation-delay: 0s; }
-    .orb-2 { width: 300px; height: 300px; background: rgba(102,179,255,0.05); bottom: -80px; left: -80px; animation-delay: -6s; }
-    @keyframes orbFloat {
-      0%,100% { transform: translateY(0) scale(1); }
-      50%      { transform: translateY(-30px) scale(1.05); }
-    }
-
     /* ── Card ── */
     .login-card {
       position: relative;
@@ -73,16 +29,10 @@
       width: 100%;
       max-width: 420px;
       margin: 20px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(102,179,255,0.18);
-      border-radius: 20px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
       padding: 48px 40px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow:
-        0 0 0 1px rgba(102,179,255,0.06),
-        0 32px 80px rgba(0,0,0,0.6),
-        0 0 60px rgba(102,179,255,0.04);
       animation: cardIn 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
     }
     @keyframes cardIn {
@@ -99,7 +49,6 @@
       max-width: 200px;
       height: auto;
       filter: brightness(0) invert(1);
-      animation: logoIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
     }
     @keyframes logoIn {
       from { opacity: 0; transform: scale(0.8); }
@@ -118,7 +67,7 @@
     /* ── Form ── */
     .login-divider {
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(102,179,255,0.25), transparent);
+      background: #333;
       margin: 28px 0;
     }
 
@@ -196,8 +145,8 @@
     .btn-login {
       width: 100%;
       padding: 14px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #66B3FF 0%, #3E96F0 100%);
+      border-radius: 8px;
+      background: #66B3FF;
       color: #000;
       font-weight: 800;
       font-size: 0.9rem;
@@ -205,23 +154,9 @@
       letter-spacing: 0.5px;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-      box-shadow: 0 4px 20px rgba(102,179,255,0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-login::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-      opacity: 0;
-      transition: opacity 0.2s;
     }
     .btn-login:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 28px rgba(102,179,255,0.45);
-      filter: brightness(1.05);
+      background: #3E96F0;
     }
     .btn-login:hover::before { opacity: 1; }
     .btn-login:active { transform: translateY(0) scale(0.98); }
@@ -280,10 +215,7 @@
 </head>
 <body>
 
-  <div class="bg-grad"></div>
-  <div class="bg-stripe"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+
 
   <div class="login-card">
 
@@ -295,7 +227,7 @@
     <div class="login-divider"></div>
 
     <div class="error-msg" id="errorMsg">
-      <span>⚠</span>
+      <span><i class="bi bi-exclamation-triangle-fill"></i></span>
       <span>Usuario o contraseña incorrectos.</span>
     </div>
 
@@ -312,7 +244,7 @@
             autocomplete="username"
             required
           />
-          <span class="input-icon">✉</span>
+          <span class="input-icon"><i class="bi bi-envelope-fill"></i></span>
         </div>
       </div>
 
@@ -327,7 +259,7 @@
             autocomplete="current-password"
             required
           />
-          <span class="input-icon">🔒</span>
+          <span class="input-icon"><i class="bi bi-lock-fill"></i></span>
         </div>
       </div>
 
