@@ -17,24 +17,7 @@
       overflow: hidden;
     }
 
-    .bg-stripe {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #000, #66B3FF, #A8D4FF, #66B3FF, #000);
-      background-size: 300% 100%;
-      animation: stripe 4s linear infinite;
-    }
-    @keyframes stripe { to { background-position: 300% 0%; } }
 
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-    }
-    .orb-1 { width: 500px; height: 500px; background: rgba(102,179,255,0.08); top: -150px; right: -100px; }
-    .orb-2 { width: 350px; height: 350px; background: rgba(102,179,255,0.05); bottom: -100px; left: -80px; }
 
     .welcome-card {
       position: relative;
@@ -53,11 +36,6 @@
     .logo-wrap img {
       max-width: 220px;
       filter: brightness(0) invert(1);
-      animation: logoFloat 4s ease-in-out infinite;
-    }
-    @keyframes logoFloat {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
     }
 
     .welcome-text {
@@ -76,7 +54,6 @@
       font-weight: 700;
       color: #fff;
       margin-bottom: 8px;
-      text-shadow: 0 0 30px rgba(102,179,255,0.4);
     }
     .welcome-role {
       font-size: 0.82rem;
@@ -85,9 +62,8 @@
     }
     .welcome-role span {
       display: inline-block;
-      background: rgba(102,179,255,0.12);
-      border: 1px solid rgba(102,179,255,0.2);
-      border-radius: 20px;
+      border: 1.5px solid var(--celeste, #66B3FF);
+      border-radius: 8px;
       padding: 4px 14px;
       color: #66B3FF;
     }
@@ -111,11 +87,10 @@
     }
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #66B3FF, #A8D4FF);
+      background: #66B3FF;
       border-radius: 4px;
       width: 0%;
       transition: width 0.1s linear;
-      box-shadow: 0 0 10px rgba(102,179,255,0.6);
     }
 
     @keyframes fadeIn {
@@ -126,9 +101,7 @@
 </head>
 <body>
 
-  <div class="bg-stripe"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+
 
   <div class="welcome-card">
 
@@ -161,7 +134,7 @@
       if (pct >= 100) {
         clearInterval(interval);
         setTimeout(() => {
-          window.location.href = './layouts/index.php';
+          window.location.href = './layouts/pagina_principal.php';
         }, 200);
       }
     }, 30); // ~1.5s total

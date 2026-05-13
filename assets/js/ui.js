@@ -44,11 +44,10 @@ function showToast(msg, type = 'info') {
 // Exponer globalmente
 window.openModal  = openModal;
 window.closeModal = closeModal;
-window.showView   = showView;
 window.showToast  = showToast;
 
 // ── Init ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const last = localStorage.getItem('hidra_lastView') || 'dashboard';
-  showView(last);
+  if (typeof showView === 'function') showView(last);
 });

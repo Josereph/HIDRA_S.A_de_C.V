@@ -1,11 +1,12 @@
 // ── Router ───────────────────────────────────────────
 const LABELS = {
-  dashboard:   'Dashboard',
-  clientes:    'Clientes',
-  territorio:  'Territorio',
-  operaciones: 'Operaciones',
-  reportes:    'Reportes',
-  config:      'Configuración',
+  dashboard:    'Dashboard',
+  clientes:     'Clientes',
+  territorio:   'Territorio',
+  operaciones:  'Operaciones',
+  estadisticas: 'Estadísticas',
+  reportes:     'Reportes',
+  config:       'Configuración',
 };
 
 function showView(name) {
@@ -18,14 +19,18 @@ function showView(name) {
   document.querySelector(`.nav-item[data-view="${name}"]`)?.classList.add('active');
   if (breadPage) breadPage.textContent = LABELS[name] || name;
 
-  if (name === 'dashboard') initDashboard();
-  if (name === 'territorio') initMapa();
-  if (name === 'reportes') initReportCharts();
+  if (name === 'dashboard')   initDashboard();
+  if (name === 'territorio')  initMapa();
+  if (name === 'reportes')    initReportCharts();
+  if (name === 'estadisticas' && typeof refreshEstadisticas === 'function') refreshEstadisticas();
 
   localStorage.setItem('hidra_lastView', name);
 }
 
 navItems.forEach(item => item.addEventListener('click', () => showView(item.dataset.view)));
+
+// Exponer showView globalmente (usado en HTML inline y ui.js)
+window.showView = showView;
 
 // ── Tabs ─────────────────────────────────────────────
 document.querySelectorAll('.section-tab').forEach(tab => {

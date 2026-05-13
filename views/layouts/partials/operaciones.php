@@ -1,28 +1,23 @@
-<!-- ══════════════════════════════════
-     VISTA: OPERACIONES
-══════════════════════════════════ -->
 <div class="view" id="view-operaciones">
 
   <div class="page-header">
     <div><h1 class="page-title">Operaciones</h1><p class="page-subtitle">Lecturas, facturas, pagos, moras y estado de cuenta</p></div>
     <div class="btn-group">
-      <button class="btn btn-ghost btn-sm" onclick="showToast('Exportando…','info')">↓ Exportar</button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Exportando…','info')"><i class="bi bi-download"></i> Exportar</button>
     </div>
   </div>
 
   <div class="section-tabs" data-group="ops-tabs">
-    <div class="section-tab active" data-panel="ops-lecturas"  data-group="ops-tabs">📊 Lecturas</div>
-    <div class="section-tab"        data-panel="ops-facturas"  data-group="ops-tabs">📄 Facturas</div>
-    <div class="section-tab"        data-panel="ops-pagos"     data-group="ops-tabs">💳 Pagos</div>
-    <div class="section-tab"        data-panel="ops-moras"     data-group="ops-tabs">⚠ Moras</div>
-    <div class="section-tab"        data-panel="ops-estado"    data-group="ops-tabs">📋 Estado de cuenta</div>
+    <div class="section-tab active" data-panel="ops-lecturas"  data-group="ops-tabs"><i class="bi bi-bar-chart-fill"></i> Lecturas</div>
+    <div class="section-tab"        data-panel="ops-facturas"  data-group="ops-tabs"><i class="bi bi-file-earmark-text"></i> Facturas</div>
+    <div class="section-tab"        data-panel="ops-pagos"     data-group="ops-tabs"><i class="bi bi-credit-card"></i> Pagos</div>
+    <div class="section-tab"        data-panel="ops-moras"     data-group="ops-tabs"><i class="bi bi-exclamation-triangle"></i> Moras</div>
+    <div class="section-tab"        data-panel="ops-estado"    data-group="ops-tabs"><i class="bi bi-clipboard-data"></i> Estado de cuenta</div>
   </div>
 
-  <!-- ── TAB 1: LECTURAS ─────────────────────────────────── -->
   <div class="tab-panel active" data-panel="ops-lecturas" data-group="ops-tabs">
     <div class="grid-2-1">
 
-      <!-- Formulario de captura -->
       <div class="card">
         <div class="card-header"><h2 class="card-title">Captura de lectura</h2></div>
 
@@ -44,18 +39,18 @@
           </div>
         </div>
 
-        <!-- Info de la casa (se muestra tras buscar) -->
-        <div id="lec-info" style="background:var(--celeste-xlt);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.8rem;">
-          <div><span style="color:var(--text-muted);font-weight:700;">Cliente</span><div style="font-weight:700;">Juan Pérez</div></div>
-          <div><span style="color:var(--text-muted);font-weight:700;">Sector</span><div>Colonia Centro</div></div>
-          <div><span style="color:var(--text-muted);font-weight:700;">Medidor</span><div class="td-mono">M-10023</div></div>
-          <div><span style="color:var(--text-muted);font-weight:700;">Última lectura</span><div>1,200 m³ — 31/03/2026</div></div>
+        <input type="hidden" id="lec-id-medidor" value="" />
+        <div id="lec-info" style="display:none; background:var(--celeste-xlt);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:18px;grid-template-columns:1fr 1fr;gap:6px;font-size:.8rem;">
+          <div><span style="color:var(--text-muted);font-weight:700;">Cliente</span><div style="font-weight:700;" id="lec-info-cliente">-</div></div>
+          <div><span style="color:var(--text-muted);font-weight:700;">Sector</span><div id="lec-info-sector">-</div></div>
+          <div><span style="color:var(--text-muted);font-weight:700;">Medidor</span><div class="td-mono" id="lec-info-medidor">-</div></div>
+          <div><span style="color:var(--text-muted);font-weight:700;">Última lectura</span><div id="lec-info-ultima">-</div></div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Lectura anterior (m³)</label>
-            <input class="form-control" id="lec-ant" type="number" value="1200" readonly style="background:var(--celeste-xlt);" />
+            <input class="form-control" id="lec-ant" type="number" value="0" readonly style="background:var(--celeste-xlt);" />
           </div>
           <div class="form-group">
             <label class="form-label">Lectura actual (m³)</label>
@@ -64,7 +59,7 @@
         </div>
 
         <div class="alert alert-info mb-16" id="lec-consumo-alert">
-          <div class="alert-icon">💧</div>
+          <div class="alert-icon"><i class="bi bi-droplet-fill"></i></div>
           <div class="alert-body">
             <div class="alert-title">Consumo calculado</div>
             <div class="alert-msg" id="lec-consumo-txt">Ingresa la lectura actual para calcular el consumo.</div>
@@ -78,21 +73,20 @@
 
         <div class="card-footer">
           <button class="btn btn-ghost" type="button">Limpiar</button>
-          <button class="btn btn-primary" type="button" onclick="guardarLectura()">💾 Guardar lectura</button>
+          <button class="btn btn-primary" type="button" onclick="guardarLectura()"><i class="bi bi-floppy"></i> Guardar lectura</button>
         </div>
       </div>
 
-      <!-- Panel derecho: lecturas recientes -->
       <div class="card">
         <div class="card-header"><h2 class="card-title">Recientes</h2></div>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <?php
           $lecturas = [
-            ['H-001','Juan Pérez','Mayo 2026','1250','1200','50','✅'],
-            ['H-003','Carlos Ramírez','Mayo 2026','980','930','50','✅'],
-            ['H-005','Luis Morales','Mayo 2026','640','610','30','✅'],
-            ['H-002','Ana López','Mayo 2026','—','—','Pendiente','⏳'],
-            ['H-004','María García','Mayo 2026','—','—','Pendiente','⏳'],
+            ['H-001','Juan Pérez','Mayo 2026','1250','1200','50','<i class="bi bi-check-circle-fill" style="color: #10b981;"></i>'],
+            ['H-003','Carlos Ramírez','Mayo 2026','980','930','50','<i class="bi bi-check-circle-fill" style="color: #10b981;"></i>'],
+            ['H-005','Luis Morales','Mayo 2026','640','610','30','<i class="bi bi-check-circle-fill" style="color: #10b981;"></i>'],
+            ['H-002','Ana López','Mayo 2026','—','—','Pendiente','<i class="bi bi-hourglass-split" style="color: #f59e0b;"></i>'],
+            ['H-004','María García','Mayo 2026','—','—','Pendiente','<i class="bi bi-hourglass-split" style="color: #f59e0b;"></i>'],
           ];
           foreach ($lecturas as $l): ?>
           <div class="stat-row">
@@ -102,7 +96,7 @@
             </div>
             <div style="text-align:right;">
               <div style="font-weight:800;font-size:.9rem;color:var(--negro);"><?= $l[4] !== '—' ? $l[4].' m³' : $l[5] ?></div>
-              <div style="font-size:.7rem;"><?= $l[6] ?></div>
+              <div style="font-size:.8rem;"><?= $l[6] ?></div>
             </div>
           </div>
           <?php endforeach; ?>
@@ -110,10 +104,7 @@
       </div>
 
     </div>
-  </div><!-- /ops-lecturas -->
-
-  <!-- ── TAB 2: FACTURAS ────────────────────────────────── -->
-  <div class="tab-panel" data-panel="ops-facturas" data-group="ops-tabs">
+  </div><div class="tab-panel" data-panel="ops-facturas" data-group="ops-tabs">
     <div class="grid-2-1">
       <div class="card">
         <div class="card-header"><h2 class="card-title">Generar factura</h2></div>
@@ -158,7 +149,7 @@
         </div>
         <div class="card-footer">
           <button class="btn btn-ghost">Cancelar</button>
-          <button class="btn btn-primary" onclick="showToast('Factura generada correctamente','success')">📄 Generar factura</button>
+          <button class="btn btn-primary" onclick="showToast('Factura generada correctamente','success')"><i class="bi bi-file-earmark-plus"></i> Generar factura</button>
         </div>
       </div>
       <div class="card">
@@ -171,7 +162,7 @@
           <div class="resumen-total"><span>Total a pagar</span><strong id="fac-r-total">$22.50</strong></div>
         </div>
         <div class="alert alert-info mt-16">
-          <div class="alert-icon">💧</div>
+          <div class="alert-icon"><i class="bi bi-droplet-fill"></i></div>
           <div class="alert-body">
             <div class="alert-title">Vista preliminar</div>
             <div class="alert-msg">El backend validará y guardará la factura.</div>
@@ -180,11 +171,10 @@
       </div>
     </div>
 
-    <!-- Tabla de facturas recientes -->
     <div class="card mt-24 tabla-facturas">
       <div class="card-header">
         <h2 class="card-title">Facturas recientes</h2>
-        <div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="buscarFactura" placeholder="Buscar factura…" /></div>
+        <div class="search-bar"><span class="search-icon"><i class="bi bi-search"></i></span><input type="text" id="buscarFactura" placeholder="Buscar factura…" /></div>
       </div>
       <div class="table-wrap">
         <table><thead><tr><th>N° Factura</th><th>Cliente</th><th>Casa</th><th>Periodo</th><th>Consumo</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
@@ -195,10 +185,7 @@
         </tbody></table>
       </div>
     </div>
-  </div><!-- /ops-facturas -->
-
-  <!-- ── TAB 3: PAGOS ───────────────────────────────────── -->
-  <div class="tab-panel" data-panel="ops-pagos" data-group="ops-tabs">
+  </div><div class="tab-panel" data-panel="ops-pagos" data-group="ops-tabs">
     <div class="grid-2-1">
       <div class="card">
         <div class="card-header"><h2 class="card-title">Registrar pago</h2></div>
@@ -212,7 +199,6 @@
           </div>
         </div>
 
-        <!-- Facturas pendientes del cliente -->
         <div style="margin-bottom:18px;">
           <label class="form-label mb-8">Facturas pendientes</label>
           <div class="table-wrap">
@@ -243,7 +229,7 @@
         </div>
         <div class="card-footer">
           <button class="btn btn-ghost">Limpiar</button>
-          <button class="btn btn-primary" onclick="showToast('Pago registrado correctamente','success')">💾 Guardar pago</button>
+          <button class="btn btn-primary" onclick="showToast('Pago registrado correctamente','success')"><i class="bi bi-floppy"></i> Guardar pago</button>
         </div>
       </div>
 
@@ -256,7 +242,7 @@
           <div class="resumen-total"><span>Saldo pendiente</span><strong id="resumenTotalPago">$11.30</strong></div>
         </div>
         <div class="alert alert-info mt-16">
-          <div class="alert-icon">💳</div>
+          <div class="alert-icon"><i class="bi bi-credit-card"></i></div>
           <div class="alert-body">
             <div class="alert-title">Pago parcial</div>
             <div class="alert-msg">Si el monto es menor al saldo, quedará un saldo pendiente.</div>
@@ -264,14 +250,11 @@
         </div>
       </div>
     </div>
-  </div><!-- /ops-pagos -->
-
-  <!-- ── TAB 4: MORAS ───────────────────────────────────── -->
-  <div class="tab-panel" data-panel="ops-moras" data-group="ops-tabs">
+  </div><div class="tab-panel" data-panel="ops-moras" data-group="ops-tabs">
     <div class="kpi-grid mb-24" style="grid-template-columns:repeat(3,1fr);">
-      <div class="kpi-card"><div class="kpi-icon red">⚠</div><div class="kpi-label">Clientes en mora</div><div class="kpi-value">96</div></div>
-      <div class="kpi-card"><div class="kpi-icon yellow">💰</div><div class="kpi-label">Mora total acumulada</div><div class="kpi-value">$1,248</div></div>
-      <div class="kpi-card"><div class="kpi-icon cyan">📅</div><div class="kpi-label">Días prom. de atraso</div><div class="kpi-value">47</div></div>
+      <div class="kpi-card"><div class="kpi-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="kpi-label">Clientes en mora</div><div class="kpi-value">96</div></div>
+      <div class="kpi-card"><div class="kpi-icon yellow"><i class="bi bi-cash-coin"></i></div><div class="kpi-label">Mora total acumulada</div><div class="kpi-value">$1,248</div></div>
+      <div class="kpi-card"><div class="kpi-icon cyan"><i class="bi bi-calendar-x"></i></div><div class="kpi-label">Días prom. de atraso</div><div class="kpi-value">47</div></div>
     </div>
 
     <div class="card">
@@ -284,7 +267,7 @@
           <select class="form-control" style="width:auto;padding:6px 10px;">
             <option>Todos</option><option>+30 días</option><option>+60 días</option><option>+90 días</option>
           </select>
-          <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="Cliente, casa…" /></div>
+          <div class="search-bar"><span class="search-icon"><i class="bi bi-search"></i></span><input type="text" placeholder="Cliente, casa…" /></div>
         </div>
       </div>
       <div class="table-wrap">
@@ -298,10 +281,7 @@
         </table>
       </div>
     </div>
-  </div><!-- /ops-moras -->
-
-  <!-- ── TAB 5: ESTADO DE CUENTA ────────────────────────── -->
-  <div class="tab-panel" data-panel="ops-estado" data-group="ops-tabs">
+  </div><div class="tab-panel" data-panel="ops-estado" data-group="ops-tabs">
     <div class="card mb-24">
       <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;">
         <div class="form-group mb-0" style="flex:1;min-width:220px;">
@@ -317,16 +297,15 @@
             <option>2026</option><option>2025</option><option>2024</option>
           </select>
         </div>
-        <button class="btn btn-ghost" onclick="showToast('Exportando estado de cuenta…','info')">↓ Exportar PDF</button>
+        <button class="btn btn-ghost" onclick="showToast('Exportando estado de cuenta…','info')"><i class="bi bi-download"></i> Exportar PDF</button>
       </div>
     </div>
 
-    <!-- Resumen financiero -->
     <div class="kpi-grid mb-24" style="grid-template-columns:repeat(4,1fr);">
-      <div class="kpi-card"><div class="kpi-icon red">💸</div><div class="kpi-label">Saldo pendiente</div><div class="kpi-value" style="color:var(--danger);" id="ec-saldo">$18.50</div></div>
-      <div class="kpi-card"><div class="kpi-icon green">✓</div><div class="kpi-label">Pagado este año</div><div class="kpi-value" id="ec-pagado">$95.00</div></div>
-      <div class="kpi-card"><div class="kpi-icon yellow">📄</div><div class="kpi-label">Facturas vencidas</div><div class="kpi-value" id="ec-vencidas">1</div></div>
-      <div class="kpi-card"><div class="kpi-icon blue">💧</div><div class="kpi-label">Consumo total</div><div class="kpi-value" id="ec-consumo">284 m³</div></div>
+      <div class="kpi-card"><div class="kpi-icon red"><i class="bi bi-cash"></i></div><div class="kpi-label">Saldo pendiente</div><div class="kpi-value" style="color:var(--danger);" id="ec-saldo">$18.50</div></div>
+      <div class="kpi-card"><div class="kpi-icon green"><i class="bi bi-check-circle-fill"></i></div><div class="kpi-label">Pagado este año</div><div class="kpi-value" id="ec-pagado">$95.00</div></div>
+      <div class="kpi-card"><div class="kpi-icon yellow"><i class="bi bi-file-earmark-x"></i></div><div class="kpi-label">Facturas vencidas</div><div class="kpi-value" id="ec-vencidas">1</div></div>
+      <div class="kpi-card"><div class="kpi-icon blue"><i class="bi bi-droplet-fill"></i></div><div class="kpi-label">Consumo total</div><div class="kpi-value" id="ec-consumo">284 m³</div></div>
     </div>
 
     <div class="card">
@@ -346,11 +325,7 @@
         </table>
       </div>
     </div>
-  </div><!-- /ops-estado -->
-
-</div><!-- /view-operaciones -->
-
-<script>
+  </div></div><script>
 function calcConsumo() {
   const ant = parseFloat(document.getElementById('lec-ant')?.value || 0);
   const act = parseFloat(document.getElementById('lec-act')?.value || 0);
@@ -362,13 +337,71 @@ function calcConsumo() {
 }
 
 function buscarCasaLectura() {
-  showToast('Casa H-001 encontrada: Juan Pérez', 'success');
+  const q = document.getElementById('lec-casa').value.trim();
+  if (!q) { showToast('Ingresa un término de búsqueda', 'warning'); return; }
+  
+  fetch('../../api/buscar_medidor.php?q=' + encodeURIComponent(q))
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('lec-id-medidor').value = data.data.id_medidor;
+        document.getElementById('lec-info-cliente').textContent = data.data.cliente;
+        document.getElementById('lec-info-sector').textContent = data.data.sector;
+        document.getElementById('lec-info-medidor').textContent = data.data.numero_medidor;
+        document.getElementById('lec-info-ultima').textContent = data.data.lectura_anterior + ' m³ — ' + data.data.fecha_lectura;
+        document.getElementById('lec-ant').value = data.data.lectura_anterior;
+        document.getElementById('lec-act').value = '';
+        document.getElementById('lec-info').style.display = 'grid';
+        calcConsumo();
+        showToast('Medidor encontrado', 'success');
+      } else {
+        showToast(data.error, 'danger');
+        document.getElementById('lec-info').style.display = 'none';
+        document.getElementById('lec-id-medidor').value = '';
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      showToast('Error al buscar medidor', 'danger');
+    });
 }
 
 function guardarLectura() {
+  const id_medidor = document.getElementById('lec-id-medidor')?.value;
   const act = document.getElementById('lec-act')?.value;
+  const periodoText = document.getElementById('lec-periodo')?.value || ''; // Ej: Mayo 2026
+  
+  if (!id_medidor) { showToast('Primero busca un medidor válido', 'warning'); return; }
   if (!act) { showToast('Ingresa la lectura actual', 'warning'); return; }
-  showToast('Lectura guardada correctamente', 'success');
+  
+  // Extraer mes y año del texto "Mayo 2026"
+  const meses = {'Enero':1, 'Febrero':2, 'Marzo':3, 'Abril':4, 'Mayo':5, 'Junio':6, 'Julio':7, 'Agosto':8, 'Septiembre':9, 'Octubre':10, 'Noviembre':11, 'Diciembre':12};
+  const partes = periodoText.split(' ');
+  const mes = meses[partes[0]] || new Date().getMonth() + 1;
+  const anio = partes[1] || new Date().getFullYear();
+
+  fetch('../../api/guardar_lectura.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id_medidor: id_medidor, lectura_act: act, mes: mes, anio: anio })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      showToast(`Lectura guardada. Consumo: ${data.consumo} m³`, 'success');
+      document.getElementById('lec-act').value = '';
+      document.getElementById('lec-info').style.display = 'none';
+      document.getElementById('lec-id-medidor').value = '';
+      document.getElementById('lec-ant').value = '0';
+      calcConsumo();
+    } else {
+      showToast(data.error, 'danger');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    showToast('Error de conexión', 'danger');
+  });
 }
 
 function calcFactura() {

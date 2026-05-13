@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- ═══ Estilos HIDRA ═══ -->
   <link rel="stylesheet" href="../../assets/css/variables.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/sidebar.css" />
   <link rel="stylesheet" href="../../assets/css/layout.css" />
@@ -147,15 +148,15 @@
       </div>
       <div class="navbar-actions">
         <div class="navbar-search">
-          <span style="color:var(--text-muted);font-size:.9rem;">🔍</span>
+          <i class="bi bi-search" style="color:var(--text-muted);font-size:.9rem;"></i>
           <input type="text" placeholder="Buscar en el sistema…" />
         </div>
         <button class="btn-icon" title="Notificaciones">
-          🔔
+          <i class="bi bi-bell"></i>
           <span class="notif-dot"></span>
         </button>
-        <button class="btn-icon" title="Ayuda">❓</button>
-        <button class="btn-icon" title="Cerrar sesión" onclick="showToast('Sesión cerrada','info')">⏻</button>
+        <button class="btn-icon" title="Ayuda"><i class="bi bi-question-circle"></i></button>
+        <button class="btn-icon" title="Cerrar sesión" onclick="window.location.href = '../login.php'"><i class="bi bi-box-arrow-right"></i></button>
       </div>
     </header>
 
@@ -178,7 +179,7 @@
         </div>
 
         <div class="alert alert-warning mb-16">
-          <span class="alert-icon">⚠</span>
+          <span class="alert-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
           <div class="alert-body">
             <div class="alert-title">Morosos pendientes de atención</div>
             <div class="alert-msg">8 clientes con facturas vencidas hace más de 30 días. Revisar en Operaciones → Vencidas.</div>
@@ -187,31 +188,31 @@
 
         <div class="kpi-grid">
           <div class="kpi-card glow">
-            <div class="kpi-icon blue">👥</div>
+            <div class="kpi-icon blue"><i class="bi bi-people-fill"></i></div>
             <div class="kpi-label">Clientes activos</div>
             <div class="kpi-value">342</div>
             <span class="kpi-delta up">↑ 4.2%</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon cyan">💧</div>
+            <div class="kpi-icon cyan"><i class="bi bi-droplet-fill"></i></div>
             <div class="kpi-label">Facturas del mes</div>
             <div class="kpi-value">318</div>
             <span class="kpi-delta up">↑ 1.8%</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon green">💲</div>
+            <div class="kpi-icon green"><i class="bi bi-currency-dollar"></i></div>
             <div class="kpi-label">Facturado (mes)</div>
             <div class="kpi-value">$48,210</div>
             <span class="kpi-delta up">↑ 6.5%</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon red">⚠</div>
+            <div class="kpi-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div>
             <div class="kpi-label">Morosos</div>
             <div class="kpi-value">27</div>
             <span class="kpi-delta down">↑ 3 nuevos</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon yellow">🗺</div>
+            <div class="kpi-icon yellow"><i class="bi bi-map-fill"></i></div>
             <div class="kpi-label">Sectores activos</div>
             <div class="kpi-value">12</div>
             <span class="kpi-delta neutral">100%</span>
@@ -262,21 +263,21 @@
             </div>
             <div style="display:flex; flex-direction:column; gap:10px;">
               <div class="alert alert-danger mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;">🔴</span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="bi bi-circle-fill" style="color: var(--danger)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">García López — vencida</div>
                   <div class="alert-msg">45 días sin pago</div>
                 </div>
               </div>
               <div class="alert alert-warning mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;">🟡</span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="bi bi-circle-fill" style="color: var(--warning)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">Sector B — corte pendiente</div>
                   <div class="alert-msg">Programado para 30/04</div>
                 </div>
               </div>
               <div class="alert alert-info mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;">💧</span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="bi bi-droplet-fill" style="color: var(--info)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">Nuevas tarifas 2026</div>
                   <div class="alert-msg">Vigentes desde mayo</div>
@@ -328,15 +329,15 @@
         </div>
 
         <div class="section-tabs" data-group="clientes-tabs">
-          <div class="section-tab active" data-panel="cli-listado" data-group="clientes-tabs">📋 Listado</div>
-          <div class="section-tab" data-panel="cli-registro" data-group="clientes-tabs">✏ Registro</div>
-          <div class="section-tab" data-panel="cli-historial" data-group="clientes-tabs">📅 Historial</div>
+          <div class="section-tab active" data-panel="cli-listado" data-group="clientes-tabs"><i class="bi bi-card-list"></i> Listado</div>
+          <div class="section-tab" data-panel="cli-registro" data-group="clientes-tabs"><i class="bi bi-pencil-square"></i> Registro</div>
+          <div class="section-tab" data-panel="cli-historial" data-group="clientes-tabs"><i class="bi bi-calendar3"></i> Historial</div>
         </div>
 
         <div class="tab-panel active" data-panel="cli-listado" data-group="clientes-tabs">
           <div class="flex-between mb-16" style="gap:12px; flex-wrap:wrap;">
             <div class="search-bar">
-              <span class="search-icon">🔍</span>
+              <span class="search-icon"><i class="bi bi-search"></i></span>
               <input type="text" id="clienteSearch" placeholder="Buscar nombre, código, sector…" />
             </div>
             <div class="flex-gap">
@@ -354,19 +355,19 @@
             <table>
               <thead>
                 <tr>
-                  <th class="sortable">Código <span class="sort-icon">↕</span></th>
-                  <th class="sortable">Nombre <span class="sort-icon">↕</span></th>
+                  <th class="sortable">Código <span class="sort-icon"><i class="bi bi-arrow-down-up"></i></span></th>
+                  <th class="sortable">Nombre <span class="sort-icon"><i class="bi bi-arrow-down-up"></i></span></th>
                   <th>Dirección</th><th>Sector</th><th>Teléfono</th><th>Tarifa</th>
-                  <th class="sortable">Estado <span class="sort-icon">↕</span></th><th>Acciones</th>
+                  <th class="sortable">Estado <span class="sort-icon"><i class="bi bi-arrow-down-up"></i></span></th><th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="clienteTabla">
-                <tr><td class="td-mono">CLT-001</td><td class="td-primary">Ana Isabel Martínez</td><td>Col. San José #14</td><td>A-3</td><td class="td-mono">7234-5678</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">✏ Editar</button><button class="btn btn-agua btn-sm">📄 Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-002</td><td class="td-primary">Carlos Alberto Rivas</td><td>Barrio El Centro #7</td><td>B-1</td><td class="td-mono">7890-1234</td><td class="td-mono">$12.50</td><td><span class="badge badge-yellow">Pendiente</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">✏ Editar</button><button class="btn btn-agua btn-sm">📄 Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-003</td><td class="td-primary">María de Jesús López</td><td>Res. Agua Viva #22</td><td>C-2</td><td class="td-mono">7654-3210</td><td class="td-mono">$15.00</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">✏ Editar</button><button class="btn btn-agua btn-sm">📄 Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-004</td><td class="td-primary">José Antonio Hernández</td><td>Col. Las Flores #3B</td><td>A-1</td><td class="td-mono">7321-6540</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">✏ Editar</button><button class="btn btn-danger btn-sm">✂ Corte</button></div></td></tr>
-                <tr><td class="td-mono">CLT-005</td><td class="td-primary">Luisa Esperanza Torres</td><td>Calle Principal #88</td><td>D-4</td><td class="td-mono">7111-2233</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">✏ Editar</button><button class="btn btn-agua btn-sm">📄 Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-006</td><td class="td-primary">Roberto Ernesto Díaz</td><td>Col. Modelo #15</td><td>B-3</td><td class="td-mono">7990-4455</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">✏ Editar</button><button class="btn btn-danger btn-sm">✂ Corte</button></div></td></tr>
+                <tr><td class="td-mono">CLT-001</td><td class="td-primary">Ana Isabel Martínez</td><td>Col. San José #14</td><td>A-3</td><td class="td-mono">7234-5678</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
+                <tr><td class="td-mono">CLT-002</td><td class="td-primary">Carlos Alberto Rivas</td><td>Barrio El Centro #7</td><td>B-1</td><td class="td-mono">7890-1234</td><td class="td-mono">$12.50</td><td><span class="badge badge-yellow">Pendiente</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
+                <tr><td class="td-mono">CLT-003</td><td class="td-primary">María de Jesús López</td><td>Res. Agua Viva #22</td><td>C-2</td><td class="td-mono">7654-3210</td><td class="td-mono">$15.00</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
+                <tr><td class="td-mono">CLT-004</td><td class="td-primary">José Antonio Hernández</td><td>Col. Las Flores #3B</td><td>A-1</td><td class="td-mono">7321-6540</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-danger btn-sm"><i class="bi bi-scissors"></i> Corte</button></div></td></tr>
+                <tr><td class="td-mono">CLT-005</td><td class="td-primary">Luisa Esperanza Torres</td><td>Calle Principal #88</td><td>D-4</td><td class="td-mono">7111-2233</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
+                <tr><td class="td-mono">CLT-006</td><td class="td-primary">Roberto Ernesto Díaz</td><td>Col. Modelo #15</td><td>B-3</td><td class="td-mono">7990-4455</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-danger btn-sm"><i class="bi bi-scissors"></i> Corte</button></div></td></tr>
               </tbody>
             </table>
           </div>
@@ -449,7 +450,6 @@
       <?php include __DIR__ . '/partials/estadisticas.php'; ?>
 
 
-      <!-- ══════════════════════════════════
       <!-- ══ VISTA 5: REPORTES (partial) ══ -->
       <?php include __DIR__ . '/partials/reportes.php'; ?>
 
@@ -463,10 +463,10 @@
         </div>
 
         <div class="section-tabs" data-group="cfg-tabs">
-          <div class="section-tab active" data-panel="cfg-general"  data-group="cfg-tabs">⚙ General</div>
-          <div class="section-tab"        data-panel="cfg-tarifas" data-group="cfg-tabs">💲 Tarifas</div>
-          <div class="section-tab"        data-panel="cfg-moras"   data-group="cfg-tabs">⚠ Moras</div>
-          <div class="section-tab"        data-panel="cfg-usuarios" data-group="cfg-tabs">👤 Usuarios y roles</div>
+          <div class="section-tab active" data-panel="cfg-general"  data-group="cfg-tabs"><i class="bi bi-gear-fill"></i> General</div>
+          <div class="section-tab"        data-panel="cfg-tarifas" data-group="cfg-tabs"><i class="bi bi-currency-dollar"></i> Tarifas</div>
+          <div class="section-tab"        data-panel="cfg-moras"   data-group="cfg-tabs"><i class="bi bi-exclamation-triangle-fill"></i> Moras</div>
+          <div class="section-tab"        data-panel="cfg-usuarios" data-group="cfg-tabs"><i class="bi bi-person-fill"></i> Usuarios y roles</div>
         </div>
 
         <div class="tab-panel active" data-panel="cfg-general" data-group="cfg-tabs">
@@ -655,8 +655,8 @@
 <div class="modal-overlay" id="clienteModal" style="display:none;">
   <div class="modal">
     <div class="modal-header">
-      <span class="modal-title">📄 Registrar nueva factura / cliente</span>
-      <button class="modal-close" id="modalClose">✕</button>
+      <span class="modal-title"><i class="bi bi-file-earmark-plus"></i> Registrar nueva factura / cliente</span>
+      <button class="modal-close" id="modalClose"><i class="bi bi-x-lg"></i></button>
     </div>
     <div class="modal-body">
       <form id="formCliente">

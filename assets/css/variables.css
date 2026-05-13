@@ -59,18 +59,18 @@
   --radius-xl:    24px;
 
   /* ── Sombras ── */
-  --shadow-sm:      0 1px 4px rgba(0,0,0,0.08);
-  --shadow-card:    0 4px 20px rgba(102,179,255,0.15);
-  --shadow-modal:   0 24px 64px rgba(0,0,0,0.22);
-  --shadow-sidebar: 4px 0 20px rgba(0,0,0,0.25);
+  --shadow-sm:      none;
+  --shadow-card:    none;
+  --shadow-modal:   none;
+  --shadow-sidebar: none;
 
   /* ── Gradientes ── */
-  --grad-brand:   linear-gradient(135deg, #000000 0%, #1a1a1a 40%, #66B3FF 100%);
-  --grad-celeste: linear-gradient(135deg, #66B3FF, #A8D4FF);
-  --grad-agua:    linear-gradient(135deg, #66B3FF, #A8D4FF);  /* alias de grad-celeste */
-  --grad-card:    linear-gradient(145deg, #FFFFFF 0%, #E8F4FF 100%);
-  --grad-hero:    linear-gradient(160deg, #000000 0%, #1a2a3a 50%, #66B3FF 100%);
-  --grad-stripe:  linear-gradient(90deg, #000000, #66B3FF, #A8D4FF, #66B3FF, #000000);
+  --grad-brand:   var(--celeste);
+  --grad-celeste: var(--celeste);
+  --grad-agua:    var(--celeste);
+  --grad-card:    var(--bg-card);
+  --grad-hero:    var(--negro);
+  --grad-stripe:  var(--celeste);
 
   /* ── Tipografía ── */
   --font-main:  'Outfit', sans-serif;

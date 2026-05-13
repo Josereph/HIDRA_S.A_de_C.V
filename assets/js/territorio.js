@@ -3,9 +3,12 @@ let mapaInit = false;
 function initMapa() {
   if (mapaInit) return;
   mapaInit = true;
-  document.querySelectorAll('.sector-block').forEach(s => {
-    s.addEventListener('click', () => { if (s.dataset.sector) showSectorDetail(s.dataset.sector, s); });
-  });
+
+  // Inicializar la vista por sector si el elemento existe
+  const sel = document.getElementById('sectorVista');
+  if (sel && typeof renderSectorVista === 'function') {
+    renderSectorVista(sel.value || 'centro');
+  }
 }
 
 function showSectorDetail(name, el) {
