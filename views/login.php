@@ -287,7 +287,7 @@
 
   <!-- Demo hint -->
   <div class="demo-badge">
-    Demo: <strong>admin@hidra.sv</strong> / <strong>admin123</strong>
+    Demo: <strong>admin</strong> / <strong>admin123</strong>
   </div>
 
   <script>
@@ -302,28 +302,49 @@
       // Ocultar error previo
       errMsg.classList.remove('show');
 
-      // Demo credentials check
-      const validUser = email === 'admin@hidra.sv' || email === 'admin';
-      const validPass = password === 'admin123';
-
       if (!email || !password) return;
 
       // Simular carga
       btn.classList.add('loading');
 
-      setTimeout(() => {
+      fetch('../api/auth_api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ identificador: email, password: password })
+      })
+      .then(async response => {
+        if (!response.ok) {
+           const text = await response.text();
+           throw new Error('HTTP ' + response.status + ': ' + text);
+        }
+        const text = await response.text();
+        try {
+           return JSON.parse(text);
+        } catch (e) {
+           throw new Error('JSON Error: ' + text);
+        }
+      })
+      .then(data => {
         btn.classList.remove('loading');
-        if (validUser && validPass) {
+        if (data.success) {
           // Redirigir a pantalla de bienvenida
           window.location.href = './welcome.php';
         } else {
+          errMsg.querySelector('span:nth-child(2)').textContent = data.message;
           errMsg.classList.add('show');
           // Shake effect
           document.querySelector('.login-card').style.animation = 'none';
           document.querySelector('.login-card').offsetHeight;
           document.querySelector('.login-card').style.animation = 'shake 0.4s ease';
         }
-      }, 900);
+      })
+      .catch(error => {
+        btn.classList.remove('loading');
+        errMsg.querySelector('span:nth-child(2)').textContent = error.message;
+        errMsg.classList.add('show');
+      });
     }
 
     // Shake keyframe inyectado

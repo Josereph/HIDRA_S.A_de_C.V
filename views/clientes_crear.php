@@ -1,9 +1,9 @@
 <div class="card" style="max-width: 600px; margin: 0 auto;">
     <div class="card-header">
         <h2>Registrar Nuevo Cliente</h2>
-        <a href="/clientes" class="btn btn-secondary">Volver</a>
+        <a href="<?= BASE_PATH ?>/clientes" class="btn btn-secondary">Volver</a>
     </div>
-    <form action="/clientes/create" method="POST">
+    <form action="<?= BASE_PATH ?>/clientes/create" method="POST">
         <div class="form-group">
             <label for="tipo_persona">Tipo de Persona</label>
             <select name="tipo_persona" id="tipo_persona" class="form-control" onchange="toggleIdentificador()" required>

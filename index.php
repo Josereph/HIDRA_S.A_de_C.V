@@ -15,6 +15,8 @@ $request_uri = $_SERVER['REQUEST_URI'];
 
 $base_path = '/HIDRA_S.A_de_C.V';
 
+define('BASE_PATH', $base_path);
+
 $uri = parse_url($request_uri, PHP_URL_PATH);
 
 if (strpos($uri, $base_path) === 0) {

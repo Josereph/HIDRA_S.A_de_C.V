@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Listado de Clientes</h2>
-        <a href="/clientes/create" class="btn btn-primary">+ Nuevo Cliente</a>
+        <a href="<?= BASE_PATH ?>/clientes/create" class="btn btn-primary">+ Nuevo Cliente</a>
     </div>
     <div class="table-responsive">
         <table>

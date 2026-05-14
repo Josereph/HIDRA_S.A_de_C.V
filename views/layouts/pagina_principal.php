@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/data_loader.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -125,10 +126,10 @@
 
     <div class="sidebar-footer">
       <div class="user-card">
-        <div class="user-avatar">AD</div>
+        <div class="user-avatar"><?= strtoupper(substr($_SESSION['operador_nombre'] ?? 'AD', 0, 2)) ?></div>
         <div class="user-info">
-          <div class="user-name">Administrador</div>
-          <div class="user-role">Sistema HIDRA</div>
+          <div class="user-name"><?= htmlspecialchars($_SESSION['operador_nombre'] ?? 'Administrador') ?></div>
+          <div class="user-role"><?= ucfirst(htmlspecialchars($_SESSION['operador_rol'] ?? 'Sistema HIDRA')) ?></div>
         </div>
       </div>
     </div>
@@ -190,31 +191,31 @@
           <div class="kpi-card glow">
             <div class="kpi-icon blue"><i class="bi bi-people-fill"></i></div>
             <div class="kpi-label">Clientes activos</div>
-            <div class="kpi-value">342</div>
-            <span class="kpi-delta up">↑ 4.2%</span>
+            <div class="kpi-value"><?= number_format($stats['clientes_activos']) ?></div>
+            <span class="kpi-delta up">Al día</span>
           </div>
           <div class="kpi-card">
             <div class="kpi-icon cyan"><i class="bi bi-droplet-fill"></i></div>
             <div class="kpi-label">Facturas del mes</div>
-            <div class="kpi-value">318</div>
-            <span class="kpi-delta up">↑ 1.8%</span>
+            <div class="kpi-value"><?= number_format($stats['facturas_mes']) ?></div>
+            <span class="kpi-delta up">Al día</span>
           </div>
           <div class="kpi-card">
             <div class="kpi-icon green"><i class="bi bi-currency-dollar"></i></div>
             <div class="kpi-label">Facturado (mes)</div>
-            <div class="kpi-value">$48,210</div>
-            <span class="kpi-delta up">↑ 6.5%</span>
+            <div class="kpi-value">$<?= number_format($stats['facturado_mes'], 2) ?></div>
+            <span class="kpi-delta up">Al día</span>
           </div>
           <div class="kpi-card">
             <div class="kpi-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div>
             <div class="kpi-label">Morosos</div>
-            <div class="kpi-value">27</div>
-            <span class="kpi-delta down">↑ 3 nuevos</span>
+            <div class="kpi-value"><?= number_format($stats['morosos']) ?></div>
+            <span class="kpi-delta down">Pendientes</span>
           </div>
           <div class="kpi-card">
             <div class="kpi-icon yellow"><i class="bi bi-map-fill"></i></div>
             <div class="kpi-label">Sectores activos</div>
-            <div class="kpi-value">12</div>
+            <div class="kpi-value"><?= number_format($stats['sectores_activos']) ?></div>
             <span class="kpi-delta neutral">100%</span>
           </div>
         </div>
@@ -300,11 +301,23 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td class="td-mono">#2026-0431</td><td class="td-primary">Ana Martínez</td><td>A-3</td><td>28/04/2026</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Pagado</span></td></tr>
-                <tr><td class="td-mono">#2026-0430</td><td class="td-primary">Carlos Rivas</td><td>B-1</td><td>27/04/2026</td><td class="td-mono">$12.50</td><td><span class="badge badge-yellow">Pendiente</span></td></tr>
-                <tr><td class="td-mono">#2026-0429</td><td class="td-primary">María López</td><td>C-2</td><td>26/04/2026</td><td class="td-mono">$15.00</td><td><span class="badge badge-green">Pagado</span></td></tr>
-                <tr><td class="td-mono">#2026-0428</td><td class="td-primary">José Hernández</td><td>A-1</td><td>25/04/2026</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Vencido</span></td></tr>
-                <tr><td class="td-mono">#2026-0427</td><td class="td-primary">Luisa Torres</td><td>D-4</td><td>24/04/2026</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Pagado</span></td></tr>
+                <?php foreach($facturas_recientes as $f): ?>
+                <tr>
+                  <td class="td-mono"><?= htmlspecialchars($f['numero_factura']) ?></td>
+                  <td class="td-primary"><?= htmlspecialchars($f['cliente']) ?></td>
+                  <td>-</td>
+                  <td><?= htmlspecialchars(date('d/m/Y', strtotime($f['fecha_emision']))) ?></td>
+                  <td class="td-mono">$<?= number_format($f['total'], 2) ?></td>
+                  <td>
+                    <span class="badge badge-<?= $f['estado'] === 'pagada' ? 'green' : ($f['estado'] === 'vencida' ? 'red' : 'yellow') ?>">
+                      <?= ucfirst(htmlspecialchars($f['estado'])) ?>
+                    </span>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php if(empty($facturas_recientes)): ?>
+                <tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No hay transacciones recientes</td></tr>
+                <?php endif; ?>
               </tbody>
             </table>
           </div>
@@ -362,12 +375,30 @@
                 </tr>
               </thead>
               <tbody id="clienteTabla">
-                <tr><td class="td-mono">CLT-001</td><td class="td-primary">Ana Isabel Martínez</td><td>Col. San José #14</td><td>A-3</td><td class="td-mono">7234-5678</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-002</td><td class="td-primary">Carlos Alberto Rivas</td><td>Barrio El Centro #7</td><td>B-1</td><td class="td-mono">7890-1234</td><td class="td-mono">$12.50</td><td><span class="badge badge-yellow">Pendiente</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-003</td><td class="td-primary">María de Jesús López</td><td>Res. Agua Viva #22</td><td>C-2</td><td class="td-mono">7654-3210</td><td class="td-mono">$15.00</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-004</td><td class="td-primary">José Antonio Hernández</td><td>Col. Las Flores #3B</td><td>A-1</td><td class="td-mono">7321-6540</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-danger btn-sm"><i class="bi bi-scissors"></i> Corte</button></div></td></tr>
-                <tr><td class="td-mono">CLT-005</td><td class="td-primary">Luisa Esperanza Torres</td><td>Calle Principal #88</td><td>D-4</td><td class="td-mono">7111-2233</td><td class="td-mono">$12.50</td><td><span class="badge badge-green">Al día</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button></div></td></tr>
-                <tr><td class="td-mono">CLT-006</td><td class="td-primary">Roberto Ernesto Díaz</td><td>Col. Modelo #15</td><td>B-3</td><td class="td-mono">7990-4455</td><td class="td-mono">$12.50</td><td><span class="badge badge-red">Moroso</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button><button class="btn btn-danger btn-sm"><i class="bi bi-scissors"></i> Corte</button></div></td></tr>
+                <?php foreach($clientes_lista as $c): ?>
+                <tr>
+                  <td class="td-mono"><?= htmlspecialchars($c['codigo_usuario']) ?></td>
+                  <td class="td-primary"><?= htmlspecialchars($c['cliente']) ?></td>
+                  <td>-</td>
+                  <td><?= htmlspecialchars($c['sector']) ?></td>
+                  <td class="td-mono">-</td>
+                  <td class="td-mono">-</td>
+                  <td>
+                    <span class="badge badge-<?= $c['estado_usuario'] === 'activo' ? 'green' : 'red' ?>">
+                      <?= ucfirst(htmlspecialchars($c['estado_usuario'])) ?>
+                    </span>
+                  </td>
+                  <td>
+                    <div class="flex-gap">
+                      <button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button>
+                      <button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button>
+                    </div>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php if(empty($clientes_lista)): ?>
+                <tr><td colspan="8" style="text-align:center;color:var(--text-muted);">No hay clientes registrados</td></tr>
+                <?php endif; ?>
               </tbody>
             </table>
           </div>
@@ -494,9 +525,14 @@
                 <table>
                   <thead><tr><th>Categoría</th><th>Tarifa / mes</th><th>Límite m³</th><th></th></tr></thead>
                   <tbody>
-                    <tr><td class="td-primary">Doméstica básica</td><td class="td-mono">$12.50</td><td>Hasta 10 m³</td><td><button class="btn btn-ghost btn-sm" onclick="showToast('Editando tarifa…','info')">✏</button></td></tr>
-                    <tr><td class="td-primary">Doméstica plus</td><td class="td-mono">$15.00</td><td>Hasta 20 m³</td><td><button class="btn btn-ghost btn-sm" onclick="showToast('Editando tarifa…','info')">✏</button></td></tr>
-                    <tr><td class="td-primary">Comercial</td><td class="td-mono">$25.00</td><td>Uso comercial</td><td><button class="btn btn-ghost btn-sm" onclick="showToast('Editando tarifa…','info')">✏</button></td></tr>
+                    <?php foreach($tarifas_lista as $t): ?>
+                    <tr>
+                      <td class="td-primary"><?= htmlspecialchars($t['nombre_tarifa']) ?></td>
+                      <td class="td-mono">$<?= number_format($t['precio_m3'], 4) ?></td>
+                      <td>Cargo fijo: $<?= number_format($t['cargo_fijo'], 2) ?></td>
+                      <td><button class="btn btn-ghost btn-sm" onclick="showToast('Editando tarifa…','info')">✏</button></td>
+                    </tr>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
@@ -584,30 +620,20 @@
                     <tr><th>Fecha</th><th>Tipo</th><th>Valor</th><th>Gracia</th><th>Usuario</th><th>Estado</th></tr>
                   </thead>
                   <tbody>
+                    <?php foreach($moras_lista as $m): ?>
                     <tr>
-                      <td>01/01/2026</td>
-                      <td>Monto fijo</td>
-                      <td class="td-mono">$1.00</td>
-                      <td>10 días</td>
-                      <td>Samuel A.</td>
-                      <td><span class="badge badge-green">Activo</span></td>
+                      <td><?= htmlspecialchars(date('d/m/Y', strtotime($m['fecha_inicio']))) ?></td>
+                      <td><?= htmlspecialchars(ucfirst(str_replace('_', ' ', $m['tipo_mora']))) ?></td>
+                      <td class="td-mono"><?= $m['tipo_mora'] === 'monto_fijo' ? '$' . number_format($m['monto_fijo'], 2) : number_format($m['porcentaje'], 2) . '%' ?></td>
+                      <td><?= htmlspecialchars($m['dias_gracia']) ?> días</td>
+                      <td>-</td>
+                      <td>
+                        <span class="badge badge-<?= $m['estado'] === 'activa' ? 'green' : 'yellow' ?>">
+                          <?= ucfirst(htmlspecialchars($m['estado'])) ?>
+                        </span>
+                      </td>
                     </tr>
-                    <tr>
-                      <td>01/07/2025</td>
-                      <td>Monto fijo</td>
-                      <td class="td-mono">$0.75</td>
-                      <td>15 días</td>
-                      <td>Samuel A.</td>
-                      <td><span class="badge badge-yellow">Vencido</span></td>
-                    </tr>
-                    <tr>
-                      <td>01/01/2025</td>
-                      <td>Porcentaje</td>
-                      <td class="td-mono">5%</td>
-                      <td>10 días</td>
-                      <td>Samuel A.</td>
-                      <td><span class="badge badge-yellow">Vencido</span></td>
-                    </tr>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
@@ -625,22 +651,27 @@
             <table>
               <thead><tr><th>Usuario</th><th>Correo</th><th>Perfil / Rol</th><th>Permisos</th><th>Estado</th><th>Acciones</th></tr></thead>
               <tbody>
+                <?php foreach($operadores_lista as $op): ?>
                 <tr>
-                  <td><div class="flex-gap"><div class="user-avatar" style="width:30px;height:30px;font-size:.7rem;background:var(--grad-brand);border:none;">AD</div><span class="td-primary">Administrador</span></div></td>
-                  <td class="td-mono">admin@hidra.sv</td>
-                  <td><span class="badge badge-blue">Administrador</span></td>
-                  <td style="font-size:.72rem; color:var(--text-muted);">Acceso total</td>
-                  <td><span class="badge badge-green">Activo</span></td>
+                  <td>
+                    <div class="flex-gap">
+                      <div class="user-avatar" style="width:30px;height:30px;font-size:.7rem;background:var(--grad-brand);border:none;">
+                        <?= strtoupper(substr($op['nombre_completo'], 0, 2)) ?>
+                      </div>
+                      <span class="td-primary"><?= htmlspecialchars($op['nombre_completo']) ?></span>
+                    </div>
+                  </td>
+                  <td class="td-mono"><?= htmlspecialchars($op['correo'] ?? '-') ?></td>
+                  <td><span class="badge badge-blue"><?= ucfirst(htmlspecialchars($op['rol'])) ?></span></td>
+                  <td style="font-size:.72rem; color:var(--text-muted);">-</td>
+                  <td>
+                    <span class="badge badge-<?= $op['estado'] === 'activo' ? 'green' : 'red' ?>">
+                      <?= ucfirst(htmlspecialchars($op['estado'])) ?>
+                    </span>
+                  </td>
                   <td><button class="btn btn-ghost btn-sm">✏ Editar</button></td>
                 </tr>
-                <tr>
-                  <td><div class="flex-gap"><div class="user-avatar" style="width:30px;height:30px;font-size:.7rem;background:var(--celeste);border:none;">C1</div><span class="td-primary">Cajero 1</span></div></td>
-                  <td class="td-mono">cajero1@hidra.sv</td>
-                  <td><span class="badge badge-yellow">Cobrador</span></td>
-                  <td style="font-size:.72rem; color:var(--text-muted);">Pagos y facturas</td>
-                  <td><span class="badge badge-green">Activo</span></td>
-                  <td><button class="btn btn-ghost btn-sm">✏ Editar</button></td>
-                </tr>
+                <?php endforeach; ?>
               </tbody>
             </table>
           </div>

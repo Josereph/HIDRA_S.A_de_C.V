@@ -1,19 +1,18 @@
 <?php
 // config/database.php
 
+define('DB_HOST',    'localhost');
+define('DB_USER',    'root');
+define('DB_PASS',    '');
+define('DB_NAME',    'hidra_sa_de_cv');
+define('DB_CHARSET', 'utf8mb4');
+
 class Database {
     private static $instance = null;
     private $pdo;
 
     private function __construct() {
-        $host = '127.0.0.1';
-        $port = '3307';
-        $db   = 'hidra_sa_de_cv';
-        $user = 'root';
-        $pass = ''; // Por defecto vacío en WAMP
-        $charset = 'utf8mb4';
-
-        $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -21,9 +20,13 @@ class Database {
         ];
 
         try {
-            $this->pdo = new PDO($dsn, $user, $pass, $options);
+            $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            die("Error de conexión a la base de datos MySQL: " . $e->getMessage());
+            header('Content-Type: application/json');
+            die(json_encode([
+                'success' => false,
+                'message' => 'Error de conexión a BD: ' . $e->getMessage()
+            ]));
         }
     }
 

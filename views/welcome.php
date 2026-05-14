@@ -1,3 +1,8 @@
+<?php
+session_start();
+$nombre = $_SESSION['operador_nombre'] ?? 'Administrador';
+$rol = $_SESSION['operador_rol'] ?? 'admin';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -111,8 +116,8 @@
 
     <div class="welcome-text">
       <div class="welcome-greeting">Bienvenido de nuevo</div>
-      <div class="welcome-name">Samuel Admin</div>
-      <div class="welcome-role"><span>Administrador</span></div>
+      <div class="welcome-name"><?= htmlspecialchars($nombre) ?></div>
+      <div class="welcome-role"><span><?= ucfirst(htmlspecialchars($rol)) ?></span></div>
 
       <div class="progress-wrap">
         <div class="progress-label">Cargando sistema…</div>

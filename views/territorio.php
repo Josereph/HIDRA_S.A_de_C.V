@@ -64,7 +64,7 @@
             <h3><i class="bi bi-plus-circle-fill"></i> Registrar Nueva Vivienda</h3>
             <button class="close-modal" onclick="closeModal('newHouseModal')">&times;</button>
         </div>
-        <form action="/territorio/store" method="POST">
+        <form action="<?= BASE_PATH ?>/territorio/store" method="POST">
             <input type="hidden" name="lat" id="form_lat">
             <input type="hidden" name="lng" id="form_lng">
             
@@ -100,7 +100,7 @@
             <h3><i class="bi bi-pencil-square"></i> Editar / Asignar Vivienda</h3>
             <button class="close-modal" onclick="closeModal('editHouseModal')">&times;</button>
         </div>
-        <form action="/territorio/update" method="POST">
+        <form action="<?= BASE_PATH ?>/territorio/update" method="POST">
             <input type="hidden" name="house_id" id="edit_house_id">
 
             <div class="form-group">

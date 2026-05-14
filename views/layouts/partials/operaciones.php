@@ -80,23 +80,15 @@
       <div class="card">
         <div class="card-header"><h2 class="card-title">Recientes</h2></div>
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <?php
-          $lecturas = [
-            ['H-001','Juan Pérez','Mayo 2026','1250','1200','50','<i class="bi bi-check-circle-fill" style="color: #10b981;"></i>'],
-            ['H-003','Carlos Ramírez','Mayo 2026','980','930','50','<i class="bi bi-check-circle-fill" style="color: #10b981;"></i>'],
-            ['H-005','Luis Morales','Mayo 2026','640','610','30','<i class="bi bi-check-circle-fill" style="color: #10b981;"></i>'],
-            ['H-002','Ana López','Mayo 2026','—','—','Pendiente','<i class="bi bi-hourglass-split" style="color: #f59e0b;"></i>'],
-            ['H-004','María García','Mayo 2026','—','—','Pendiente','<i class="bi bi-hourglass-split" style="color: #f59e0b;"></i>'],
-          ];
-          foreach ($lecturas as $l): ?>
+          <?php foreach ($lecturas_recientes as $l): ?>
           <div class="stat-row">
             <div>
-              <div style="font-weight:700;font-size:.8rem;"><?= $l[1] ?> <span class="td-mono" style="font-size:.7rem;color:var(--text-muted);"><?= $l[0] ?></span></div>
-              <div style="font-size:.72rem;color:var(--text-muted);"><?= $l[2] ?></div>
+              <div style="font-weight:700;font-size:.8rem;"><?= htmlspecialchars($l['cliente']) ?> <span class="td-mono" style="font-size:.7rem;color:var(--text-muted);">H-<?= str_pad($l['id_medidor'], 3, '0', STR_PAD_LEFT) ?></span></div>
+              <div style="font-size:.72rem;color:var(--text-muted);"><?= htmlspecialchars($l['mes'] . '/' . $l['anio']) ?></div>
             </div>
             <div style="text-align:right;">
-              <div style="font-weight:800;font-size:.9rem;color:var(--negro);"><?= $l[4] !== '—' ? $l[4].' m³' : $l[5] ?></div>
-              <div style="font-size:.8rem;"><?= $l[6] ?></div>
+              <div style="font-weight:800;font-size:.9rem;color:var(--negro);"><?= htmlspecialchars($l['consumo_m3']) ?> m³</div>
+              <div style="font-size:.8rem;"><i class="bi bi-check-circle-fill" style="color: #10b981;"></i></div>
             </div>
           </div>
           <?php endforeach; ?>
@@ -179,9 +171,18 @@
       <div class="table-wrap">
         <table><thead><tr><th>N° Factura</th><th>Cliente</th><th>Casa</th><th>Periodo</th><th>Consumo</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
         <tbody id="tablaFacturas">
-          <tr><td class="td-mono">FAC-0001</td><td class="td-primary">Juan Pérez</td><td>H-001</td><td>Abr 2026</td><td>12 m³</td><td>$9.20</td><td><span class="badge badge-green">Pagada</span></td><td><button class="btn btn-ghost btn-sm">Ver</button></td></tr>
-          <tr><td class="td-mono">FAC-0002</td><td class="td-primary">María López</td><td>H-014</td><td>Abr 2026</td><td>18 m³</td><td>$11.30</td><td><span class="badge badge-yellow">Pendiente</span></td><td><button class="btn btn-agua btn-sm">Cobrar</button></td></tr>
-          <tr><td class="td-mono">FAC-0003</td><td class="td-primary">Carlos Ramírez</td><td>H-022</td><td>Abr 2026</td><td>25 m³</td><td>$13.75</td><td><span class="badge badge-red">Mora</span></td><td><button class="btn btn-danger btn-sm">Gestionar</button></td></tr>
+          <?php foreach($facturas_operaciones as $f): ?>
+          <tr>
+            <td class="td-mono"><?= htmlspecialchars($f['numero_factura']) ?></td>
+            <td class="td-primary"><?= htmlspecialchars($f['cliente']) ?></td>
+            <td>H-<?= str_pad($f['id_usuario'], 3, '0', STR_PAD_LEFT) ?></td>
+            <td><?= htmlspecialchars(date('M Y', strtotime($f['fecha_emision']))) ?></td>
+            <td>-</td>
+            <td>$<?= number_format($f['total'], 2) ?></td>
+            <td><span class="badge badge-<?= $f['estado'] === 'pagada' ? 'green' : ($f['estado'] === 'vencida' ? 'red' : 'yellow') ?>"><?= ucfirst(htmlspecialchars($f['estado'])) ?></span></td>
+            <td><button class="btn btn-ghost btn-sm">Ver</button></td>
+          </tr>
+          <?php endforeach; ?>
         </tbody></table>
       </div>
     </div>
@@ -274,9 +275,25 @@
         <table>
           <thead><tr><th>Casa</th><th>Cliente</th><th>Periodo vencido</th><th>Saldo ($)</th><th>Mora ($)</th><th>Días</th><th>Acción</th></tr></thead>
           <tbody>
-            <tr><td class="td-mono">H-002</td><td class="td-primary">Ana López</td><td>Mar 2026</td><td style="color:var(--danger);font-weight:700;">$12.00</td><td style="color:var(--danger);">$1.50</td><td><span class="badge badge-red">68 días</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">Ver</button><button class="btn btn-agua btn-sm" onclick="showToast('Registrando cobro…','info')">Cobrar</button></div></td></tr>
-            <tr><td class="td-mono">H-004</td><td class="td-primary">María García</td><td>Feb 2026</td><td style="color:var(--danger);font-weight:700;">$28.50</td><td style="color:var(--danger);">$4.00</td><td><span class="badge badge-red">95 días</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">Ver</button><button class="btn btn-agua btn-sm" onclick="showToast('Registrando cobro…','info')">Cobrar</button></div></td></tr>
-            <tr><td class="td-mono">H-009</td><td class="td-primary">Pedro Sánchez</td><td>Abr 2026</td><td style="color:var(--warning);font-weight:700;">$9.75</td><td style="color:var(--warning);">$1.00</td><td><span class="badge badge-yellow">32 días</span></td><td><div class="flex-gap"><button class="btn btn-ghost btn-sm">Ver</button><button class="btn btn-agua btn-sm" onclick="showToast('Registrando cobro…','info')">Cobrar</button></div></td></tr>
+            <?php foreach($gestion_moras as $m): ?>
+            <tr>
+              <td class="td-mono">H-<?= str_pad($m['id_usuario'], 3, '0', STR_PAD_LEFT) ?></td>
+              <td class="td-primary"><?= htmlspecialchars($m['cliente']) ?></td>
+              <td><?= htmlspecialchars($m['mes'] . '/' . $m['anio']) ?></td>
+              <td style="color:var(--danger);font-weight:700;">$<?= number_format($m['total'], 2) ?></td>
+              <td style="color:var(--danger);">$<?= number_format($m['monto_mora'], 2) ?></td>
+              <td><span class="badge badge-red"><?= htmlspecialchars($m['dias_retraso']) ?> días</span></td>
+              <td>
+                <div class="flex-gap">
+                  <button class="btn btn-ghost btn-sm">Ver</button>
+                  <button class="btn btn-agua btn-sm" onclick="showToast('Registrando cobro…','info')">Cobrar</button>
+                </div>
+              </td>
+            </tr>
+            <?php endforeach; ?>
+            <?php if(empty($gestion_moras)): ?>
+            <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">No hay clientes en mora</td></tr>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>

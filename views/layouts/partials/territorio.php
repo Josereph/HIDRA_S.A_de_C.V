@@ -51,61 +51,28 @@
           </tr>
         </thead>
         <tbody>
+          <?php foreach($sectores_lista as $s): ?>
           <tr>
-            <td class="td-mono">S-001</td>
-            <td class="td-primary">Colonia Centro</td>
-            <td>245</td>
-            <td style="color:var(--danger);font-weight:700;">35</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm" onclick="showToast('Viendo Colonia Centro','info')">👁 Ver</button>
-              <button class="btn btn-ghost btn-sm" onclick="showToast('Editando sector','info')">✏ Editar</button>
-            </div></td>
+            <td class="td-mono">S-<?= str_pad($s['id_sector'], 3, '0', STR_PAD_LEFT) ?></td>
+            <td class="td-primary"><?= htmlspecialchars($s['nombre_sector']) ?></td>
+            <td><?= htmlspecialchars($s['total_casas']) ?></td>
+            <td style="color:var(--<?= $s['en_mora'] > 0 ? 'danger' : 'text-muted' ?>);font-weight:700;"><?= htmlspecialchars($s['en_mora']) ?: '—' ?></td>
+            <td>
+              <span class="badge badge-<?= $s['estado'] === 'activo' ? 'green' : 'yellow' ?>">
+                <?= ucfirst(htmlspecialchars($s['estado'])) ?>
+              </span>
+            </td>
+            <td>
+              <div class="flex-gap">
+                <button class="btn btn-ghost btn-sm">👁 Ver</button>
+                <button class="btn btn-ghost btn-sm">✏ Editar</button>
+                <?php if($s['estado'] !== 'activo'): ?>
+                <button class="btn btn-agua btn-sm">Activar</button>
+                <?php endif; ?>
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td class="td-mono">S-002</td>
-            <td class="td-primary">Comunidad Norte</td>
-            <td>188</td>
-            <td style="color:var(--warning);font-weight:700;">12</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm" onclick="showToast('Viendo Comunidad Norte','info')">👁 Ver</button>
-              <button class="btn btn-ghost btn-sm">✏ Editar</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">S-003</td>
-            <td class="td-primary">Residencial Las Margaritas</td>
-            <td>134</td>
-            <td style="color:var(--danger);font-weight:700;">22</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">👁 Ver</button>
-              <button class="btn btn-ghost btn-sm">✏ Editar</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">S-004</td>
-            <td class="td-primary">Barrio El Calvario</td>
-            <td>87</td>
-            <td style="color:var(--warning);font-weight:700;">8</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">👁 Ver</button>
-              <button class="btn btn-ghost btn-sm">✏ Editar</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">S-005</td>
-            <td class="td-primary">Zona Industrial Poniente</td>
-            <td>0</td>
-            <td>—</td>
-            <td><span class="badge badge-yellow">Inactivo</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">✏ Editar</button>
-              <button class="btn btn-agua btn-sm" onclick="showToast('Sector activado','success')">Activar</button>
-            </div></td>
-          </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
@@ -153,78 +120,30 @@
           </tr>
         </thead>
         <tbody>
+          <?php foreach($clientes_lista as $c): ?>
           <tr>
-            <td class="td-mono">H-001</td>
-            <td class="td-primary">Juan Pérez</td>
-            <td>Centro</td>
-            <td class="td-mono">M-10023</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><span class="badge badge-green">Al día</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">Ver</button>
-              <button class="btn btn-ghost btn-sm">Editar</button>
-            </div></td>
+            <td class="td-mono">H-<?= str_pad($c['id_usuario'], 3, '0', STR_PAD_LEFT) ?></td>
+            <td class="td-primary"><?= htmlspecialchars($c['cliente']) ?></td>
+            <td><?= htmlspecialchars($c['sector']) ?></td>
+            <td class="td-mono"><?= htmlspecialchars($c['numero_medidor'] ?? '—') ?></td>
+            <td>
+              <span class="badge badge-<?= $c['estado_medidor'] === 'activo' ? 'green' : ($c['estado_medidor'] ? 'yellow' : 'default') ?>">
+                <?= ucfirst(htmlspecialchars($c['estado_medidor'] ?? 'Sin medidor')) ?>
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-<?= $c['estado_usuario'] === 'activo' ? 'green' : 'red' ?>">
+                <?= ucfirst(htmlspecialchars($c['estado_usuario'])) ?>
+              </span>
+            </td>
+            <td>
+              <div class="flex-gap">
+                <button class="btn btn-ghost btn-sm">Ver</button>
+                <button class="btn btn-ghost btn-sm">Editar</button>
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td class="td-mono">H-002</td>
-            <td class="td-primary">Ana López</td>
-            <td>Norte</td>
-            <td class="td-mono">M-10024</td>
-            <td><span class="badge badge-yellow">Restringido</span></td>
-            <td><span class="badge badge-red">Moroso</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">Ver</button>
-              <button class="btn btn-danger btn-sm" onclick="showToast('Corte programado','warning')">✂ Corte</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">H-003</td>
-            <td class="td-primary">Carlos Ramírez</td>
-            <td>Margaritas</td>
-            <td class="td-mono">M-10025</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><span class="badge badge-yellow">Pendiente</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">Ver</button>
-              <button class="btn btn-ghost btn-sm">Editar</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">H-004</td>
-            <td class="td-primary">María García</td>
-            <td>El Calvario</td>
-            <td class="td-mono">M-10026</td>
-            <td><span class="badge badge-red">Cortado</span></td>
-            <td><span class="badge badge-red">Moroso</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">Ver</button>
-              <button class="btn btn-agua btn-sm" onclick="showToast('Reconexión registrada','success')">Reconectar</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">H-005</td>
-            <td class="td-primary">Luis Morales</td>
-            <td>Centro</td>
-            <td class="td-mono">M-10027</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><span class="badge badge-green">Al día</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">Ver</button>
-              <button class="btn btn-ghost btn-sm">Editar</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td class="td-mono">H-006</td>
-            <td class="td-primary">Rosa Herrera</td>
-            <td>Norte</td>
-            <td class="td-mono">M-10028</td>
-            <td><span class="badge badge-green">Activo</span></td>
-            <td><span class="badge badge-green">Al día</span></td>
-            <td><div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">Ver</button>
-              <button class="btn btn-ghost btn-sm">Editar</button>
-            </div></td>
-          </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
