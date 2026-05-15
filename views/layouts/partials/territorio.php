@@ -73,9 +73,8 @@
             <p class="page-subtitle">Sectores, casas e inmuebles del servicio</p>
         </div>
         <div class="btn-group">
-            <button class="btn btn-ghost btn-sm" onclick="showToast('Exportando…','info')">↓ Exportar</button>
-            <button class="btn btn-primary btn-sm" onclick="showToast('Abrir formulario de nuevo sector/casa','info')">+
-                Nuevo</button>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('Exportando…','info')"><i class="fas fa-download"></i> Exportar</button>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Abrir formulario de nuevo sector/casa','info')"><i class="fas fa-plus"></i> Nuevo</button>
         </div>
     </div>
 
@@ -110,7 +109,7 @@
                 <thead>
                     <tr>
                         <th>Cód.</th>
-                        <th class="sortable">Sector <span class="sort-icon">↕</span></th>
+                        <th class="sortable">Sector <span class="sort-icon"><i class="fas fa-sort"></i></span></th>
                         <th>Casas activas</th>
                         <th>En mora</th>
                         <th>Estado</th>
@@ -222,12 +221,12 @@
         <div class="flex-between mt-16" style="color:var(--text-muted);font-size:.75rem;">
             <span>Mostrando 1–6 de 654 casas</span>
             <div class="flex-gap">
-                <button class="btn btn-ghost btn-sm">← Anterior</button>
+                <button class="btn btn-ghost btn-sm"><i class="fas fa-chevron-left"></i> Anterior</button>
                 <span
                     style="color:var(--negro);font-weight:800;background:var(--celeste-xlt);padding:4px 10px;border-radius:6px;">1</span>
                 <button class="btn btn-ghost btn-sm">2</button>
                 <button class="btn btn-ghost btn-sm">3</button>
-                <button class="btn btn-ghost btn-sm">Siguiente →</button>
+                <button class="btn btn-ghost btn-sm">Siguiente <i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
 

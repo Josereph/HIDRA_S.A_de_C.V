@@ -8,7 +8,7 @@
       <h1 class="page-title">Estadísticas</h1>
       <p class="page-subtitle">Indicadores visuales de operación y finanzas</p>
     </div>
-    <button class="btn btn-ghost btn-sm" onclick="showView('reportes')">→ Ir a Reportes</button>
+    <button class="btn btn-ghost btn-sm" onclick="showView('reportes')"><i class="fas fa-arrow-right"></i> Ir a Reportes</button>
   </div>
 
   <!-- Filtros -->

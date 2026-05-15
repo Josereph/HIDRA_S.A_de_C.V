@@ -183,7 +183,7 @@
           </div>
           <div class="btn-group">
             <button class="btn btn-ghost btn-sm">Exportar</button>
-            <button class="btn btn-primary btn-sm" onclick="openModal()">+ Nueva Factura</button>
+            <button class="btn btn-primary btn-sm" onclick="openModal()"><i class="fas fa-plus"></i> Nueva Factura</button>
           </div>
         </div>
 
@@ -191,7 +191,7 @@
           <span class="alert-icon"><i class="fas fa-exclamation-triangle"></i></span>
           <div class="alert-body">
             <div class="alert-title">Morosos pendientes de atención</div>
-            <div class="alert-msg">8 clientes con facturas vencidas hace más de 30 días. Revisar en Operaciones → Vencidas.</div>
+            <div class="alert-msg">8 clientes con facturas vencidas hace más de 30 días. Revisar en Operaciones <i class="fas fa-arrow-right" style="font-size:.75em;"></i> Vencidas.</div>
           </div>
         </div>
 
@@ -232,7 +232,7 @@
           <div class="card">
             <div class="card-header">
               <span class="card-title">Facturación mensual</span>
-              <span class="card-action">Ver detalle →</span>
+              <span class="card-action">Ver detalle <i class="fas fa-arrow-right"></i></span>
             </div>
             <div class="section-tabs" data-group="dash-chart">
               <div class="section-tab active" data-panel="chart-bar" data-group="dash-chart">Barras</div>
@@ -299,7 +299,7 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">Últimas transacciones</span>
-            <span class="card-action" onclick="showView('operaciones')">Ver todas →</span>
+            <span class="card-action" onclick="showView('operaciones')">Ver todas <i class="fas fa-arrow-right"></i></span>
           </div>
           <div class="table-wrap">
             <table>
@@ -413,11 +413,11 @@
           <div class="flex-between mt-16" style="color:var(--text-muted); font-size:.75rem;">
             <span>Mostrando 1–6 de 342 clientes</span>
             <div class="flex-gap">
-              <button class="btn btn-ghost btn-sm">← Anterior</button>
+              <button class="btn btn-ghost btn-sm"><i class="fas fa-chevron-left"></i> Anterior</button>
               <span style="color:var(--negro); font-weight:800; background:var(--celeste-xlt); padding:4px 10px; border-radius:6px;">1</span>
               <button class="btn btn-ghost btn-sm">2</button>
               <button class="btn btn-ghost btn-sm">3</button>
-              <button class="btn btn-ghost btn-sm">Siguiente →</button>
+              <button class="btn btn-ghost btn-sm">Siguiente <i class="fas fa-chevron-right"></i></button>
             </div>
           </div>
         </div>
@@ -455,10 +455,10 @@
                 <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" placeholder="Buscar cliente…" style="min-width:140px;" /></div>
               </div>
               <div class="timeline">
-                <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Abril 2026</div><div class="timeline-meta">Pagado el 28/04/2026 · Ref: #2026-0431</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Marzo 2026</div><div class="timeline-meta">Pagado el 05/03/2026 · Ref: #2026-0312</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot overdue">✕</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Febrero 2026</div><div class="timeline-meta">Vencido — sin pago registrado</div><div class="timeline-amount" style="color:var(--danger)">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Enero 2026</div><div class="timeline-meta">Pagado el 10/01/2026 · Ref: #2026-0101</div><div class="timeline-amount">$12.50</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot paid"><i class="fas fa-check"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Abril 2026</div><div class="timeline-meta">Pagado el 28/04/2026 · Ref: #2026-0431</div><div class="timeline-amount">$12.50</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot paid"><i class="fas fa-check"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Marzo 2026</div><div class="timeline-meta">Pagado el 05/03/2026 · Ref: #2026-0312</div><div class="timeline-amount">$12.50</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot overdue"><i class="fas fa-times"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Febrero 2026</div><div class="timeline-meta">Vencido — sin pago registrado</div><div class="timeline-amount" style="color:var(--danger)">$12.50</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot paid"><i class="fas fa-check"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Enero 2026</div><div class="timeline-meta">Pagado el 10/01/2026 · Ref: #2026-0101</div><div class="timeline-amount">$12.50</div></div></div>
               </div>
             </div>
             <div class="card">
@@ -541,7 +541,7 @@
                       <td class="td-primary"><?= htmlspecialchars($t['nombre_tarifa']) ?></td>
                       <td class="td-mono">$<?= number_format($t['precio_m3'], 4) ?></td>
                       <td>Cargo fijo: $<?= number_format($t['cargo_fijo'], 2) ?></td>
-                      <td><button class="btn btn-ghost btn-sm" onclick="showToast('Editando tarifa…','info')">✏</button></td>
+                      <td><button class="btn btn-ghost btn-sm" onclick="showToast('Editando tarifa…','info')"><i class="fas fa-pencil-alt"></i></button></td>
                     </tr>
                     <?php endforeach; ?>
                   </tbody>
@@ -568,7 +568,7 @@
               <div class="card-header"><h2 class="card-title">Regla de mora activa</h2></div>
 
               <div class="alert alert-info mb-16">
-                <div class="alert-icon">⚠</div>
+                <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
                 <div class="alert-body">
                   <div class="alert-title">Solo administradores</div>
                   <div class="alert-msg">Los cambios afectan el cálculo de todas las facturas futuras.</div>
@@ -608,8 +608,8 @@
               <div class="form-group">
                 <label class="form-label">Estado de la regla</label>
                 <select class="form-control form-select" id="mora-estado">
-                  <option value="activo" selected>✅ Activo</option>
-                  <option value="inactivo">⏸ Inactivo</option>
+                  <option value="activo" selected>Activo</option>
+                  <option value="inactivo">Inactivo</option>
                 </select>
               </div>
 
@@ -680,7 +680,7 @@
                       <?= ucfirst(htmlspecialchars($op['estado'])) ?>
                     </span>
                   </td>
-                  <td><button class="btn btn-ghost btn-sm">✏ Editar</button></td>
+                  <td><button class="btn btn-ghost btn-sm"><i class="fas fa-pencil-alt"></i> Editar</button></td>
                 </tr>
                 <?php endforeach; ?>
               </tbody>

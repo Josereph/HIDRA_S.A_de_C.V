@@ -78,11 +78,11 @@
         </div>
 
         <button class="btn btn-primary w-full mt-16" style="width:100%;" onclick="generarVistaPrevia()">
-          👁 Vista previa
+          <i class="fas fa-eye"></i> Vista previa
         </button>
         <div class="flex-gap" style="margin-top:10px;gap:8px;">
-          <button class="btn btn-agua" style="flex:1;" onclick="exportarReporte('pdf')">↓ PDF</button>
-          <button class="btn btn-ghost" style="flex:1;" onclick="exportarReporte('excel')">↓ Excel</button>
+          <button class="btn btn-agua" style="flex:1;" onclick="exportarReporte('pdf')"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn btn-ghost" style="flex:1;" onclick="exportarReporte('excel')"><i class="fas fa-file-excel"></i> Excel</button>
         </div>
 
       </div>
@@ -93,15 +93,15 @@
         <div style="display:flex;flex-direction:column;gap:8px;">
           <?php
           $quick = [
-            ['Morosos del mes',       'morosos', '⚠', 'badge-red'],
-            ['Ingresos de abril',     'ingresos','💰', 'badge-green'],
-            ['Consumo por sector',    'consumo', '💧', 'badge-blue'],
-            ['Facturas pendientes',   'facturas','📄', 'badge-yellow'],
+            ['Morosos del mes',       'morosos', 'fas fa-exclamation-triangle', 'badge-red'],
+            ['Ingresos de abril',     'ingresos','fas fa-dollar-sign',          'badge-green'],
+            ['Consumo por sector',    'consumo', 'fas fa-tint',                 'badge-blue'],
+            ['Facturas pendientes',   'facturas','fas fa-file-alt',             'badge-yellow'],
           ];
           foreach ($quick as $q): ?>
           <button class="btn btn-ghost" style="text-align:left;padding:10px 14px;justify-content:flex-start;gap:10px;"
             onclick="cargarReporteRapido('<?= $q[1] ?>')">
-            <span class="badge <?= $q[3] ?>" style="font-size:.7rem;"><?= $q[2] ?></span>
+            <span class="badge <?= $q[3] ?>" style="font-size:.7rem;"><i class="<?= $q[2] ?>"></i></span>
             <?= $q[0] ?>
           </button>
           <?php endforeach; ?>
@@ -119,7 +119,7 @@
 
       <!-- Estado vacío -->
       <div id="rep-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:380px;color:var(--text-muted);">
-        <div style="font-size:3rem;margin-bottom:16px;">📋</div>
+        <div style="font-size:3rem;margin-bottom:16px;"><i class="fas fa-clipboard-list" style="font-size:3rem;color:var(--celeste-xlt);"></i></div>
         <div style="font-weight:600;font-size:.85rem;">Vista previa del reporte</div>
         <div style="font-size:.75rem;margin-top:6px;">Configura los filtros y haz clic en "Vista previa"</div>
       </div>
@@ -168,9 +168,9 @@ const REPORTES = {
   ingresos: {
     titulo: 'Ingresos por periodo',
     kpis: [
-      { icon:'💰', label:'Total facturado', val:'$7,850.00', delta:'↑ 12%', color:'green' },
-      { icon:'✓',  label:'Cobrado',         val:'$7,204.50', delta:'92%',   color:'blue'  },
-      { icon:'⚠',  label:'Pendiente',       val:'$645.50',   delta:'8%',    color:'red'   },
+      { icon:'fas fa-dollar-sign',        label:'Total facturado', val:'$7,850.00', delta:'+12%',  color:'green' },
+      { icon:'fas fa-check-circle',       label:'Cobrado',         val:'$7,204.50', delta:'92%',   color:'blue'  },
+      { icon:'fas fa-exclamation-circle', label:'Pendiente',       val:'$645.50',   delta:'8%',    color:'red'   },
     ],
     cols: ['N° Pago','Cliente','Casa','Periodo','Monto','Método','Fecha'],
     rows: [
@@ -185,9 +185,9 @@ const REPORTES = {
   morosos: {
     titulo: 'Listado de morosos',
     kpis: [
-      { icon:'⚠', label:'Clientes morosos', val:'96',      delta:'Del total', color:'red'    },
-      { icon:'💸', label:'Mora acumulada',   val:'$1,248', delta:'Total',     color:'yellow' },
-      { icon:'📅', label:'Días prom. atraso',val:'47 días', delta:'Promedio', color:'cyan'   },
+      { icon:'fas fa-exclamation-triangle', label:'Clientes morosos',  val:'96',       delta:'Del total', color:'red'    },
+      { icon:'fas fa-hand-holding-usd',     label:'Mora acumulada',    val:'$1,248',   delta:'Total',     color:'yellow' },
+      { icon:'fas fa-calendar-alt',         label:'Días prom. atraso', val:'47 días',  delta:'Promedio',  color:'cyan'   },
     ],
     cols: ['Casa','Cliente','Sector','Periodo vencido','Saldo','Mora','Días'],
     rows: [
@@ -201,9 +201,9 @@ const REPORTES = {
   consumo: {
     titulo: 'Consumo por periodo',
     kpis: [
-      { icon:'💧', label:'Consumo total', val:'4,930 m³', delta:'Período',    color:'blue' },
-      { icon:'🏠', label:'Casas activas', val:'602',       delta:'Registros', color:'cyan' },
-      { icon:'📊', label:'Promedio/casa', val:'8.2 m³',    delta:'Por mes',   color:'green'},
+      { icon:'fas fa-tint',         label:'Consumo total', val:'4,930 m³', delta:'Período',    color:'blue'  },
+      { icon:'fas fa-home',         label:'Casas activas', val:'602',      delta:'Registros',  color:'cyan'  },
+      { icon:'fas fa-chart-bar',    label:'Promedio/casa', val:'8.2 m³',   delta:'Por mes',    color:'green' },
     ],
     cols: ['Casa','Cliente','Sector','Periodo','Lect. ant.','Lect. act.','Consumo'],
     rows: [
@@ -217,9 +217,9 @@ const REPORTES = {
   facturas: {
     titulo: 'Facturas emitidas',
     kpis: [
-      { icon:'📄', label:'Total facturas', val:'602',     delta:'Período',   color:'blue'  },
-      { icon:'✓',  label:'Pagadas',        val:'486',     delta:'80.7%',     color:'green' },
-      { icon:'⏳', label:'Pendientes',     val:'116',     delta:'19.3%',     color:'yellow'},
+      { icon:'fas fa-file-invoice', label:'Total facturas', val:'602', delta:'Período',  color:'blue'   },
+      { icon:'fas fa-check-circle', label:'Pagadas',        val:'486', delta:'80.7%',    color:'green'  },
+      { icon:'fas fa-clock',        label:'Pendientes',     val:'116', delta:'19.3%',    color:'yellow' },
     ],
     cols: ['N° Factura','Cliente','Casa','Periodo','Consumo','Total','Estado'],
     rows: [
@@ -233,9 +233,9 @@ const REPORTES = {
   pagos: {
     titulo: 'Pagos realizados',
     kpis: [
-      { icon:'💳', label:'Pagos registrados', val:'486',      delta:'Período',  color:'green' },
-      { icon:'💰', label:'Monto total',        val:'$7,204',  delta:'Cobrado',  color:'blue'  },
-      { icon:'📅', label:'Últ. pago',          val:'22/04',   delta:'Abr 2026', color:'cyan'  },
+      { icon:'fas fa-money-bill-wave', label:'Pagos registrados', val:'486',     delta:'Período',  color:'green' },
+      { icon:'fas fa-dollar-sign',     label:'Monto total',       val:'$7,204',  delta:'Cobrado',  color:'blue'  },
+      { icon:'fas fa-calendar-check',  label:'Últ. pago',         val:'22/04',   delta:'Abr 2026', color:'cyan'  },
     ],
     cols: ['N° Pago','Cliente','Factura','Monto','Método','Referencia','Fecha'],
     rows: [
@@ -248,9 +248,9 @@ const REPORTES = {
   clientes: {
     titulo: 'Clientes y casas',
     kpis: [
-      { icon:'👤', label:'Total clientes', val:'1,248', delta:'Activos', color:'blue'  },
-      { icon:'🏠', label:'Total casas',    val:'654',   delta:'Activas', color:'cyan'  },
-      { icon:'⚠',  label:'En mora',        val:'96',    delta:'7.7%',    color:'red'   },
+      { icon:'fas fa-users',                label:'Total clientes', val:'1,248', delta:'Activos', color:'blue' },
+      { icon:'fas fa-home',                 label:'Total casas',    val:'654',   delta:'Activas', color:'cyan' },
+      { icon:'fas fa-exclamation-triangle', label:'En mora',        val:'96',    delta:'7.7%',    color:'red'  },
     ],
     cols: ['Cód.','Cliente','Documento','Teléfono','Casas','Saldo','Estado'],
     rows: [
@@ -323,7 +323,7 @@ function generarVistaPrevia() {
   const kpiEl = document.getElementById('rep-kpis');
   kpiEl.innerHTML = data.kpis.map(k => `
     <div class="kpi-card">
-      <div class="kpi-icon ${k.color}">${k.icon}</div>
+      <div class="kpi-icon ${k.color}"><i class="${k.icon}"></i></div>
       <div class="kpi-label">${k.label}</div>
       <div class="kpi-value" style="font-size:1.1rem;">${k.val}</div>
       <span class="kpi-delta neutral">${k.delta}</span>
