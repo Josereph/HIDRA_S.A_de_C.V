@@ -6,17 +6,32 @@
     <title>HIDRA - Sistema de Facturación</title>
     <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
     <div class="app-container">
-        <?php include __DIR__ . '/sidebar.php'; ?>
-
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-tint"></i> HIDRA</h2>
+                <p>Agua Potable</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="<?= BASE_PATH ?>/clientes">Clientes</a></li>
+                    <li><a href="<?= BASE_PATH ?>/territorio">Territorio</a></li>
+                    <li><a href="<?= BASE_PATH ?>/configuracion">Configuración</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
         <main class="main-content">
-            <?php include __DIR__ . '/navbar.php'; ?>
-
+            <header class="topbar">
+                <h1><?= htmlspecialchars($title ?? 'Panel') ?></h1>
+                <div class="user-info">Administrador</div>
+            </header>
+            
             <div class="content-wrapper">
                 <?php if (isset($_SESSION['alert'])): ?>
                     <div class="alert alert-<?= $_SESSION['alert']['type'] ?>">
@@ -27,8 +42,6 @@
 
                 <?= $content ?? '' ?>
             </div>
-
-            <?php include __DIR__ . '/footer.php'; ?>
         </main>
     </div>
 </body>

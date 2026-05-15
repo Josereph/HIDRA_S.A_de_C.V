@@ -376,3 +376,24 @@ tr:hover td { background: var(--celeste-lt) !important; }
 .alert-danger  { background: rgba(198,40,40,0.1); border-color: var(--danger);  color: var(--danger); }
 .alert-info    { background: var(--celeste-xlt); border-color: var(--celeste-lt); color: var(--negro); }
 .alert-success { background: rgba(0,137,123,0.1); border-color: var(--success); color: var(--success); }
+
+/* ── FLAT DESIGN OVERRIDE — kpi-icon sin color ──── */
+.kpi-icon {
+  background: var(--gris-bg) !important;
+  color: var(--negro) !important;
+  border: 1.5px solid var(--border-subtle);
+}
+.kpi-icon.blue, .kpi-icon.cyan,
+.kpi-icon.green, .kpi-icon.yellow, .kpi-icon.red {
+  background: var(--gris-bg) !important;
+  color: var(--negro) !important;
+}
+
+/* ── FLAT DESIGN — remove hover transform on cards ── */
+.kpi-card:hover {
+  transform: none;
+  border-color: var(--celeste);
+}
+.card:hover {
+  transform: none;
+}

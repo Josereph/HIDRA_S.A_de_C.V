@@ -6,7 +6,7 @@
   <title>HIDRA — Acceso al sistema</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; font-family: 'Outfit', sans-serif; }
@@ -227,7 +227,7 @@
     <div class="login-divider"></div>
 
     <div class="error-msg" id="errorMsg">
-      <span><i class="bi bi-exclamation-triangle-fill"></i></span>
+      <span><i class="fas fa-exclamation-triangle"></i></span>
       <span>Usuario o contraseña incorrectos.</span>
     </div>
 
@@ -240,11 +240,11 @@
             class="form-control"
             type="text"
             id="email"
-            placeholder="admin@hidra.sv"
+            placeholder="admin"
             autocomplete="username"
             required
           />
-          <span class="input-icon"><i class="bi bi-envelope-fill"></i></span>
+          <span class="input-icon"><i class="fas fa-envelope"></i></span>
         </div>
       </div>
 
@@ -259,7 +259,7 @@
             autocomplete="current-password"
             required
           />
-          <span class="input-icon"><i class="bi bi-lock-fill"></i></span>
+          <span class="input-icon"><i class="fas fa-lock"></i></span>
         </div>
       </div>
 
@@ -307,7 +307,7 @@
       // Simular carga
       btn.classList.add('loading');
 
-      fetch('../controllers/auth_api.php', {
+      fetch('../api/auth_api.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -330,7 +330,7 @@
         btn.classList.remove('loading');
         if (data.success) {
           // Redirigir a pantalla de bienvenida
-          window.location.href = '../views/layouts/pagina_principal.php';
+          window.location.href = './welcome.php';
         } else {
           errMsg.querySelector('span:nth-child(2)').textContent = data.message;
           errMsg.classList.add('show');

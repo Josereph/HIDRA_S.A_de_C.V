@@ -34,8 +34,8 @@
         <div class="form-group">
           <label class="form-label">Formato de salida</label>
           <select class="form-control form-select" id="rep-formato">
-            <option value="pdf">📄 PDF</option>
-            <option value="excel">📊 Excel / CSV</option>
+            <option value="pdf"><i class="fas fa-file-pdf"></i> PDF</option>
+            <option value="excel"><i class="fas fa-file-excel"></i> Excel / CSV</option>
           </select>
         </div>
 

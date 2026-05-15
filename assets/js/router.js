@@ -4,6 +4,7 @@ const LABELS = {
   clientes:     'Clientes',
   territorio:   'Territorio',
   operaciones:  'Operaciones',
+  cobros:       'Cobros',
   estadisticas: 'Estadísticas',
   reportes:     'Reportes',
   config:       'Configuración',

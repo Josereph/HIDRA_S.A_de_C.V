@@ -2,6 +2,7 @@
 // config/database.php
 
 define('DB_HOST',    'localhost');
+define('DB_PORT',    '3306'); // <-- Puerto explícito agregado
 define('DB_USER',    'root');
 define('DB_PASS',    '');
 define('DB_NAME',    'hidra_sa_de_cv');
@@ -12,7 +13,8 @@ class Database {
     private $pdo;
 
     private function __construct() {
-        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+        // Se inyecta el puerto directamente en el string DSN
+        $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

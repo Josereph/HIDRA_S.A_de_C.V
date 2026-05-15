@@ -13,58 +13,57 @@ class TerritoryController {
 
     public function index() {
         $sectores = $this->territorioModel->getSectores();
-        $casas = $this->territorioModel->getCasas();
+        $todasLasCasas = $this->territorioModel->getCasas();
         $clientes = $this->clienteModel->getAll();
 
+        // Agrupar casas por sector
         $casasPorSector = [];
         foreach ($sectores as $sector) {
             $casasPorSector[$sector['id']] = [];
         }
 
-        foreach ($casas as $casa) {
+        foreach ($todasLasCasas as $casa) {
             if (isset($casasPorSector[$casa['sector_id']])) {
                 $casasPorSector[$casa['sector_id']][] = $casa;
             }
         }
 
-        $content = __DIR__ . '/../views/territorios.php';
+        $content = __DIR__ . '/../views/territorio.php';
         require_once __DIR__ . '/../views/layouts/main.php';
     }
 
-    public function sector() {
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header('Location: ' . BASE_PATH . '/territorio');
-            exit;
+    public function store() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'sector_id' => $_POST['sector_id'] ?? '',
+                'direccion' => $_POST['direccion'] ?? '',
+                'lat' => $_POST['lat'] ?? null,
+                'lng' => $_POST['lng'] ?? null
+            ];
+
+            if ($this->territorioModel->createCasa($data)) {
+                header('Location: ' . BASE_PATH . '/territorio');
+                exit;
+            } else {
+                echo "Error al guardar la vivienda.";
+            }
         }
-
-        $sector = $this->territorioModel->getSectorById($id);
-        $casas = $this->territorioModel->getCasasBySector($id);
-        $clientes = $this->clienteModel->getAll();
-
-        if (!$sector) {
-            echo "Sector no encontrado.";
-            return;
-        }
-
-        $content = __DIR__ . '/../views/territorios.php';
-        require_once __DIR__ . '/../views/layouts/main.php';
     }
 
-    public function casa() {
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header('Location: ' . BASE_PATH . '/territorio');
-            exit;
-        }
+    public function update() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'house_id' => $_POST['house_id'] ?? '',
+                'cliente_id' => $_POST['cliente_id'] ?? null,
+                'estado' => $_POST['estado'] ?? 'En revisión'
+            ];
 
-        $casa = $this->territorioModel->getCasaById($id);
-        if (!$casa) {
-            echo "Casa no encontrada.";
-            return;
+            if ($this->territorioModel->updateCasa($data)) {
+                header('Location: ' . BASE_PATH . '/territorio');
+                exit;
+            } else {
+                echo "Error al actualizar la vivienda.";
+            }
         }
-
-        $content = __DIR__ . '/../views/territorios.php';
-        require_once __DIR__ . '/../views/layouts/main.php';
     }
 }

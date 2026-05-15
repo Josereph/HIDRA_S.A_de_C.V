@@ -1,0 +1,66 @@
+/* ══════════════════════════════════════════════════
+   OPERACIONES — HIDRA
+   Solo estilos exclusivos de esta vista.
+   Las clases globales (.card, .kpi-card, .alert, etc.)
+   viven en components.css — no se repiten aquí.
+══════════════════════════════════════════════════ */
+
+/* ── Resumen de pago ──────────────────────────────── */
+.pago-resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.resumen-linea,
+.resumen-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.resumen-linea span,
+.resumen-total span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.resumen-linea strong {
+  color: var(--negro);
+  font-size: 0.95rem;
+}
+
+.resumen-total {
+  border-bottom: none;
+  background: var(--celeste-xlt);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 4px;
+}
+
+.resumen-total strong {
+  color: var(--negro);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+/* ── Tabla de pagos ───────────────────────────────── */
+.tabla-pagos {
+  margin-top: 18px;
+}
+
+/* ── Card footer ─────────────────────────────────── */
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 16px;
+}

@@ -23,6 +23,7 @@
   50%       { box-shadow: 0 0 16px 6px rgba(102,179,255,0.18); }
 }
 .kpi-card.glow { animation: pulseBlue 3s ease-in-out infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 /* ── STAT ROW ──────────────────────────────────────── */
 .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
