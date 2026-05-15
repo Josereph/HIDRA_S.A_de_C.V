@@ -1,0 +1,153 @@
+/* assets/css/territorio.css */
+
+:root {
+    --color-primary: #0ea5e9;
+    --color-primary-dark: #0369a1;
+    --color-primary-light: #38bdf8;
+    --color-text: #334155;
+    --color-text-light: #64748b;
+    --color-border: #e2e8f0;
+    --color-white: #ffffff;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.territorio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.territorio-header h2 {
+    font-size: 1.5rem;
+    color: var(--color-text);
+    margin-bottom: 4px;
+}
+
+/* Tab System */
+.section-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+}
+.section-tab {
+    padding: 10px 20px;
+    color: var(--color-text-light);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+.section-tab:hover {
+    color: var(--color-primary);
+}
+.section-tab.active {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+    font-weight: bold;
+}
+
+/* Jerarquía */
+.hierarchy-group {
+    margin-bottom: 20px;
+}
+
+.hierarchy-level-dept {
+    background: #f8fafc;
+    border-left: 4px solid var(--color-primary);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.hierarchy-level-muni {
+    margin-left: 20px;
+    padding: 8px 15px;
+    border-left: 3px solid var(--color-primary-light);
+    margin-bottom: 10px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+}
+
+.hierarchy-level-canton {
+    margin-left: 40px;
+    padding: 6px 12px;
+    border-left: 2px solid #cbd5e1;
+    margin-bottom: 8px;
+}
+
+.hierarchy-level-villa {
+    margin-left: 60px;
+    padding: 6px 12px;
+    margin-bottom: 8px;
+    color: var(--color-text-light);
+}
+
+/* Sector Card */
+.sector-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sector-info h4 {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+/* House Grid */
+.house-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.house-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: var(--shadow-sm);
+}
+
+.house-icon {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.house-details h5 {
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+}
+
+.house-details p {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.house-status {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    padding-top: 10px;
+}
+
+

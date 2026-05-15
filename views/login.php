@@ -307,7 +307,7 @@
       // Simular carga
       btn.classList.add('loading');
 
-      fetch('../api/auth_api.php', {
+      fetch('../controllers/auth_api.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -330,7 +330,7 @@
         btn.classList.remove('loading');
         if (data.success) {
           // Redirigir a pantalla de bienvenida
-          window.location.href = './welcome.php';
+          window.location.href = '../views/layouts/pagina_principal.php';
         } else {
           errMsg.querySelector('span:nth-child(2)').textContent = data.message;
           errMsg.classList.add('show');

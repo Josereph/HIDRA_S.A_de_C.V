@@ -357,7 +357,7 @@ function buscarCasaLectura() {
   const q = document.getElementById('lec-casa').value.trim();
   if (!q) { showToast('Ingresa un término de búsqueda', 'warning'); return; }
   
-  fetch('../../api/buscar_medidor.php?q=' + encodeURIComponent(q))
+  fetch('../../controllers/buscar_medidor.php?q=' + encodeURIComponent(q))
     .then(res => res.json())
     .then(data => {
       if (data.success) {
@@ -397,7 +397,7 @@ function guardarLectura() {
   const mes = meses[partes[0]] || new Date().getMonth() + 1;
   const anio = partes[1] || new Date().getFullYear();
 
-  fetch('../../api/guardar_lectura.php', {
+  fetch('../../controllers/guardar_lectura.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id_medidor: id_medidor, lectura_act: act, mes: mes, anio: anio })

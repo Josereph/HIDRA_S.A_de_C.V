@@ -471,18 +471,18 @@
 
 
       <!-- ══ VISTA 3: TERRITORIO (partial) ══ -->
-      <?php include __DIR__ . '/partials/territorio.php'; ?>
+      <?php include __DIR__ . '/territorio.php'; ?>
 
 
       <!-- ══ VISTA 4: OPERACIONES (partial) ══ -->
-      <?php include __DIR__ . '/partials/operaciones.php'; ?>
+      <?php include __DIR__ . '/operaciones.php'; ?>
 
       <!-- ══ VISTA 4b: ESTADÍSTICAS (partial) ══ -->
-      <?php include __DIR__ . '/partials/estadisticas.php'; ?>
+      <?php include __DIR__ . '/estadisticas.php'; ?>
 
 
       <!-- ══ VISTA 5: REPORTES (partial) ══ -->
-      <?php include __DIR__ . '/partials/reportes.php'; ?>
+      <?php include __DIR__ . '/reportes.php'; ?>
 
 
       <!-- ══════════════════════════════════
