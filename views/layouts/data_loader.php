@@ -92,7 +92,7 @@ $facturas_operaciones = $pdo->query("
     SELECT f.*, CONCAT(u.nombres, ' ', IFNULL(u.apellidos, '')) AS cliente
     FROM facturas f
     JOIN usuarios u ON f.id_usuario = u.id_usuario
-    ORDER BY f.id_factura DESC
+    ORDER BY f.fecha_emision DESC
     LIMIT 5
 ")->fetchAll();
 

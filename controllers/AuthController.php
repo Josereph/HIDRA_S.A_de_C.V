@@ -33,7 +33,7 @@ class AuthController {
             $count = $pdo->query("SELECT COUNT(*) FROM operadores")->fetchColumn();
             if ($count == 0) {
                 $hash = password_hash('admin123', PASSWORD_DEFAULT);
-                $pdo->exec("INSERT INTO operadores (nombre_completo, usuario, correo, password_hash, rol) VALUES ('Administrador', 'admin', 'admin@hidra.sv', '$hash', 'administrador')");
+                $pdo->exec("INSERT INTO operadores (nombre_completo, usuario, correo, password_hash, rol) VALUES ('Administrador', 'admin', 'admin', '$hash', 'administrador')");
                 $usuario = $this->operadorModel->findByEmailOrUsername($identificador);
             }
         }

@@ -10,8 +10,6 @@
   <div class="section-tabs" data-group="ops-tabs">
     <div class="section-tab active" data-panel="ops-lecturas"  data-group="ops-tabs"><i class="fas fa-chart-bar"></i> Lecturas</div>
     <div class="section-tab"        data-panel="ops-facturas"  data-group="ops-tabs"><i class="fas fa-file-alt"></i> Facturas</div>
-    <div class="section-tab"        data-panel="ops-pagos"     data-group="ops-tabs"><i class="fas fa-credit-card"></i> Pagos</div>
-    <div class="section-tab"        data-panel="ops-moras"     data-group="ops-tabs"><i class="fas fa-exclamation-triangle"></i> Moras</div>
     <div class="section-tab"        data-panel="ops-estado"    data-group="ops-tabs"><i class="fas fa-clipboard-list"></i> Estado de cuenta</div>
   </div>
 
@@ -87,7 +85,7 @@
               <div style="font-size:.72rem;color:var(--text-muted);"><?= htmlspecialchars($l['mes'] . '/' . $l['anio']) ?></div>
             </div>
             <div style="text-align:right;">
-              <div style="font-weight:800;font-size:.9rem;color:var(--negro);"><?= htmlspecialchars($l['consumo_m3']) ?> m³</div>
+              <div style="font-weight:800;font-size:.9rem;color:var(--negro);"><?= htmlspecialchars($l['lectura_actual'] - $l['lectura_anterior']) ?> m³</div>
               <div style="font-size:.8rem;"><i class="fas fa-check-circle"></i></div>
             </div>
           </div>
@@ -102,11 +100,11 @@
         <div class="card-header"><h2 class="card-title">Generar factura</h2></div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Casa</label>
-            <select class="form-control form-select" onchange="calcFactura()">
-              <option value="h1">H-001 — Juan Pérez</option>
-              <option value="h3">H-003 — Carlos Ramírez</option>
-              <option value="h5">H-005 — Luis Morales</option>
+            <label class="form-label">Cliente</label>
+            <select class="form-control form-select" id="fac-cliente" onchange="calcFactura()">
+              <?php foreach ($clientes_lista as $c): ?>
+                <option value="<?= $c['id_usuario'] ?>"><?= htmlspecialchars($c['codigo_usuario'] . ' — ' . $c['cliente']) ?></option>
+              <?php endforeach; ?>
             </select>
           </div>
           <div class="form-group">
@@ -141,7 +139,7 @@
         </div>
         <div class="card-footer">
           <button class="btn btn-ghost">Cancelar</button>
-          <button class="btn btn-primary" onclick="showToast('Factura generada correctamente','success')"><i class="fas fa-file-medical"></i> Generar factura</button>
+          <button class="btn btn-primary" onclick="generarFactura()"><i class="fas fa-file-medical"></i> Generar factura</button>
         </div>
       </div>
       <div class="card">
@@ -166,7 +164,11 @@
     <div class="card mt-24 tabla-facturas">
       <div class="card-header">
         <h2 class="card-title">Facturas recientes</h2>
-        <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" id="buscarFactura" placeholder="Buscar factura…" /></div>
+        <div class="search-bar" style="display:flex; gap:8px;">
+          <input type="text" id="buscarFactura" class="form-control" placeholder="Buscar factura…" style="padding: 6px 12px; height: 32px;" />
+          <button class="btn btn-agua btn-sm" id="btnBuscarFactura">Buscar</button>
+          <button class="btn btn-ghost btn-sm" id="btnResetFactura"><i class="fas fa-times"></i></button>
+        </div>
       </div>
       <div class="table-wrap">
         <table><thead><tr><th>N° Factura</th><th>Cliente</th><th>Casa</th><th>Periodo</th><th>Consumo</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
@@ -184,118 +186,6 @@
           </tr>
           <?php endforeach; ?>
         </tbody></table>
-      </div>
-    </div>
-  </div><div class="tab-panel" data-panel="ops-pagos" data-group="ops-tabs">
-    <div class="grid-2-1">
-      <div class="card">
-        <div class="card-header"><h2 class="card-title">Registrar pago</h2></div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Cliente / Casa</label>
-            <div style="display:flex;gap:8px;">
-              <input class="form-control" placeholder="Juan Pérez / H-001" style="flex:1;" />
-              <button class="btn btn-agua btn-sm">Buscar</button>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-bottom:18px;">
-          <label class="form-label mb-8">Facturas pendientes</label>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th></th><th>Factura</th><th>Periodo</th><th>Total</th><th>Saldo</th></tr></thead>
-              <tbody>
-                <tr><td><input type="checkbox" checked /></td><td class="td-mono">FAC-0002</td><td>Abr 2026</td><td>$11.30</td><td style="color:var(--danger);font-weight:700;">$11.30</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Monto recibido ($)</label>
-            <input class="form-control" id="montoPago" type="number" placeholder="0.00" step="0.01" oninput="calcularPago()" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Método de pago</label>
-            <select class="form-control form-select">
-              <option>Efectivo</option><option>Transferencia</option><option>Cheque</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Referencia (opcional)</label>
-          <input class="form-control" placeholder="N° de transacción, recibo…" />
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-ghost">Limpiar</button>
-          <button class="btn btn-primary" onclick="showToast('Pago registrado correctamente','success')"><i class="fas fa-save"></i> Guardar pago</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><h2 class="card-title">Resumen del pago</h2></div>
-        <div class="pago-resumen">
-          <div class="resumen-linea"><span>Cliente</span><strong id="resumenCliente">María López</strong></div>
-          <div class="resumen-linea"><span>Factura</span><strong id="resumenFactura">FAC-0002</strong></div>
-          <div class="resumen-linea"><span>Monto recibido</span><strong id="resumenMontoPago">$0.00</strong></div>
-          <div class="resumen-total"><span>Saldo pendiente</span><strong id="resumenTotalPago">$11.30</strong></div>
-        </div>
-        <div class="alert alert-info mt-16">
-          <div class="alert-icon"><i class="fas fa-credit-card"></i></div>
-          <div class="alert-body">
-            <div class="alert-title">Pago parcial</div>
-            <div class="alert-msg">Si el monto es menor al saldo, quedará un saldo pendiente.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div class="tab-panel" data-panel="ops-moras" data-group="ops-tabs">
-    <div class="kpi-grid mb-24" style="grid-template-columns:repeat(3,1fr);">
-      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="kpi-label">Clientes en mora</div><div class="kpi-value">96</div></div>
-      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-coins"></i></div><div class="kpi-label">Mora total acumulada</div><div class="kpi-value">$1,248</div></div>
-      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calendar-times"></i></div><div class="kpi-label">Días prom. de atraso</div><div class="kpi-value">47</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title">Gestión de moras</h2>
-        <div class="flex-gap">
-          <select class="form-control" style="width:auto;padding:6px 10px;">
-            <option>Todos los sectores</option><option>Colonia Centro</option><option>Norte</option>
-          </select>
-          <select class="form-control" style="width:auto;padding:6px 10px;">
-            <option>Todos</option><option>+30 días</option><option>+60 días</option><option>+90 días</option>
-          </select>
-          <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" placeholder="Cliente, casa…" /></div>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Casa</th><th>Cliente</th><th>Periodo vencido</th><th>Saldo ($)</th><th>Mora ($)</th><th>Días</th><th>Acción</th></tr></thead>
-          <tbody>
-            <?php foreach($gestion_moras as $m): ?>
-            <tr>
-              <td class="td-mono">H-<?= str_pad($m['id_usuario'], 3, '0', STR_PAD_LEFT) ?></td>
-              <td class="td-primary"><?= htmlspecialchars($m['cliente']) ?></td>
-              <td><?= htmlspecialchars($m['mes'] . '/' . $m['anio']) ?></td>
-              <td style="color:var(--danger);font-weight:700;">$<?= number_format($m['total'], 2) ?></td>
-              <td style="color:var(--danger);">$<?= number_format($m['monto_mora'], 2) ?></td>
-              <td><span class="badge badge-red"><?= htmlspecialchars($m['dias_retraso']) ?> días</span></td>
-              <td>
-                <div class="flex-gap">
-                  <button class="btn btn-ghost btn-sm">Ver</button>
-                  <button class="btn btn-agua btn-sm" onclick="showToast('Registrando cobro…','info')">Cobrar</button>
-                </div>
-              </td>
-            </tr>
-            <?php endforeach; ?>
-            <?php if(empty($gestion_moras)): ?>
-            <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">No hay clientes en mora</td></tr>
-            <?php endif; ?>
-          </tbody>
-        </table>
       </div>
     </div>
   </div><div class="tab-panel" data-panel="ops-estado" data-group="ops-tabs">
@@ -327,123 +217,16 @@
 
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">Historial — Juan Pérez / H-001</h2>
+        <h2 class="card-title" id="ec-titulo-cliente">Historial — Búsqueda de cliente</h2>
       </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Periodo</th><th>Consumo</th><th>Total</th><th>Pagado</th><th>Saldo</th><th>Estado</th></tr></thead>
-          <tbody>
-            <tr><td>Mayo 2026</td><td>50 m³</td><td>$22.50</td><td>$0.00</td><td style="color:var(--danger);font-weight:700;">$22.50</td><td><span class="badge badge-yellow">Pendiente</span></td></tr>
-            <tr><td>Abr 2026</td><td>12 m³</td><td>$9.20</td><td>$9.20</td><td>$0.00</td><td><span class="badge badge-green">Pagada</span></td></tr>
-            <tr><td>Mar 2026</td><td>44 m³</td><td>$20.40</td><td>$20.40</td><td>$0.00</td><td><span class="badge badge-green">Pagada</span></td></tr>
-            <tr><td>Feb 2026</td><td>38 m³</td><td>$18.30</td><td>$18.30</td><td>$0.00</td><td><span class="badge badge-green">Pagada</span></td></tr>
-            <tr><td>Ene 2026</td><td>41 m³</td><td>$19.35</td><td>$19.35</td><td>$0.00</td><td><span class="badge badge-green">Pagada</span></td></tr>
+          <tbody id="tbody-estado-cuenta">
+            <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:10px;">Ingresa el código de usuario para buscar</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div></div><script>
-function calcConsumo() {
-  const ant = parseFloat(document.getElementById('lec-ant')?.value || 0);
-  const act = parseFloat(document.getElementById('lec-act')?.value || 0);
-  const consumo = Math.max(act - ant, 0);
-  const el = document.getElementById('lec-consumo-txt');
-  if (el) el.textContent = act > 0
-    ? `Consumo: ${consumo} m³ (${ant} → ${act})`
-    : 'Ingresa la lectura actual para calcular el consumo.';
-}
-
-function buscarCasaLectura() {
-  const q = document.getElementById('lec-casa').value.trim();
-  if (!q) { showToast('Ingresa un término de búsqueda', 'warning'); return; }
-  
-  fetch('../../api/buscar_medidor.php?q=' + encodeURIComponent(q))
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('lec-id-medidor').value = data.data.id_medidor;
-        document.getElementById('lec-info-cliente').textContent = data.data.cliente;
-        document.getElementById('lec-info-sector').textContent = data.data.sector;
-        document.getElementById('lec-info-medidor').textContent = data.data.numero_medidor;
-        document.getElementById('lec-info-ultima').textContent = data.data.lectura_anterior + ' m³ — ' + data.data.fecha_lectura;
-        document.getElementById('lec-ant').value = data.data.lectura_anterior;
-        document.getElementById('lec-act').value = '';
-        document.getElementById('lec-info').style.display = 'grid';
-        calcConsumo();
-        showToast('Medidor encontrado', 'success');
-      } else {
-        showToast(data.error, 'danger');
-        document.getElementById('lec-info').style.display = 'none';
-        document.getElementById('lec-id-medidor').value = '';
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      showToast('Error al buscar medidor', 'danger');
-    });
-}
-
-function guardarLectura() {
-  const id_medidor = document.getElementById('lec-id-medidor')?.value;
-  const act = document.getElementById('lec-act')?.value;
-  const periodoText = document.getElementById('lec-periodo')?.value || ''; // Ej: Mayo 2026
-  
-  if (!id_medidor) { showToast('Primero busca un medidor válido', 'warning'); return; }
-  if (!act) { showToast('Ingresa la lectura actual', 'warning'); return; }
-  
-  // Extraer mes y año del texto "Mayo 2026"
-  const meses = {'Enero':1, 'Febrero':2, 'Marzo':3, 'Abril':4, 'Mayo':5, 'Junio':6, 'Julio':7, 'Agosto':8, 'Septiembre':9, 'Octubre':10, 'Noviembre':11, 'Diciembre':12};
-  const partes = periodoText.split(' ');
-  const mes = meses[partes[0]] || new Date().getMonth() + 1;
-  const anio = partes[1] || new Date().getFullYear();
-
-  fetch('../../api/guardar_lectura.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id_medidor: id_medidor, lectura_act: act, mes: mes, anio: anio })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      showToast(`Lectura guardada. Consumo: ${data.consumo} m³`, 'success');
-      document.getElementById('lec-act').value = '';
-      document.getElementById('lec-info').style.display = 'none';
-      document.getElementById('lec-id-medidor').value = '';
-      document.getElementById('lec-ant').value = '0';
-      calcConsumo();
-    } else {
-      showToast(data.error, 'danger');
-    }
-  })
-  .catch(err => {
-    console.error(err);
-    showToast('Error de conexión', 'danger');
-  });
-}
-
-function calcFactura() {
-  const consumo = parseFloat(document.getElementById('fac-consumo')?.value || 0);
-  const tarifa  = parseFloat(document.getElementById('fac-tarifa')?.value || 5);
-  const precio  = parseFloat(document.getElementById('fac-precio')?.value || 0.35);
-  const mora    = parseFloat(document.getElementById('fac-mora')?.value || 0);
-  const cargo   = consumo * precio;
-  const total   = tarifa + cargo + mora;
-  const fmt = v => '$' + v.toFixed(2);
-  document.getElementById('fac-r-consumo').textContent = consumo + ' m³';
-  document.getElementById('fac-r-tarifa').textContent  = fmt(tarifa);
-  document.getElementById('fac-r-cargo').textContent   = fmt(cargo);
-  document.getElementById('fac-r-mora').textContent    = fmt(mora);
-  document.getElementById('fac-r-total').textContent   = fmt(total);
-}
-
-function calcularPago() {
-  const monto = parseFloat(document.getElementById('montoPago')?.value || 0);
-  const saldo = 11.30;
-  document.getElementById('resumenMontoPago').textContent = '$' + monto.toFixed(2);
-  document.getElementById('resumenTotalPago').textContent = '$' + Math.max(saldo - monto, 0).toFixed(2);
-}
-
-function cargarEstadoCuenta() {
-  showToast('Estado de cuenta cargado: Juan Pérez / H-001', 'success');
-}
-</script>
+  </div>
+</div><!-- /view-operaciones -->

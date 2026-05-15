@@ -240,7 +240,7 @@
             class="form-control"
             type="text"
             id="email"
-            placeholder="admin@hidra.sv"
+            placeholder="admin"
             autocomplete="username"
             required
           />

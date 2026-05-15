@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="../../assets/css/modals.css" />
   <link rel="stylesheet" href="../../assets/css/utilities.css" />
   <link rel="stylesheet" href="../../assets/css/operaciones.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -88,6 +90,13 @@
         </span>
         <span class="nav-label">Operaciones</span>
         <span class="nav-badge">12</span>
+      </div>
+
+      <div class="nav-item" data-view="cobros" data-tooltip="Cobros">
+        <span class="nav-icon" style="display:flex;align-items:center;justify-content:center;">
+          <i class="bi bi-cash-coin" style="font-size: 1.15rem;"></i>
+        </span>
+        <span class="nav-label">Cobros</span>
       </div>
 
       <div class="nav-item" data-view="reportes" data-tooltip="Reportes">
@@ -477,6 +486,9 @@
       <!-- ══ VISTA 4: OPERACIONES (partial) ══ -->
       <?php include __DIR__ . '/partials/operaciones.php'; ?>
 
+      <!-- ══ VISTA 4a: COBROS (partial) ══ -->
+      <?php include __DIR__ . '/partials/cobros.php'; ?>
+
       <!-- ══ VISTA 4b: ESTADÍSTICAS (partial) ══ -->
       <?php include __DIR__ . '/partials/estadisticas.php'; ?>
 
@@ -723,6 +735,7 @@
 <script src="../../assets/js/dashboard.js"          defer></script>
 <script src="../../assets/js/territorio.js"         defer></script>
 <script src="../../assets/js/operaciones.js"        defer></script>
+<script src="../../assets/js/cobros.js"             defer></script>
 <script src="../../assets/js/ui.js"                 defer></script>
 <script>
 function toggleMoraValor(tipo) {

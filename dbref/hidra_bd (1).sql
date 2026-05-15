@@ -445,7 +445,7 @@ INSERT INTO sectores (nombre_sector, descripcion) VALUES
 
 -- Contraseña temporal solo como ejemplo. En producción debe usarse password_hash desde PHP.
 INSERT INTO operadores (nombre_completo, usuario, correo, password_hash, rol, telefono) VALUES
-('Administrador HIDRA', 'admin', 'admin@hidra.local', '$2y$10$CAMBIAR_ESTE_HASH_EN_PRODUCCION', 'administrador', NULL);
+('Administrador HIDRA', 'admin', 'admin', '$2y$10$v/MwAJ7rhILZo3QMYuNnvev.sErAkh94yfyw5vBCHkEVnwi4PREzu', 'administrador', NULL);
 
 INSERT INTO tarifas (id_tipo_usuario, nombre_tarifa, descripcion, precio_m3, cargo_fijo, consumo_minimo_m3, fecha_inicio) VALUES
 (1, 'Tarifa Natural', 'Tarifa base para persona natural.', 0.5000, 2.00, 0.00, CURDATE()),
