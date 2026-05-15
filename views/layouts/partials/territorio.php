@@ -15,9 +15,9 @@
   </div>
 
   <div class="section-tabs" data-group="terr-tabs">
-    <div class="section-tab active" data-panel="terr-sectores" data-group="terr-tabs">🌐 Sectores</div>
-    <div class="section-tab"        data-panel="terr-casas"    data-group="terr-tabs">🏠 Casas</div>
-    <div class="section-tab"        data-panel="terr-vista"    data-group="terr-tabs">🗺 Vista por sector</div>
+    <div class="section-tab active" data-panel="terr-sectores" data-group="terr-tabs"><i class="fas fa-globe"></i> Sectores</div>
+    <div class="section-tab"        data-panel="terr-casas"    data-group="terr-tabs"><i class="fas fa-home"></i> Casas</div>
+    <div class="section-tab"        data-panel="terr-vista"    data-group="terr-tabs"><i class="fas fa-map"></i> Vista por sector</div>
   </div>
 
   <!-- ── TAB 1: SECTORES ─────────────────────────── -->

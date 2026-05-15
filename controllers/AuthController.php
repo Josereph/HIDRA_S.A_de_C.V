@@ -28,12 +28,10 @@ class AuthController {
         $usuario = $this->operadorModel->findByEmailOrUsername($identificador);
 
         if (!$usuario) {
-            // Si no existe, revisar si la base de datos de operadores está vacía para auto-sembrar
-            $stmt = (new Operador())->findByEmailOrUsername('admin');
+            // Si no existe, revisar si la tabla de operadores está vacía para auto-sembrar admin
             $pdo = Database::getInstance();
             $count = $pdo->query("SELECT COUNT(*) FROM operadores")->fetchColumn();
             if ($count == 0) {
-                // Seed admin user
                 $hash = password_hash('admin123', PASSWORD_DEFAULT);
                 $pdo->exec("INSERT INTO operadores (nombre_completo, usuario, correo, password_hash, rol) VALUES ('Administrador', 'admin', 'admin@hidra.sv', '$hash', 'administrador')");
                 $usuario = $this->operadorModel->findByEmailOrUsername($identificador);
@@ -41,14 +39,12 @@ class AuthController {
         }
 
         if ($usuario) {
-            // Verificar contraseña usando password_verify
             if (password_verify($password, $usuario['password_hash'])) {
                 if ($usuario['estado'] !== 'activo') {
                     echo json_encode(['success' => false, 'message' => 'Usuario inactivo']);
                     return;
                 }
                 
-                // Iniciar sesión
                 session_start();
                 $_SESSION['operador_id'] = $usuario['id_operador'];
                 $_SESSION['operador_nombre'] = $usuario['nombre_completo'];
@@ -59,7 +55,6 @@ class AuthController {
             }
         }
         
-        // Credenciales inválidas
         echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos']);
     }
 }

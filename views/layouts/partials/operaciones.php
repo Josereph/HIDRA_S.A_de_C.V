@@ -3,16 +3,16 @@
   <div class="page-header">
     <div><h1 class="page-title">Operaciones</h1><p class="page-subtitle">Lecturas, facturas, pagos, moras y estado de cuenta</p></div>
     <div class="btn-group">
-      <button class="btn btn-ghost btn-sm" onclick="showToast('Exportando…','info')"><i class="bi bi-download"></i> Exportar</button>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('Exportando…','info')"><i class="fas fa-download"></i> Exportar</button>
     </div>
   </div>
 
   <div class="section-tabs" data-group="ops-tabs">
-    <div class="section-tab active" data-panel="ops-lecturas"  data-group="ops-tabs"><i class="bi bi-bar-chart-fill"></i> Lecturas</div>
-    <div class="section-tab"        data-panel="ops-facturas"  data-group="ops-tabs"><i class="bi bi-file-earmark-text"></i> Facturas</div>
-    <div class="section-tab"        data-panel="ops-pagos"     data-group="ops-tabs"><i class="bi bi-credit-card"></i> Pagos</div>
-    <div class="section-tab"        data-panel="ops-moras"     data-group="ops-tabs"><i class="bi bi-exclamation-triangle"></i> Moras</div>
-    <div class="section-tab"        data-panel="ops-estado"    data-group="ops-tabs"><i class="bi bi-clipboard-data"></i> Estado de cuenta</div>
+    <div class="section-tab active" data-panel="ops-lecturas"  data-group="ops-tabs"><i class="fas fa-chart-bar"></i> Lecturas</div>
+    <div class="section-tab"        data-panel="ops-facturas"  data-group="ops-tabs"><i class="fas fa-file-alt"></i> Facturas</div>
+    <div class="section-tab"        data-panel="ops-pagos"     data-group="ops-tabs"><i class="fas fa-credit-card"></i> Pagos</div>
+    <div class="section-tab"        data-panel="ops-moras"     data-group="ops-tabs"><i class="fas fa-exclamation-triangle"></i> Moras</div>
+    <div class="section-tab"        data-panel="ops-estado"    data-group="ops-tabs"><i class="fas fa-clipboard-list"></i> Estado de cuenta</div>
   </div>
 
   <div class="tab-panel active" data-panel="ops-lecturas" data-group="ops-tabs">
@@ -59,7 +59,7 @@
         </div>
 
         <div class="alert alert-info mb-16" id="lec-consumo-alert">
-          <div class="alert-icon"><i class="bi bi-droplet-fill"></i></div>
+          <div class="alert-icon"><i class="fas fa-tint"></i></div>
           <div class="alert-body">
             <div class="alert-title">Consumo calculado</div>
             <div class="alert-msg" id="lec-consumo-txt">Ingresa la lectura actual para calcular el consumo.</div>
@@ -73,7 +73,7 @@
 
         <div class="card-footer">
           <button class="btn btn-ghost" type="button">Limpiar</button>
-          <button class="btn btn-primary" type="button" onclick="guardarLectura()"><i class="bi bi-floppy"></i> Guardar lectura</button>
+          <button class="btn btn-primary" type="button" onclick="guardarLectura()"><i class="fas fa-save"></i> Guardar lectura</button>
         </div>
       </div>
 
@@ -88,7 +88,7 @@
             </div>
             <div style="text-align:right;">
               <div style="font-weight:800;font-size:.9rem;color:var(--negro);"><?= htmlspecialchars($l['consumo_m3']) ?> m³</div>
-              <div style="font-size:.8rem;"><i class="bi bi-check-circle-fill" style="color: #10b981;"></i></div>
+              <div style="font-size:.8rem;"><i class="fas fa-check-circle"></i></div>
             </div>
           </div>
           <?php endforeach; ?>
@@ -141,7 +141,7 @@
         </div>
         <div class="card-footer">
           <button class="btn btn-ghost">Cancelar</button>
-          <button class="btn btn-primary" onclick="showToast('Factura generada correctamente','success')"><i class="bi bi-file-earmark-plus"></i> Generar factura</button>
+          <button class="btn btn-primary" onclick="showToast('Factura generada correctamente','success')"><i class="fas fa-file-medical"></i> Generar factura</button>
         </div>
       </div>
       <div class="card">
@@ -154,7 +154,7 @@
           <div class="resumen-total"><span>Total a pagar</span><strong id="fac-r-total">$22.50</strong></div>
         </div>
         <div class="alert alert-info mt-16">
-          <div class="alert-icon"><i class="bi bi-droplet-fill"></i></div>
+          <div class="alert-icon"><i class="fas fa-tint"></i></div>
           <div class="alert-body">
             <div class="alert-title">Vista preliminar</div>
             <div class="alert-msg">El backend validará y guardará la factura.</div>
@@ -166,7 +166,7 @@
     <div class="card mt-24 tabla-facturas">
       <div class="card-header">
         <h2 class="card-title">Facturas recientes</h2>
-        <div class="search-bar"><span class="search-icon"><i class="bi bi-search"></i></span><input type="text" id="buscarFactura" placeholder="Buscar factura…" /></div>
+        <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" id="buscarFactura" placeholder="Buscar factura…" /></div>
       </div>
       <div class="table-wrap">
         <table><thead><tr><th>N° Factura</th><th>Cliente</th><th>Casa</th><th>Periodo</th><th>Consumo</th><th>Total</th><th>Estado</th><th>Acción</th></tr></thead>
@@ -230,7 +230,7 @@
         </div>
         <div class="card-footer">
           <button class="btn btn-ghost">Limpiar</button>
-          <button class="btn btn-primary" onclick="showToast('Pago registrado correctamente','success')"><i class="bi bi-floppy"></i> Guardar pago</button>
+          <button class="btn btn-primary" onclick="showToast('Pago registrado correctamente','success')"><i class="fas fa-save"></i> Guardar pago</button>
         </div>
       </div>
 
@@ -243,7 +243,7 @@
           <div class="resumen-total"><span>Saldo pendiente</span><strong id="resumenTotalPago">$11.30</strong></div>
         </div>
         <div class="alert alert-info mt-16">
-          <div class="alert-icon"><i class="bi bi-credit-card"></i></div>
+          <div class="alert-icon"><i class="fas fa-credit-card"></i></div>
           <div class="alert-body">
             <div class="alert-title">Pago parcial</div>
             <div class="alert-msg">Si el monto es menor al saldo, quedará un saldo pendiente.</div>
@@ -253,9 +253,9 @@
     </div>
   </div><div class="tab-panel" data-panel="ops-moras" data-group="ops-tabs">
     <div class="kpi-grid mb-24" style="grid-template-columns:repeat(3,1fr);">
-      <div class="kpi-card"><div class="kpi-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div><div class="kpi-label">Clientes en mora</div><div class="kpi-value">96</div></div>
-      <div class="kpi-card"><div class="kpi-icon yellow"><i class="bi bi-cash-coin"></i></div><div class="kpi-label">Mora total acumulada</div><div class="kpi-value">$1,248</div></div>
-      <div class="kpi-card"><div class="kpi-icon cyan"><i class="bi bi-calendar-x"></i></div><div class="kpi-label">Días prom. de atraso</div><div class="kpi-value">47</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="kpi-label">Clientes en mora</div><div class="kpi-value">96</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-coins"></i></div><div class="kpi-label">Mora total acumulada</div><div class="kpi-value">$1,248</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-calendar-times"></i></div><div class="kpi-label">Días prom. de atraso</div><div class="kpi-value">47</div></div>
     </div>
 
     <div class="card">
@@ -268,7 +268,7 @@
           <select class="form-control" style="width:auto;padding:6px 10px;">
             <option>Todos</option><option>+30 días</option><option>+60 días</option><option>+90 días</option>
           </select>
-          <div class="search-bar"><span class="search-icon"><i class="bi bi-search"></i></span><input type="text" placeholder="Cliente, casa…" /></div>
+          <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" placeholder="Cliente, casa…" /></div>
         </div>
       </div>
       <div class="table-wrap">
@@ -314,15 +314,15 @@
             <option>2026</option><option>2025</option><option>2024</option>
           </select>
         </div>
-        <button class="btn btn-ghost" onclick="showToast('Exportando estado de cuenta…','info')"><i class="bi bi-download"></i> Exportar PDF</button>
+        <button class="btn btn-ghost" onclick="showToast('Exportando estado de cuenta…','info')"><i class="fas fa-download"></i> Exportar PDF</button>
       </div>
     </div>
 
     <div class="kpi-grid mb-24" style="grid-template-columns:repeat(4,1fr);">
-      <div class="kpi-card"><div class="kpi-icon red"><i class="bi bi-cash"></i></div><div class="kpi-label">Saldo pendiente</div><div class="kpi-value" style="color:var(--danger);" id="ec-saldo">$18.50</div></div>
-      <div class="kpi-card"><div class="kpi-icon green"><i class="bi bi-check-circle-fill"></i></div><div class="kpi-label">Pagado este año</div><div class="kpi-value" id="ec-pagado">$95.00</div></div>
-      <div class="kpi-card"><div class="kpi-icon yellow"><i class="bi bi-file-earmark-x"></i></div><div class="kpi-label">Facturas vencidas</div><div class="kpi-value" id="ec-vencidas">1</div></div>
-      <div class="kpi-card"><div class="kpi-icon blue"><i class="bi bi-droplet-fill"></i></div><div class="kpi-label">Consumo total</div><div class="kpi-value" id="ec-consumo">284 m³</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-money-bill"></i></div><div class="kpi-label">Saldo pendiente</div><div class="kpi-value" style="color:var(--danger);" id="ec-saldo">$18.50</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-check-circle"></i></div><div class="kpi-label">Pagado este año</div><div class="kpi-value" id="ec-pagado">$95.00</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-file-times"></i></div><div class="kpi-label">Facturas vencidas</div><div class="kpi-value" id="ec-vencidas">1</div></div>
+      <div class="kpi-card"><div class="kpi-icon"><i class="fas fa-tint"></i></div><div class="kpi-label">Consumo total</div><div class="kpi-value" id="ec-consumo">284 m³</div></div>
     </div>
 
     <div class="card">

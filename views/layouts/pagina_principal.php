@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- ═══ Estilos HIDRA ═══ -->
   <link rel="stylesheet" href="../../assets/css/variables.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="../../assets/css/base.css" />
   <link rel="stylesheet" href="../../assets/css/sidebar.css" />
   <link rel="stylesheet" href="../../assets/css/layout.css" />
@@ -149,15 +149,15 @@
       </div>
       <div class="navbar-actions">
         <div class="navbar-search">
-          <i class="bi bi-search" style="color:var(--text-muted);font-size:.9rem;"></i>
+          <i class="fas fa-search" style="color:var(--text-muted);font-size:.9rem;"></i>
           <input type="text" placeholder="Buscar en el sistema…" />
         </div>
         <button class="btn-icon" title="Notificaciones">
-          <i class="bi bi-bell"></i>
+          <i class="fas fa-bell"></i>
           <span class="notif-dot"></span>
         </button>
-        <button class="btn-icon" title="Ayuda"><i class="bi bi-question-circle"></i></button>
-        <button class="btn-icon" title="Cerrar sesión" onclick="window.location.href = '../login.php'"><i class="bi bi-box-arrow-right"></i></button>
+        <button class="btn-icon" title="Ayuda"><i class="fas fa-question-circle"></i></button>
+        <button class="btn-icon" title="Cerrar sesión" onclick="window.location.href = '../login.php'"><i class="fas fa-sign-out-alt"></i></button>
       </div>
     </header>
 
@@ -174,13 +174,13 @@
             <p class="page-subtitle">Resumen general del sistema — Abril 2026</p>
           </div>
           <div class="btn-group">
-            <button class="btn btn-ghost btn-sm">↓ Exportar</button>
+            <button class="btn btn-ghost btn-sm">Exportar</button>
             <button class="btn btn-primary btn-sm" onclick="openModal()">+ Nueva Factura</button>
           </div>
         </div>
 
         <div class="alert alert-warning mb-16">
-          <span class="alert-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
+          <span class="alert-icon"><i class="fas fa-exclamation-triangle"></i></span>
           <div class="alert-body">
             <div class="alert-title">Morosos pendientes de atención</div>
             <div class="alert-msg">8 clientes con facturas vencidas hace más de 30 días. Revisar en Operaciones → Vencidas.</div>
@@ -189,31 +189,31 @@
 
         <div class="kpi-grid">
           <div class="kpi-card glow">
-            <div class="kpi-icon blue"><i class="bi bi-people-fill"></i></div>
+            <div class="kpi-icon"><i class="fas fa-users"></i></div>
             <div class="kpi-label">Clientes activos</div>
             <div class="kpi-value"><?= number_format($stats['clientes_activos']) ?></div>
             <span class="kpi-delta up">Al día</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon cyan"><i class="bi bi-droplet-fill"></i></div>
+            <div class="kpi-icon"><i class="fas fa-tint"></i></div>
             <div class="kpi-label">Facturas del mes</div>
             <div class="kpi-value"><?= number_format($stats['facturas_mes']) ?></div>
             <span class="kpi-delta up">Al día</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon green"><i class="bi bi-currency-dollar"></i></div>
+            <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
             <div class="kpi-label">Facturado (mes)</div>
             <div class="kpi-value">$<?= number_format($stats['facturado_mes'], 2) ?></div>
             <span class="kpi-delta up">Al día</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon red"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div>
             <div class="kpi-label">Morosos</div>
             <div class="kpi-value"><?= number_format($stats['morosos']) ?></div>
             <span class="kpi-delta down">Pendientes</span>
           </div>
           <div class="kpi-card">
-            <div class="kpi-icon yellow"><i class="bi bi-map-fill"></i></div>
+            <div class="kpi-icon"><i class="fas fa-map"></i></div>
             <div class="kpi-label">Sectores activos</div>
             <div class="kpi-value"><?= number_format($stats['sectores_activos']) ?></div>
             <span class="kpi-delta neutral">100%</span>
@@ -264,21 +264,21 @@
             </div>
             <div style="display:flex; flex-direction:column; gap:10px;">
               <div class="alert alert-danger mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;"><i class="bi bi-circle-fill" style="color: var(--danger)"></i></span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-circle" style="color: var(--danger)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">García López — vencida</div>
                   <div class="alert-msg">45 días sin pago</div>
                 </div>
               </div>
               <div class="alert alert-warning mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;"><i class="bi bi-circle-fill" style="color: var(--warning)"></i></span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-circle" style="color: var(--warning)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">Sector B — corte pendiente</div>
                   <div class="alert-msg">Programado para 30/04</div>
                 </div>
               </div>
               <div class="alert alert-info mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;"><i class="bi bi-droplet-fill" style="color: var(--info)"></i></span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-tint" style="color: var(--info)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">Nuevas tarifas 2026</div>
                   <div class="alert-msg">Vigentes desde mayo</div>
@@ -336,21 +336,21 @@
             <p class="page-subtitle">Gestión del padrón de abonados</p>
           </div>
           <div class="btn-group">
-            <button class="btn btn-ghost btn-sm">↓ Exportar CSV</button>
+            <button class="btn btn-ghost btn-sm">Exportar CSV</button>
             <button class="btn btn-primary btn-sm" id="btnNuevoCliente">+ Nuevo cliente</button>
           </div>
         </div>
 
         <div class="section-tabs" data-group="clientes-tabs">
-          <div class="section-tab active" data-panel="cli-listado" data-group="clientes-tabs"><i class="bi bi-card-list"></i> Listado</div>
-          <div class="section-tab" data-panel="cli-registro" data-group="clientes-tabs"><i class="bi bi-pencil-square"></i> Registro</div>
-          <div class="section-tab" data-panel="cli-historial" data-group="clientes-tabs"><i class="bi bi-calendar3"></i> Historial</div>
+          <div class="section-tab active" data-panel="cli-listado" data-group="clientes-tabs"><i class="fas fa-list"></i> Listado</div>
+          <div class="section-tab" data-panel="cli-registro" data-group="clientes-tabs"><i class="fas fa-edit"></i> Registro</div>
+          <div class="section-tab" data-panel="cli-historial" data-group="clientes-tabs"><i class="fas fa-calendar"></i> Historial</div>
         </div>
 
         <div class="tab-panel active" data-panel="cli-listado" data-group="clientes-tabs">
           <div class="flex-between mb-16" style="gap:12px; flex-wrap:wrap;">
             <div class="search-bar">
-              <span class="search-icon"><i class="bi bi-search"></i></span>
+              <span class="search-icon"><i class="fas fa-search"></i></span>
               <input type="text" id="clienteSearch" placeholder="Buscar nombre, código, sector…" />
             </div>
             <div class="flex-gap">
@@ -368,10 +368,10 @@
             <table>
               <thead>
                 <tr>
-                  <th class="sortable">Código <span class="sort-icon"><i class="bi bi-arrow-down-up"></i></span></th>
-                  <th class="sortable">Nombre <span class="sort-icon"><i class="bi bi-arrow-down-up"></i></span></th>
+                  <th class="sortable">Código <span class="sort-icon"><i class="fas fa-sort"></i></span></th>
+                  <th class="sortable">Nombre <span class="sort-icon"><i class="fas fa-sort"></i></span></th>
                   <th>Dirección</th><th>Sector</th><th>Teléfono</th><th>Tarifa</th>
-                  <th class="sortable">Estado <span class="sort-icon"><i class="bi bi-arrow-down-up"></i></span></th><th>Acciones</th>
+                  <th class="sortable">Estado <span class="sort-icon"><i class="fas fa-sort"></i></span></th><th>Acciones</th>
                 </tr>
               </thead>
               <tbody id="clienteTabla">
@@ -390,8 +390,8 @@
                   </td>
                   <td>
                     <div class="flex-gap">
-                      <button class="btn btn-ghost btn-sm"><i class="bi bi-pencil-square"></i> Editar</button>
-                      <button class="btn btn-agua btn-sm"><i class="bi bi-file-earmark-text"></i> Historial</button>
+                      <button class="btn btn-ghost btn-sm"><i class="fas fa-edit"></i> Editar</button>
+                      <button class="btn btn-agua btn-sm"><i class="fas fa-file-alt"></i> Historial</button>
                     </div>
                   </td>
                 </tr>
@@ -432,7 +432,7 @@
                 <div class="form-group"><label class="form-label">Tarifa mensual</label><select class="form-control form-select"><option>$12.50 — Doméstica básica</option><option>$15.00 — Doméstica plus</option><option>$25.00 — Comercial</option></select></div>
               </div>
               <div class="flex-gap mt-16">
-                <button type="submit" class="btn btn-primary">💾 Guardar cliente</button>
+                <button type="submit" class="btn btn-primary">Guardar cliente</button>
                 <button type="reset" class="btn btn-ghost">Limpiar</button>
               </div>
             </form>
@@ -444,7 +444,7 @@
             <div class="card">
               <div class="card-header">
                 <span class="card-title">Historial de pagos</span>
-                <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="Buscar cliente…" style="min-width:140px;" /></div>
+                <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" placeholder="Buscar cliente…" style="min-width:140px;" /></div>
               </div>
               <div class="timeline">
                 <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Abril 2026</div><div class="timeline-meta">Pagado el 28/04/2026 · Ref: #2026-0431</div><div class="timeline-amount">$12.50</div></div></div>
@@ -494,10 +494,10 @@
         </div>
 
         <div class="section-tabs" data-group="cfg-tabs">
-          <div class="section-tab active" data-panel="cfg-general"  data-group="cfg-tabs"><i class="bi bi-gear-fill"></i> General</div>
-          <div class="section-tab"        data-panel="cfg-tarifas" data-group="cfg-tabs"><i class="bi bi-currency-dollar"></i> Tarifas</div>
-          <div class="section-tab"        data-panel="cfg-moras"   data-group="cfg-tabs"><i class="bi bi-exclamation-triangle-fill"></i> Moras</div>
-          <div class="section-tab"        data-panel="cfg-usuarios" data-group="cfg-tabs"><i class="bi bi-person-fill"></i> Usuarios y roles</div>
+          <div class="section-tab active" data-panel="cfg-general"  data-group="cfg-tabs"><i class="fas fa-cog"></i> General</div>
+          <div class="section-tab"        data-panel="cfg-tarifas" data-group="cfg-tabs"><i class="fas fa-dollar-sign"></i> Tarifas</div>
+          <div class="section-tab"        data-panel="cfg-moras"   data-group="cfg-tabs"><i class="fas fa-exclamation-triangle"></i> Moras</div>
+          <div class="section-tab"        data-panel="cfg-usuarios" data-group="cfg-tabs"><i class="fas fa-user"></i> Usuarios y roles</div>
         </div>
 
         <div class="tab-panel active" data-panel="cfg-general" data-group="cfg-tabs">
@@ -513,7 +513,7 @@
               <div class="form-group"><label class="form-label">Teléfono</label><input type="text" class="form-control" value="2362-0000" /></div>
               <div class="form-group"><label class="form-label">Día de vencimiento</label><select class="form-control form-select"><option selected>Día 5 de cada mes</option><option>Día 10</option><option>Día 15</option></select></div>
             </div>
-            <button class="btn btn-primary mt-16" onclick="showToast('Configuración guardada correctamente','success')">💾 Guardar cambios</button>
+            <button class="btn btn-primary mt-16" onclick="showToast('Configuración guardada correctamente','success')">Guardar cambios</button>
           </div>
         </div>
 
@@ -543,7 +543,7 @@
               <div class="form-group"><label class="form-label">% recargo por mora mensual</label><input type="number" class="form-control" value="5" /></div>
               <div class="form-group"><label class="form-label">Días para iniciar proceso de corte</label><input type="number" class="form-control" value="30" /></div>
               <div class="form-group"><label class="form-label">Cargo por reconexión</label><input type="text" class="form-control" value="$5.00" /></div>
-              <button class="btn btn-primary btn-sm mt-16" onclick="showToast('Parámetros de mora actualizados','success')">💾 Guardar parámetros</button>
+              <button class="btn btn-primary btn-sm mt-16" onclick="showToast('Parámetros de mora actualizados','success')">Guardar parámetros</button>
             </div>
           </div>
         </div>
@@ -606,7 +606,7 @@
                 <button class="btn btn-ghost" type="button">Cancelar</button>
                 <button class="btn btn-primary" type="button"
                   onclick="showToast('Regla de mora guardada correctamente','success')">
-                  💾 Guardar configuración
+                  Guardar configuración
                 </button>
               </div>
             </div>
@@ -686,8 +686,8 @@
 <div class="modal-overlay" id="clienteModal" style="display:none;">
   <div class="modal">
     <div class="modal-header">
-      <span class="modal-title"><i class="bi bi-file-earmark-plus"></i> Registrar nueva factura / cliente</span>
-      <button class="modal-close" id="modalClose"><i class="bi bi-x-lg"></i></button>
+      <span class="modal-title"><i class="fas fa-file-medical"></i> Registrar nueva factura / cliente</span>
+      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
       <form id="formCliente">
@@ -708,7 +708,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="closeModal(); showToast('Registro guardado correctamente','success')">💾 Guardar</button>
+      <button class="btn btn-primary" onclick="closeModal(); showToast('Registro guardado correctamente','success')">Guardar</button>
     </div>
   </div>
 </div>

@@ -17,7 +17,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h2><i class="bi bi-geo-alt-fill"></i> Mapa Geográfico de Viviendas</h2>
+        <h2><i class="fas fa-map-marker-alt"></i> Mapa Geográfico de Viviendas</h2>
         <p style="color: var(--color-text-light); font-size: 0.9rem;">Haz clic en el mapa de El Salvador para registrar una nueva vivienda.</p>
     </div>
     <div id="map"></div>
@@ -25,17 +25,17 @@
 
 <?php foreach ($sectores as $sector): ?>
     <div class="sector-section">
-        <h3><i class="bi bi-geo-alt-fill" style="color: var(--color-primary);"></i> <?= htmlspecialchars($sector['nombre']) ?></h3>
+        <h3><i class="fas fa-map-marker-alt" style="color: var(--color-primary);"></i> <?= htmlspecialchars($sector['nombre']) ?></h3>
         <div class="house-grid">
             <?php if (empty($casasPorSector[$sector['id']])): ?>
                 <p>No hay casas en este sector.</p>
             <?php else: ?>
                 <?php foreach ($casasPorSector[$sector['id']] as $casa): ?>
                     <div class="house-card">
-                        <div class="house-icon"><i class="bi bi-house-door-fill"></i></div>
+                        <div class="house-icon"><i class="fas fa-home"></i></div>
                         <div class="house-details">
                             <h4><?= htmlspecialchars($casa['direccion']) ?></h4>
-                            <p><i class="bi bi-person-fill"></i> Cliente: <?= htmlspecialchars($casa['cliente_nombre'] ?? 'Sin asignar') ?></p>
+                            <p><i class="fas fa-user"></i> Cliente: <?= htmlspecialchars($casa['cliente_nombre'] ?? 'Sin asignar') ?></p>
                             
                             <?php
                             $badgeClass = 'badge-active';
@@ -46,7 +46,7 @@
                                 <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($casa['estado']) ?></span>
                                 <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" 
                                     onclick="openEditModal(<?= $casa['id'] ?>, <?= $casa['cliente_id'] ?? 'null' ?>, '<?= $casa['estado'] ?>')">
-                                    <i class="bi bi-pencil-square"></i> Asignar
+                                    <i class="fas fa-edit"></i> Asignar
                                 </button>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
 <div id="newHouseModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3><i class="bi bi-plus-circle-fill"></i> Registrar Nueva Vivienda</h3>
+            <h3><i class="fas fa-plus-circle"></i> Registrar Nueva Vivienda</h3>
             <button class="close-modal" onclick="closeModal('newHouseModal')">&times;</button>
         </div>
         <form action="<?= BASE_PATH ?>/territorio/store" method="POST">
@@ -97,7 +97,7 @@
 <div id="editHouseModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3><i class="bi bi-pencil-square"></i> Editar / Asignar Vivienda</h3>
+            <h3><i class="fas fa-edit"></i> Editar / Asignar Vivienda</h3>
             <button class="close-modal" onclick="closeModal('editHouseModal')">&times;</button>
         </div>
         <form action="<?= BASE_PATH ?>/territorio/update" method="POST">
