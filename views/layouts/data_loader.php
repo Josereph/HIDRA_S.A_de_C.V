@@ -19,7 +19,7 @@ $stats['facturas_mes']      = $pdo->query("
 ")->fetchColumn();
 
 $stats['facturado_mes']     = $pdo->query("
-    SELECT IFNULL(SUM(monto_total), 0) FROM facturas
+    SELECT IFNULL(SUM(total), 0) FROM facturas
     WHERE MONTH(fecha_emision) = MONTH(CURRENT_DATE)
       AND YEAR(fecha_emision)  = YEAR(CURRENT_DATE)
 ")->fetchColumn();
@@ -33,7 +33,7 @@ $stats['sectores_activos']  = $pdo->query("SELECT COUNT(*) FROM sectores")->fetc
 
 // Últimas facturas recientes (Dashboard)
 $facturas_recientes = $pdo->query("
-    SELECT f.*, CONCAT(u.nombre, ' ', IFNULL(u.apellido, '')) AS cliente
+    SELECT f.*, CONCAT(u.nombres, ' ', IFNULL(u.apellidos, '')) AS cliente
     FROM facturas f
     JOIN usuarios u ON f.id_usuario = u.id_usuario
     ORDER BY f.fecha_emision DESC
@@ -42,7 +42,12 @@ $facturas_recientes = $pdo->query("
 
 // Clientes (Listado)
 $clientes_lista = $pdo->query("
-    SELECT u.*, s.nombre AS sector_nombre, m.codigo AS medidor_codigo
+    SELECT u.*, 
+           CONCAT(u.nombres, ' ', IFNULL(u.apellidos, '')) AS cliente,
+           s.nombre_sector AS sector, 
+           m.numero_medidor, m.numero_medidor AS medidor_codigo,
+           m.estado AS estado_medidor,
+           u.estado AS estado_usuario
     FROM usuarios u
     LEFT JOIN sectores s ON u.id_sector = s.id_sector
     LEFT JOIN medidores m ON u.id_usuario = m.id_usuario
@@ -66,15 +71,15 @@ $sectores_lista = $pdo->query("
 $tarifas_lista = $pdo->query("SELECT * FROM tarifas")->fetchAll();
 
 // Moras (historial)
-$moras_lista = $pdo->query("SELECT * FROM moras ORDER BY fecha_mora DESC")->fetchAll();
+$moras_lista = $pdo->query("SELECT * FROM moras ORDER BY fecha_creacion DESC")->fetchAll();
 
 // Operadores
 $operadores_lista = $pdo->query("SELECT * FROM operadores")->fetchAll();
 
 // Lecturas recientes
 $lecturas_recientes = $pdo->query("
-    SELECT l.*, m.codigo AS numero_medidor,
-           CONCAT(u.nombre, ' ', IFNULL(u.apellido, '')) AS cliente
+    SELECT l.*, m.numero_medidor,
+           CONCAT(u.nombres, ' ', IFNULL(u.apellidos, '')) AS cliente
     FROM lecturas l
     JOIN medidores m ON l.id_medidor = m.id_medidor
     JOIN usuarios u ON m.id_usuario = u.id_usuario
@@ -84,7 +89,7 @@ $lecturas_recientes = $pdo->query("
 
 // Facturas recientes (Operaciones)
 $facturas_operaciones = $pdo->query("
-    SELECT f.*, CONCAT(u.nombre, ' ', IFNULL(u.apellido, '')) AS cliente
+    SELECT f.*, CONCAT(u.nombres, ' ', IFNULL(u.apellidos, '')) AS cliente
     FROM facturas f
     JOIN usuarios u ON f.id_usuario = u.id_usuario
     ORDER BY f.id_factura DESC
@@ -94,8 +99,8 @@ $facturas_operaciones = $pdo->query("
 // Moras (Gestión)
 $gestion_moras = $pdo->query("
     SELECT f.*,
-           CONCAT(u.nombre, ' ', IFNULL(u.apellido, '')) AS cliente,
-           m.codigo AS numero_medidor,
+           CONCAT(u.nombres, ' ', IFNULL(u.apellidos, '')) AS cliente,
+           m.numero_medidor,
            DATEDIFF(CURRENT_DATE, f.fecha_vencimiento) AS dias_retraso
     FROM facturas f
     JOIN usuarios u ON f.id_usuario = u.id_usuario
