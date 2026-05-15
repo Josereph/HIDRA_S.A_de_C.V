@@ -2,7 +2,7 @@
 // config/database.php
 
 define('DB_HOST',    'localhost');
-define('DB_PORT',    '3307'); // <-- Puerto explícito agregado
+define('DB_PORT',    '3306'); // <-- Puerto explícito agregado
 define('DB_USER',    'root');
 define('DB_PASS',    '');
 define('DB_NAME',    'hidra_sa_de_cv');
