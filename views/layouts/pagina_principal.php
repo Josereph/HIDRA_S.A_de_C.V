@@ -271,27 +271,34 @@
               <span class="card-action">Ver todas</span>
             </div>
             <div style="display:flex; flex-direction:column; gap:10px;">
-              <div class="alert alert-danger mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-circle" style="color: var(--danger)"></i></span>
+
+              <!-- Alerta: vencida — azul profundo (--pending) -->
+              <div class="alert mb-0" style="padding:9px 12px; background:rgba(21,101,192,0.10); border-color:var(--pending); color:var(--pending);">
+                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-circle" style="color:var(--pending)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">García López — vencida</div>
                   <div class="alert-msg">45 días sin pago</div>
                 </div>
               </div>
-              <div class="alert alert-warning mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-circle" style="color: var(--warning)"></i></span>
+
+              <!-- Alerta: corte pendiente — celeste oscuro (--celeste-dk) -->
+              <div class="alert mb-0" style="padding:9px 12px; background:rgba(62,150,240,0.12); border-color:var(--celeste-dk); color:var(--celeste-dk);">
+                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-circle" style="color:var(--celeste-dk)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">Sector B — corte pendiente</div>
                   <div class="alert-msg">Programado para 30/04</div>
                 </div>
               </div>
+
+              <!-- Alerta: informativa — celeste muy claro (--celeste-xlt) -->
               <div class="alert alert-info mb-0" style="padding:9px 12px;">
-                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-tint" style="color: var(--info)"></i></span>
+                <span class="alert-icon" style="font-size:.85rem;"><i class="fas fa-tint" style="color:var(--celeste)"></i></span>
                 <div class="alert-body">
                   <div class="alert-title" style="font-size:.74rem;">Nuevas tarifas 2026</div>
                   <div class="alert-msg">Vigentes desde mayo</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
