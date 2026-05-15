@@ -344,16 +344,11 @@
             <h1 class="page-title">Clientes</h1>
             <p class="page-subtitle">Gestión del padrón de abonados</p>
           </div>
-          <div class="btn-group">
-            <button class="btn btn-ghost btn-sm">Exportar CSV</button>
-            <button class="btn btn-primary btn-sm" id="btnNuevoCliente">+ Nuevo cliente</button>
-          </div>
         </div>
 
         <div class="section-tabs" data-group="clientes-tabs">
           <div class="section-tab active" data-panel="cli-listado" data-group="clientes-tabs"><i class="fas fa-list"></i> Listado</div>
           <div class="section-tab" data-panel="cli-registro" data-group="clientes-tabs"><i class="fas fa-edit"></i> Registro</div>
-          <div class="section-tab" data-panel="cli-historial" data-group="clientes-tabs"><i class="fas fa-calendar"></i> Historial</div>
         </div>
 
         <div class="tab-panel active" data-panel="cli-listado" data-group="clientes-tabs">
@@ -426,19 +421,41 @@
         <div class="tab-panel" data-panel="cli-registro" data-group="clientes-tabs">
           <div class="card" style="max-width:620px;">
             <div class="card-header"><span class="card-title">Nuevo Cliente</span></div>
-            <form onsubmit="event.preventDefault(); showToast('Cliente guardado correctamente','success');">
-              <div class="form-row">
-                <div class="form-group"><label class="form-label">Nombres</label><input type="text" class="form-control" placeholder="Nombre(s)" required /></div>
-                <div class="form-group"><label class="form-label">Apellidos</label><input type="text" class="form-control" placeholder="Apellido(s)" required /></div>
+            <form id="formRegistroCliente" onsubmit="registrarClienteNuevo(event)">
+              <div class="form-group">
+                <label class="form-label">Código de Usuario</label>
+                <div class="input-group" style="display:flex;">
+                  <select class="form-control form-select" id="reg_prefijo" style="max-width:120px;border-top-right-radius:0;border-bottom-right-radius:0;border-right:none;">
+                    <option value="USR-">USR-</option>
+                    <option value="JRD-">JRD-</option>
+                  </select>
+                  <input type="text" class="form-control" placeholder="Autogenerado al guardar" disabled style="border-top-left-radius:0;border-bottom-left-radius:0;background:var(--bg-card);color:var(--text-muted);" />
+                </div>
               </div>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">DUI</label><input type="text" class="form-control" placeholder="00000000-0" /></div>
-                <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" class="form-control" placeholder="0000-0000" /></div>
+                <div class="form-group"><label class="form-label">Nombres</label><input type="text" id="reg_nombres" class="form-control" placeholder="Nombre(s)" required /></div>
+                <div class="form-group"><label class="form-label">Apellidos</label><input type="text" id="reg_apellidos" class="form-control" placeholder="Apellido(s)" required /></div>
               </div>
-              <div class="form-group"><label class="form-label">Dirección</label><input type="text" class="form-control" placeholder="Calle, colonia, número…" /></div>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">Sector</label><select class="form-control form-select"><option>A-1</option><option>A-2</option><option>A-3</option><option>B-1</option><option>B-2</option><option>B-3</option><option>C-1</option><option>C-2</option></select></div>
-                <div class="form-group"><label class="form-label">Tarifa mensual</label><select class="form-control form-select"><option>$12.50 — Doméstica básica</option><option>$15.00 — Doméstica plus</option><option>$25.00 — Comercial</option></select></div>
+                <div class="form-group"><label class="form-label">Identificador (DUI/NIT)</label><input type="text" id="reg_identificador" class="form-control" placeholder="00000000-0" /></div>
+                <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" id="reg_telefono" class="form-control" placeholder="0000-0000" /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Dirección</label><input type="text" id="reg_direccion" class="form-control" placeholder="Calle, colonia, número…" /></div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Sector</label>
+                  <select id="reg_sector" class="form-control form-select">
+                    <?php foreach($sectores_lista as $s): ?>
+                      <option value="<?= $s['id_sector'] ?>"><?= htmlspecialchars($s['nombre_sector']) ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="form-group"><label class="form-label">Tarifa mensual</label>
+                  <select id="reg_tarifa" class="form-control form-select">
+                    <option>$12.50 — Doméstica básica</option>
+                    <option>$15.00 — Doméstica plus</option>
+                    <option>$25.00 — Comercial</option>
+                  </select>
+                </div>
               </div>
               <div class="flex-gap mt-16">
                 <button type="submit" class="btn btn-primary">Guardar cliente</button>
@@ -448,34 +465,7 @@
           </div>
         </div>
 
-        <div class="tab-panel" data-panel="cli-historial" data-group="clientes-tabs">
-          <div class="grid-2-1">
-            <div class="card">
-              <div class="card-header">
-                <span class="card-title">Historial de pagos</span>
-                <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" placeholder="Buscar cliente…" style="min-width:140px;" /></div>
-              </div>
-              <div class="timeline">
-                <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Abril 2026</div><div class="timeline-meta">Pagado el 28/04/2026 · Ref: #2026-0431</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Marzo 2026</div><div class="timeline-meta">Pagado el 05/03/2026 · Ref: #2026-0312</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot overdue">✕</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Febrero 2026</div><div class="timeline-meta">Vencido — sin pago registrado</div><div class="timeline-amount" style="color:var(--danger)">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid">✓</div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Enero 2026</div><div class="timeline-meta">Pagado el 10/01/2026 · Ref: #2026-0101</div><div class="timeline-amount">$12.50</div></div></div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header"><span class="card-title">Perfil del cliente</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Código</span><span class="td-mono">CLT-001</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Nombre</span><span style="font-weight:700; font-size:.84rem;">Ana Martínez</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Sector</span><span class="badge badge-blue">A-3</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Estado</span><span class="badge badge-green">Al día</span></div>
-              <div class="stat-row" style="margin-bottom:16px;"><span class="text-muted" style="font-size:.75rem">Tarifa</span><span class="td-mono">$12.50/mes</span></div>
-              <div style="font-size:.7rem; color:var(--text-muted); margin-bottom:6px;">Cumplimiento de pago</div>
-              <div class="progress-bar-wrap mb-8"><div class="progress-bar-fill" style="width:83%"></div></div>
-              <div style="font-size:.7rem; color:var(--text-muted);">10 de 12 meses pagados a tiempo (83%)</div>
-              <div class="btn-group mt-16"><button class="btn btn-primary btn-sm w-full" onclick="showToast('Abriendo registro de pago…','info')">+ Registrar pago</button></div>
-            </div>
-          </div>
-        </div>
+
       </div><!-- /clientes -->
 
 
@@ -738,6 +728,41 @@
 <script src="../../assets/js/cobros.js"             defer></script>
 <script src="../../assets/js/ui.js"                 defer></script>
 <script>
+async function registrarClienteNuevo(e) {
+  e.preventDefault();
+  const data = {
+    prefijo_codigo: document.getElementById('reg_prefijo').value,
+    nombres: document.getElementById('reg_nombres').value,
+    apellidos: document.getElementById('reg_apellidos').value,
+    identificador: document.getElementById('reg_identificador').value,
+    direccion: document.getElementById('reg_direccion').value,
+    id_sector: document.getElementById('reg_sector').value
+  };
+
+  try {
+    const res = await fetch('../../api/registrar_cliente.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    if (result.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Cliente guardado',
+        text: 'Código asignado: ' + result.codigo_usuario,
+        confirmButtonColor: 'var(--celeste)'
+      }).then(() => {
+        window.location.reload();
+      });
+    } else {
+      Swal.fire({icon: 'error', title: 'Error', text: result.error});
+    }
+  } catch (err) {
+    Swal.fire({icon: 'error', title: 'Error', text: 'Error de conexión'});
+  }
+}
+
 function toggleMoraValor(tipo) {
   const lbl   = document.getElementById('mora-valor-label');
   const unidad = document.getElementById('mora-unidad');
