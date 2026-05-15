@@ -17,7 +17,6 @@
   <link rel="stylesheet" href="../../assets/css/modals.css" />
   <link rel="stylesheet" href="../../assets/css/utilities.css" />
   <link rel="stylesheet" href="../../assets/css/operaciones.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
@@ -94,7 +93,7 @@
 
       <div class="nav-item" data-view="cobros" data-tooltip="Cobros">
         <span class="nav-icon" style="display:flex;align-items:center;justify-content:center;">
-          <i class="bi bi-cash-coin" style="font-size: 1.15rem;"></i>
+          <i class="fas fa-money-bill-wave" style="font-size: 1rem;"></i>
         </span>
         <span class="nav-label">Cobros</span>
       </div>

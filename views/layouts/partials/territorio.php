@@ -92,7 +92,7 @@
 
         <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px;">
             <div class="search-bar">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><i class="fas fa-search"></i></span>
                 <input type="text" placeholder="Buscar sector o descripción…" />
             </div>
             <div class="flex-gap">
@@ -132,8 +132,8 @@
                         </td>
                         <td>
                             <div class="flex-gap">
-                                <button class="btn btn-ghost btn-sm">👁 Ver</button>
-                                <button class="btn btn-ghost btn-sm">✏ Editar</button>
+                                <button class="btn btn-ghost btn-sm"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="btn btn-ghost btn-sm"><i class="fas fa-edit"></i> Editar</button>
                                 <?php if($s['estado'] !== 'activo'): ?>
                                 <button class="btn btn-agua btn-sm">Activar</button>
                                 <?php endif; ?>
@@ -152,7 +152,7 @@
 
         <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px;">
             <div class="search-bar">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><i class="fas fa-search"></i></span>
                 <input type="text" id="casaSearch" placeholder="Buscar código, cliente, medidor…" />
             </div>
             <div class="flex-gap">
@@ -268,27 +268,27 @@
         <!-- KPI resumen del sector -->
         <div class="kpi-grid mb-24" style="grid-template-columns:repeat(5,1fr);" id="sectorKpis">
             <div class="kpi-card">
-                <div class="kpi-icon blue">🏠</div>
+                <div class="kpi-icon blue"><i class="fas fa-home"></i></div>
                 <div class="kpi-label">Total casas</div>
                 <div class="kpi-value" id="sv-total">245</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-icon green">✓</div>
+                <div class="kpi-icon green"><i class="fas fa-check-circle"></i></div>
                 <div class="kpi-label">Al día</div>
                 <div class="kpi-value" id="sv-aldia">201</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-icon red">⚠</div>
+                <div class="kpi-icon red"><i class="fas fa-exclamation-triangle"></i></div>
                 <div class="kpi-label">En mora</div>
                 <div class="kpi-value" id="sv-mora">35</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-icon yellow">⏸</div>
+                <div class="kpi-icon yellow"><i class="fas fa-pause-circle"></i></div>
                 <div class="kpi-label">Inactivas</div>
                 <div class="kpi-value" id="sv-inact">9</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-icon cyan">📊</div>
+                <div class="kpi-icon cyan"><i class="fas fa-tachometer-alt"></i></div>
                 <div class="kpi-label">Sin lectura</div>
                 <div class="kpi-value" id="sv-sinlect">12</div>
             </div>

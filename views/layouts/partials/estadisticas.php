@@ -39,31 +39,31 @@
   <!-- KPIs -->
   <div class="kpi-grid mb-24" style="grid-template-columns:repeat(5,1fr);">
     <div class="kpi-card">
-      <div class="kpi-icon green">💰</div>
+      <div class="kpi-icon green"><i class="fas fa-dollar-sign"></i></div>
       <div class="kpi-label">Ingresos (periodo)</div>
       <div class="kpi-value" id="est-ingresos">$7,850</div>
       <span class="kpi-delta up">+12% vs anterior</span>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon blue">💧</div>
+      <div class="kpi-icon blue"><i class="fas fa-tint"></i></div>
       <div class="kpi-label">Consumo total</div>
       <div class="kpi-value" id="est-consumo">18,240 m³</div>
       <span class="kpi-delta neutral">Periodo actual</span>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon red">⚠</div>
+      <div class="kpi-icon red"><i class="fas fa-exclamation-triangle"></i></div>
       <div class="kpi-label">Mora acumulada</div>
       <div class="kpi-value" id="est-mora" style="color:var(--danger);">$1,248</div>
       <span class="kpi-delta down">96 clientes</span>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon cyan">✓</div>
+      <div class="kpi-icon cyan"><i class="fas fa-check-circle"></i></div>
       <div class="kpi-label">Facturas pagadas</div>
       <div class="kpi-value" id="est-pagadas">486</div>
       <span class="kpi-delta up">82% del total</span>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon yellow">⏳</div>
+      <div class="kpi-icon yellow"><i class="fas fa-clock"></i></div>
       <div class="kpi-label">Pendientes</div>
       <div class="kpi-value" id="est-pendientes">108</div>
       <span class="kpi-delta down">18% del total</span>
