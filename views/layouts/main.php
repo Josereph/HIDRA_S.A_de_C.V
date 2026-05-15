@@ -12,26 +12,11 @@
 </head>
 <body>
     <div class="app-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2><i class="bi bi-droplet-fill"></i> HIDRA</h2>
-                <p>Agua Potable</p>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="<?= BASE_PATH ?>/clientes">Clientes</a></li>
-                    <li><a href="<?= BASE_PATH ?>/territorio">Territorio</a></li>
-                    <li><a href="<?= BASE_PATH ?>/configuracion">Configuración</a></li>
-                </ul>
-            </nav>
-        </aside>
-        
+        <?php include __DIR__ . '/sidebar.php'; ?>
+
         <main class="main-content">
-            <header class="topbar">
-                <h1><?= htmlspecialchars($title ?? 'Panel') ?></h1>
-                <div class="user-info">Administrador</div>
-            </header>
-            
+            <?php include __DIR__ . '/navbar.php'; ?>
+
             <div class="content-wrapper">
                 <?php if (isset($_SESSION['alert'])): ?>
                     <div class="alert alert-<?= $_SESSION['alert']['type'] ?>">
@@ -42,6 +27,8 @@
 
                 <?= $content ?? '' ?>
             </div>
+
+            <?php include __DIR__ . '/footer.php'; ?>
         </main>
     </div>
 </body>

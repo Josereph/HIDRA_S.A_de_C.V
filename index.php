@@ -36,12 +36,19 @@ if ($uri === '/' || $uri === '') {
         'clientes' => 'ClientController',
         'territorio' => 'TerritoryController',
         'configuracion' => 'ConfigController',
+        'dashboard' => 'DashboardController',
     ];
 
     $route = $parts[0] ?? '';
     $actionPart = $parts[1] ?? 'index';
+    $resourcePart = $parts[2] ?? null;
 
-    if (isset($controllerMap[$route])) {
+    // API Routing
+    if ($route === 'api') {
+        $controllerName = 'ApiController';
+        $resource = $actionPart ?? 'unknown';
+        $action = $resourcePart ?? 'index';
+    } else if (isset($controllerMap[$route])) {
         $controllerName = $controllerMap[$route];
         $action = $actionPart;
     } else {
