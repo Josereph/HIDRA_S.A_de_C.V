@@ -31,9 +31,9 @@
   flex: 1;
 }
 
-.breadcrumb-item { font-size: 0.8rem; color: var(--text-muted); }
-.breadcrumb-item.active { color: var(--negro); font-weight: 700; }
-.breadcrumb-sep { color: var(--border-subtle); font-size: 0.8rem; }
+.breadcrumb-item { font-size: 1.15rem !important; color: var(--text-muted); }
+.breadcrumb-item.active { color: var(--negro); font-weight: 700; font-size: 1.15rem !important; }
+.breadcrumb-sep { color: var(--border-subtle); font-size: 1.15rem !important; }
 
 .navbar-actions { display: flex; align-items: center; gap: 8px; }
 
