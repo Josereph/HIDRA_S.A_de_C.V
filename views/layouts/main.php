@@ -1,30 +1,22 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-$renderedContent = '';
-if (isset($content)) {
-    if (is_string($content) && file_exists($content)) {
-        ob_start();
-        include $content;
-        $renderedContent = ob_get_clean();
-    } else {
-        $renderedContent = $content;
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HIDRA - Sistema de Facturación</title>
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/variables.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/base.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/layout.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sidebar.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/components.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/modals.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/utilities.css">
     <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <?php if (($title ?? '') === 'Territorio'): ?>
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/territorio.css">
+    <?php endif; ?>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
     <div class="app-container">
@@ -41,24 +33,27 @@ if (isset($content)) {
                 </ul>
             </nav>
         </aside>
-
+        
         <main class="main-content">
             <header class="topbar">
-                <h1><?= htmlspecialchars($title ?? 'Panel', ENT_QUOTES, 'UTF-8') ?></h1>
+                <h1><?= htmlspecialchars($title ?? 'Panel') ?></h1>
                 <div class="user-info">Administrador</div>
             </header>
-
+            
             <div class="content-wrapper">
                 <?php if (isset($_SESSION['alert'])): ?>
-                    <div class="alert alert-<?= htmlspecialchars($_SESSION['alert']['type'], ENT_QUOTES, 'UTF-8') ?>">
-                        <?= htmlspecialchars($_SESSION['alert']['message'], ENT_QUOTES, 'UTF-8') ?>
+                    <div class="alert alert-<?= $_SESSION['alert']['type'] ?>">
+                        <?= htmlspecialchars($_SESSION['alert']['message']) ?>
                     </div>
                     <?php unset($_SESSION['alert']); ?>
                 <?php endif; ?>
 
-                <?= $renderedContent ?>
+                <?= $content ?? '' ?>
             </div>
         </main>
     </div>
+    <?php if (($title ?? '') === 'Territorio'): ?>
+    <script src="<?= BASE_PATH ?>/assets/js/territorio.js" defer></script>
+    <?php endif; ?>
 </body>
 </html>
