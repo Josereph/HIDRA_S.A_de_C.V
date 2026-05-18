@@ -47,39 +47,39 @@
   <!-- KPIs -->
   <div class="kpi-grid mb-24 estadisticas-kpi-grid" style="grid-template-columns:repeat(5,1fr);">
 
-    <div class="kpi-card estadisticas-kpi status-good">
+    <div class="kpi-card estadisticas-kpi est-good">
       <div class="kpi-icon"><i class="bi bi-cash-coin"></i></div>
       <div class="kpi-label">Ingresos (periodo)</div>
       <div class="kpi-value" id="est-ingresos">$7,850</div>
-      <span class="kpi-delta">+12% vs anterior</span>
+      <span class="kpi-delta est-delta-good">+12% vs anterior</span>
     </div>
 
-    <div class="kpi-card estadisticas-kpi status-normal">
+    <div class="kpi-card estadisticas-kpi est-normal">
       <div class="kpi-icon"><i class="bi bi-droplet-half"></i></div>
       <div class="kpi-label">Consumo total</div>
       <div class="kpi-value" id="est-consumo">18,240 m³</div>
-      <span class="kpi-delta">Periodo actual</span>
+      <span class="kpi-delta est-delta-normal">Periodo actual</span>
     </div>
 
-    <div class="kpi-card estadisticas-kpi status-attention">
+    <div class="kpi-card estadisticas-kpi est-attention">
       <div class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></div>
       <div class="kpi-label">Mora acumulada</div>
       <div class="kpi-value" id="est-mora">$1,248</div>
-      <span class="kpi-delta">96 clientes</span>
+      <span class="kpi-delta est-delta-attention">96 clientes</span>
     </div>
 
-    <div class="kpi-card estadisticas-kpi status-good">
+    <div class="kpi-card estadisticas-kpi est-good">
       <div class="kpi-icon"><i class="bi bi-check-circle"></i></div>
       <div class="kpi-label">Facturas pagadas</div>
       <div class="kpi-value" id="est-pagadas">486</div>
-      <span class="kpi-delta">82% del total</span>
+      <span class="kpi-delta est-delta-good">82% del total</span>
     </div>
 
-    <div class="kpi-card estadisticas-kpi status-attention">
+    <div class="kpi-card estadisticas-kpi est-attention">
       <div class="kpi-icon"><i class="bi bi-hourglass-split"></i></div>
       <div class="kpi-label">Pendientes</div>
       <div class="kpi-value" id="est-pendientes">108</div>
-      <span class="kpi-delta">18% del total</span>
+      <span class="kpi-delta est-delta-attention">18% del total</span>
     </div>
 
   </div>
@@ -87,8 +87,8 @@
   <!-- Gráficas -->
   <div class="estadisticas-charts-grid mb-24">
 
-    <!-- Gráfica: Ingresos por mes -->
-    <section class="card estadisticas-panel estadisticas-panel-chart">
+    <!-- Gráfica: Ingresos por mes (ApexCharts) -->
+    <section class="card estadisticas-panel">
       <div class="estadisticas-panel-header">
         <div>
           <h2 class="estadisticas-panel-title">
@@ -99,13 +99,11 @@
         </div>
         <span class="estadisticas-panel-period">Enero — Abril 2026</span>
       </div>
-
-      <div id="chart-ingresos" class="estadisticas-bar-chart" aria-label="Gráfica de ingresos por mes"></div>
-      <div id="chart-ingresos-labels" class="estadisticas-chart-labels" aria-hidden="true" style="display:none;"></div>
+      <div id="chart-ingresos-apex" style="min-height:230px;" aria-label="Gráfica de ingresos por mes"></div>
     </section>
 
     <!-- Gráfica: Consumo por sector -->
-    <section class="card estadisticas-panel estadisticas-panel-sector">
+    <section class="card estadisticas-panel">
       <div class="estadisticas-panel-header">
         <div>
           <h2 class="estadisticas-panel-title">
@@ -115,7 +113,6 @@
         </div>
         <span class="estadisticas-panel-period">m³ — periodo actual</span>
       </div>
-
       <div id="chart-sectores" class="estadisticas-sector-list" aria-label="Consumo por sector"></div>
     </section>
 
@@ -155,38 +152,14 @@
 
 <style>
 /* ═══════════════════════════════════════════════════════
-   ESTADÍSTICAS — DISEÑO FORMAL / COMPACTO / SIN ROJO
-   Paleta usada: negro, blanco, celeste #66B3FF y azul profundo derivado.
+   ESTADÍSTICAS — Paleta clara (igual que apartado Alertas)
+   Tokens: var(--bg-card), var(--border-subtle), var(--negro),
+           var(--celeste), var(--celeste-dk), var(--pending),
+           var(--celeste-xlt), var(--text-muted), etc.
    Scope: solo afecta #view-estadisticas.
 ═══════════════════════════════════════════════════════ */
-#view-estadisticas {
-  --hidra-black: #000000;
-  --hidra-white: #FFFFFF;
-  --hidra-celeste: #66B3FF;
-  --hidra-celeste-soft: rgba(102, 179, 255, .78);
-  --hidra-celeste-muted: rgba(102, 179, 255, .42);
-  --hidra-blue-strong: #1F86FF;
-  --hidra-panel: rgba(0, 0, 0, .18);
-  --hidra-panel-strong: rgba(0, 0, 0, .28);
-  --hidra-line: rgba(102, 179, 255, .34);
-  --hidra-line-soft: rgba(255, 255, 255, .10);
-  --hidra-text: rgba(255, 255, 255, .94);
-  --hidra-text-soft: rgba(255, 255, 255, .72);
-  --hidra-text-muted: rgba(255, 255, 255, .50);
-}
 
-#view-estadisticas .estadisticas-page-header {
-  margin-bottom: 24px;
-}
-
-#view-estadisticas .estadisticas-filter-card,
-#view-estadisticas .estadisticas-panel,
-#view-estadisticas .estadisticas-summary-card {
-  border: 1px solid var(--hidra-line);
-  background: var(--hidra-panel);
-  box-shadow: none;
-}
-
+/* ── Filtros ─────────────────────────────────────────── */
 #view-estadisticas .estadisticas-filter-grid {
   display: flex;
   align-items: flex-end;
@@ -198,113 +171,118 @@
   min-height: 42px;
 }
 
-/* ── KPI cards ───────────────────────────────────── */
+/* ── KPI grid ────────────────────────────────────────── */
 #view-estadisticas .estadisticas-kpi-grid {
   gap: 18px !important;
 }
 
+/* Sobreescribe el fondo oscuro: hereda el fondo blanco de .kpi-card */
 #view-estadisticas .estadisticas-kpi {
-  position: relative;
-  overflow: hidden;
-  min-height: 172px;
-  padding: 22px 22px 18px;
-  border: 1px solid var(--hidra-line);
-  background: var(--hidra-panel);
-  box-shadow: none;
+  min-height: 164px;
+  padding: 20px 20px 16px;
 }
 
+/* Barra superior del KPI */
 #view-estadisticas .estadisticas-kpi::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 18px;
-  right: 18px;
-  height: 2px;
+  left: 14px;
+  right: 14px;
+  height: 3px;
   border-radius: 999px;
-  background: var(--hidra-celeste-muted);
+  background: var(--celeste-lt);
 }
 
+/* Iconos: hereda el override flat de components.css (fondo gris, texto negro) */
 #view-estadisticas .estadisticas-kpi .kpi-icon {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
-  border-radius: 9px;
-  border: 1px solid var(--hidra-line);
-  color: var(--hidra-celeste-soft);
-  background: rgba(0, 0, 0, .20);
+  margin-bottom: 14px;
+  border-radius: 8px;
   font-size: 1.1rem;
 }
 
 #view-estadisticas .estadisticas-kpi .kpi-label {
-  color: var(--hidra-text-soft);
-  font-size: .76rem;
-  letter-spacing: .095em;
+  color: var(--text-muted);
+  font-size: .72rem;
+  letter-spacing: .09em;
   text-transform: uppercase;
   font-weight: 800;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 #view-estadisticas .estadisticas-kpi .kpi-value {
-  color: var(--hidra-text) !important;
-  font-size: 1.75rem;
+  color: var(--negro) !important;
+  font-size: 1.6rem;
   line-height: 1.1;
-  font-weight: 850;
-  margin-bottom: 12px;
+  font-weight: 800;
+  margin-bottom: 10px;
 }
 
+/* Delta badge — estilo igual que .kpi-delta.up en components.css */
 #view-estadisticas .estadisticas-kpi .kpi-delta {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: fit-content;
-  min-height: 24px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: .7rem;
-  font-weight: 800;
-  letter-spacing: .01em;
-  background: rgba(0, 0, 0, .24);
-  border: 1px solid var(--hidra-celeste-muted);
-  color: var(--hidra-celeste-soft);
+  gap: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
 }
 
-/* Bueno / positivo: celeste claro */
-#view-estadisticas .estadisticas-kpi.status-good::before {
-  background: var(--hidra-celeste);
+/* Status: good (celeste claro) */
+#view-estadisticas .estadisticas-kpi.est-good::before {
+  background: var(--celeste);
 }
-#view-estadisticas .estadisticas-kpi.status-good .kpi-icon,
-#view-estadisticas .estadisticas-kpi.status-good .kpi-delta {
-  border-color: rgba(102, 179, 255, .82);
-  color: var(--hidra-celeste);
+#view-estadisticas .estadisticas-kpi.est-good .kpi-icon {
+  background: var(--celeste-xlt) !important;
+  color: var(--celeste-dk) !important;
+  border: 1.5px solid var(--celeste-lt);
 }
-
-/* Normal: sobrio */
-#view-estadisticas .estadisticas-kpi.status-normal::before {
-  background: rgba(102, 179, 255, .38);
-}
-#view-estadisticas .estadisticas-kpi.status-normal .kpi-icon,
-#view-estadisticas .estadisticas-kpi.status-normal .kpi-delta {
-  border-color: rgba(102, 179, 255, .30);
-  color: rgba(102, 179, 255, .70);
+#view-estadisticas .est-delta-good {
+  background: var(--celeste-xlt);
+  color: var(--celeste-dk);
+  border: 1px solid var(--celeste-lt);
 }
 
-/* Atención: azul más remarcado, sin rojo */
-#view-estadisticas .estadisticas-kpi.status-attention::before {
-  background: var(--hidra-blue-strong);
+/* Status: normal (celeste muy suave) */
+#view-estadisticas .estadisticas-kpi.est-normal::before {
+  background: var(--celeste-lt);
 }
-#view-estadisticas .estadisticas-kpi.status-attention {
-  border-color: rgba(31, 134, 255, .55);
+#view-estadisticas .estadisticas-kpi.est-normal .kpi-icon {
+  background: var(--gris-bg) !important;
+  color: var(--gris-texto) !important;
+  border: 1.5px solid var(--border-subtle);
 }
-#view-estadisticas .estadisticas-kpi.status-attention .kpi-icon,
-#view-estadisticas .estadisticas-kpi.status-attention .kpi-delta {
-  border-color: rgba(31, 134, 255, .88);
-  color: var(--hidra-blue-strong);
+#view-estadisticas .est-delta-normal {
+  background: var(--gris-bg);
+  color: var(--gris-texto);
+  border: 1px solid var(--border-subtle);
 }
 
-/* ── Paneles de gráficas ─────────────────────────── */
+/* Status: attention (azul pending) */
+#view-estadisticas .estadisticas-kpi.est-attention::before {
+  background: var(--pending);
+}
+#view-estadisticas .estadisticas-kpi.est-attention {
+  border-color: rgba(21,101,192,0.35);
+}
+#view-estadisticas .estadisticas-kpi.est-attention .kpi-icon {
+  background: rgba(21,101,192,0.10) !important;
+  color: var(--pending) !important;
+  border: 1.5px solid rgba(21,101,192,0.30);
+}
+#view-estadisticas .est-delta-attention {
+  background: rgba(21,101,192,0.10);
+  color: var(--pending);
+  border: 1px solid rgba(21,101,192,0.30);
+}
+
+/* ── Paneles de gráficas ─────────────────────────────── */
 #view-estadisticas .estadisticas-charts-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -313,7 +291,7 @@
 
 #view-estadisticas .estadisticas-panel {
   min-height: 318px;
-  padding: 26px 30px 28px;
+  padding: 26px 28px 28px;
   border-radius: 16px;
 }
 
@@ -323,149 +301,60 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 #view-estadisticas .estadisticas-panel-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin: 0;
-  color: var(--hidra-text);
-  font-size: .98rem;
+  color: var(--negro);
+  font-size: .9rem;
   line-height: 1.2;
-  font-weight: 850;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .065em;
 }
 
 #view-estadisticas .estadisticas-title-accent {
   width: 4px;
-  height: 22px;
+  height: 20px;
   display: inline-block;
   border-radius: 999px;
-  background: var(--hidra-celeste);
+  background: var(--celeste);
+  flex-shrink: 0;
 }
 
 #view-estadisticas .estadisticas-panel-note {
-  margin: 14px 0 0;
-  color: var(--hidra-celeste);
-  font-size: .82rem;
+  margin: 10px 0 0;
+  color: var(--celeste-dk);
+  font-size: .78rem;
   font-weight: 600;
 }
 
 #view-estadisticas .estadisticas-panel-period {
-  color: var(--hidra-celeste-soft);
-  font-size: .8rem;
+  color: var(--gris-muted);
+  font-size: .78rem;
   font-weight: 700;
   white-space: nowrap;
 }
 
-/* ── Gráfica de ingresos por mes ─────────────────── */
-#view-estadisticas #chart-ingresos-labels {
-  display: none !important;
-}
-
-#view-estadisticas .estadisticas-bar-chart {
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 14px;
-  height: 230px;
-  margin-top: 4px;
-}
-
-#view-estadisticas .stats-y-axis {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 0 22px 0;
-  color: var(--hidra-text-soft);
-  font-size: .78rem;
-  font-weight: 600;
-}
-
-#view-estadisticas .stats-plot {
-  position: relative;
-  height: 100%;
-  border-left: 1px solid rgba(255, 255, 255, .42);
-  border-bottom: 1px solid rgba(255, 255, 255, .42);
-  padding: 0 16px 0;
-}
-
-#view-estadisticas .stats-grid-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, .12);
-}
-
-#view-estadisticas .stats-bars {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: end;
-  gap: 28px;
-  height: calc(100% - 22px);
-}
-
-#view-estadisticas .stats-bar-item {
-  height: 100%;
-  min-width: 54px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-}
-
-#view-estadisticas .stats-bar-value {
-  color: var(--hidra-white);
-  font-size: .82rem;
-  font-weight: 850;
-  line-height: 1;
-}
-
-#view-estadisticas .stats-bar {
-  width: 70%;
-  min-width: 42px;
-  max-width: 70px;
-  border-radius: 3px 3px 0 0;
-  background: var(--hidra-celeste);
-  border: 1px solid rgba(255, 255, 255, .08);
-}
-
-#view-estadisticas .stats-bar-labels {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: -24px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-  color: var(--hidra-text-soft);
-  font-size: .78rem;
-  font-weight: 650;
-  text-align: center;
-}
-
-/* ── Consumo por sector ──────────────────────────── */
+/* ── Consumo por sector ──────────────────────────────── */
 #view-estadisticas .estadisticas-sector-list {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin-top: 12px;
+  margin-top: 4px;
 }
 
 #view-estadisticas .sector-bar-row {
   display: grid;
-  grid-template-columns: 48px minmax(150px, 190px) minmax(170px, 1fr) 94px;
+  grid-template-columns: 40px minmax(130px, 180px) minmax(140px, 1fr) 86px;
   align-items: center;
-  gap: 16px;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--hidra-line-soft);
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 #view-estadisticas .sector-bar-row:last-child {
@@ -473,50 +362,47 @@
 }
 
 #view-estadisticas .sector-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--hidra-celeste-muted);
-  color: var(--hidra-white);
-  background: rgba(0, 0, 0, .18);
-  font-size: 1rem;
+  border: 1.5px solid var(--border-subtle);
+  color: var(--celeste-dk);
+  background: var(--celeste-xlt);
+  font-size: .95rem;
 }
 
 #view-estadisticas .sector-bar-name {
-  width: auto;
-  text-align: left;
-  color: var(--hidra-text);
-  font-size: .86rem;
-  font-weight: 750;
-  flex-shrink: 1;
+  color: var(--gris-texto);
+  font-size: .84rem;
+  font-weight: 700;
 }
 
 #view-estadisticas .sector-bar-track {
   width: 100%;
-  height: 12px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, .10);
+  height: 10px;
+  border-radius: 99px;
+  background: var(--celeste-xlt);
   overflow: hidden;
+  border: 1px solid var(--celeste-lt);
 }
 
 #view-estadisticas .sector-bar-fill {
   height: 100%;
-  border-radius: 4px;
-  background: var(--hidra-celeste);
+  border-radius: 99px;
+  background: var(--celeste);
 }
 
 #view-estadisticas .sector-bar-val {
-  width: auto;
-  color: var(--hidra-white);
-  font-size: .86rem;
-  font-weight: 850;
+  color: var(--negro);
+  font-size: .82rem;
+  font-weight: 800;
   text-align: right;
 }
 
-/* ── Tabla resumen ───────────────────────────────── */
+/* ── Tabla resumen ───────────────────────────────────── */
 #view-estadisticas .estadisticas-summary-card {
   border-radius: 16px;
 }
@@ -530,32 +416,26 @@
   border-collapse: collapse;
 }
 
-#view-estadisticas .estadisticas-table th,
-#view-estadisticas .estadisticas-table td {
-  border-color: rgba(102, 179, 255, .16);
-}
-
 #view-estadisticas .estadisticas-table .td-primary {
-  color: var(--hidra-celeste) !important;
-  font-weight: 850;
+  color: var(--celeste-dk) !important;
+  font-weight: 800;
 }
 
 #view-estadisticas .estadisticas-table .td-attention {
-  color: var(--hidra-blue-strong) !important;
-  font-weight: 850;
+  color: var(--pending) !important;
+  font-weight: 800;
 }
 
 #view-estadisticas .estadisticas-table .td-normal {
-  color: var(--hidra-text-soft) !important;
-  font-weight: 750;
+  color: var(--gris-muted) !important;
+  font-weight: 700;
 }
 
-/* ── Responsive ─────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 1180px) {
   #view-estadisticas .estadisticas-kpi-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
-
   #view-estadisticas .estadisticas-charts-grid {
     grid-template-columns: 1fr;
   }
@@ -565,43 +445,22 @@
   #view-estadisticas .estadisticas-kpi-grid {
     grid-template-columns: 1fr !important;
   }
-
   #view-estadisticas .estadisticas-panel {
-    padding: 20px 18px 24px;
+    padding: 18px 16px 22px;
   }
-
   #view-estadisticas .estadisticas-panel-header,
   #view-estadisticas .estadisticas-summary-header {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  #view-estadisticas #chart-ingresos-labels {
-  display: none !important;
-}
-
-#view-estadisticas .estadisticas-bar-chart {
-    grid-template-columns: 34px minmax(0, 1fr);
-  }
-
-  #view-estadisticas .stats-bars {
-    gap: 14px;
-  }
-
-  #view-estadisticas .stats-bar-labels {
-    gap: 14px;
-  }
-
   #view-estadisticas .sector-bar-row {
-    grid-template-columns: 38px 1fr;
-    gap: 10px 12px;
+    grid-template-columns: 36px 1fr;
+    gap: 8px 10px;
   }
-
   #view-estadisticas .sector-bar-track,
   #view-estadisticas .sector-bar-val {
     grid-column: 2 / 3;
   }
-
   #view-estadisticas .sector-bar-val {
     text-align: left;
   }
@@ -610,6 +469,7 @@
 
 <script>
 (function initEstadisticas() {
+
   const ingresosData = [
     { mes: 'Ene', val: 1892 },
     { mes: 'Feb', val: 1943 },
@@ -624,43 +484,94 @@
     { name: 'El Calvario',     m3: 2360, pct: 30, icon: 'bi-water' },
   ];
 
-  function renderIngresosChart() {
-    const chart = document.getElementById('chart-ingresos');
-    const labels = document.getElementById('chart-ingresos-labels');
-    if (!chart) return;
+  // ── ApexCharts: gráfica de ingresos ─────────────────
+  let apexChart = null;
 
-    const maxScale = 2500;
-    const yLabels = ['2.5', '2.0', '1.5', '1.0', '0.5', '0'];
-    const gridLines = [0, 20, 40, 60, 80, 100];
+  function renderIngresosApex() {
+    const el = document.getElementById('chart-ingresos-apex');
+    if (!el) return;
 
-    const barsHtml = ingresosData.map(item => {
-      const height = Math.max(3, (item.val / maxScale) * 100);
-      const value = `$${(item.val / 1000).toFixed(1)}k`;
-
-      return `
-        <div class="stats-bar-item" title="${item.mes}: $${item.val.toLocaleString()}">
-          <div class="stats-bar-value">${value}</div>
-          <div class="stats-bar" style="height:${height}%;"></div>
-        </div>`;
-    }).join('');
-
-    const monthLabelsHtml = ingresosData.map(item => `<span>${item.mes}</span>`).join('');
-
-    chart.innerHTML = `
-      <div class="stats-y-axis">
-        ${yLabels.map(label => `<span>${label}</span>`).join('')}
-      </div>
-      <div class="stats-plot">
-        ${gridLines.map(line => `<span class="stats-grid-line" style="bottom:${line}%;"></span>`).join('')}
-        <div class="stats-bars">${barsHtml}</div>
-        <div class="stats-bar-labels">${monthLabelsHtml}</div>
-      </div>`;
-
-    if (labels) {
-      labels.innerHTML = '';
+    // Destruir instancia previa si existe
+    if (apexChart) {
+      apexChart.destroy();
+      apexChart = null;
     }
+
+    const options = {
+      chart: {
+        type: 'bar',
+        height: 220,
+        toolbar: { show: false },
+        fontFamily: "'Outfit', sans-serif",
+        background: 'transparent',
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 600,
+          animateGradually: { enabled: true, delay: 80 },
+        },
+      },
+      series: [{
+        name: 'Ingresos',
+        data: ingresosData.map(d => d.val),
+      }],
+      xaxis: {
+        categories: ingresosData.map(d => d.mes),
+        labels: {
+          style: { colors: '#6A8098', fontSize: '12px', fontWeight: 700 }
+        },
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+      },
+      yaxis: {
+        labels: {
+          formatter: val => '$' + (val / 1000).toFixed(1) + 'k',
+          style: { colors: '#6A8098', fontSize: '11px' }
+        }
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          columnWidth: '52%',
+          dataLabels: { position: 'top' },
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: val => '$' + (val / 1000).toFixed(1) + 'k',
+        offsetY: -22,
+        style: { fontSize: '11px', fontWeight: 800, colors: ['#000000'] },
+      },
+      colors: ['#66B3FF'],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: 'vertical',
+          shadeIntensity: 0.25,
+          gradientToColors: ['#3E96F0'],
+          stops: [0, 100],
+        }
+      },
+      grid: {
+        borderColor: '#C8DFF7',
+        strokeDashArray: 4,
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: true } },
+        padding: { top: 0, right: 0, bottom: 0, left: 4 },
+      },
+      tooltip: {
+        y: { formatter: val => '$' + val.toLocaleString() },
+        theme: 'light',
+      },
+      legend: { show: false },
+    };
+
+    apexChart = new ApexCharts(el, options);
+    apexChart.render();
   }
 
+  // ── Consumo por sector (barras horizontales CSS) ─────
   function renderSectoresChart() {
     const container = document.getElementById('chart-sectores');
     if (!container) return;
@@ -677,30 +588,36 @@
   }
 
   function renderCharts() {
-    renderIngresosChart();
+    renderIngresosApex();
     renderSectoresChart();
   }
 
+  // Ejecutar al hacer clic en el nav-item de Estadísticas
   document.querySelectorAll('[data-view="estadisticas"]').forEach(function(el) {
     el.addEventListener('click', function() {
-      setTimeout(renderCharts, 80);
+      setTimeout(renderCharts, 100);
     });
   });
 
+  // Ejecutar al cargar si ya es la vista activa
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderCharts);
+    document.addEventListener('DOMContentLoaded', function() {
+      if (document.getElementById('view-estadisticas')?.classList.contains('active')) {
+        renderCharts();
+      }
+    });
   } else {
-    renderCharts();
+    if (document.getElementById('view-estadisticas')?.classList.contains('active')) {
+      renderCharts();
+    }
   }
 
   window.refreshEstadisticas = function() {
     renderCharts();
-
     if (typeof showToast === 'function') {
       showToast('Filtros aplicados — datos actualizados', 'success');
-    } else {
-      console.log('Filtros aplicados — datos actualizados');
     }
   };
+
 })();
 </script>
