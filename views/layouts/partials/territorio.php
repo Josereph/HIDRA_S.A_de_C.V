@@ -146,39 +146,11 @@ try {
     <!-- ══ TAB 3: VIVIENDAS CRUD + PAGINACIÓN ════════════ -->
     <div id="terr-panel-casas" class="terr-panel">
 
-<<<<<<< HEAD
-    <!-- ── TAB 2: CASAS ────────────────────────────── -->
-    <div class="tab-panel" data-panel="terr-casas" data-group="terr-tabs">
-
-        <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px;">
-            <div class="search-bar">
-                <span class="search-icon"><i class="fas fa-search"></i></span>
-                <input type="text" id="casaSearch" placeholder="Buscar código, cliente, medidor…" />
-            </div>
-            <div class="flex-gap">
-                <select class="form-control" style="width:auto;padding:8px 12px;">
-                    <option>Todos los sectores</option>
-                    <option>Colonia Centro</option>
-                    <option>Comunidad Norte</option>
-                    <option>Las Margaritas</option>
-                    <option>El Calvario</option>
-                </select>
-                <select class="form-control" style="width:auto;padding:8px 12px;">
-                    <option>Todos los estados</option>
-                    <option>Al día</option>
-                    <option>Pendiente</option>
-                    <option>Moroso</option>
-                    <option>Cortado</option>
-                </select>
-                <button class="btn btn-agua btn-sm">+ Nueva casa</button>
-            </div>
-=======
         <div class="terr-toolbar">
             <span class="terr-toolbar-title"><i class="fas fa-home"></i> Viviendas Registradas</span>
             <button class="btn btn-primary btn-sm" onclick="terrOpenNewVivienda()">
                 <i class="fas fa-plus"></i> Nueva Vivienda
             </button>
->>>>>>> backend2
         </div>
 
         <div class="terr-table-scroll">
