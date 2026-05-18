@@ -1,4 +1,53 @@
-<?php require_once __DIR__ . '/data_loader.php'; ?>
+<?php
+require_once __DIR__ . '/data_loader.php';
+
+
+function hidra_render_partial_seguro(string $partialPath, string $viewId, string $tituloModulo): void
+{
+    $nivelBuffer = ob_get_level();
+
+    try {
+        if (!file_exists($partialPath)) {
+            throw new RuntimeException('No se encontró el archivo partial: ' . $partialPath);
+        }
+
+        ob_start();
+        include $partialPath;
+        echo ob_get_clean();
+    } catch (Throwable $e) {
+        while (ob_get_level() > $nivelBuffer) {
+            ob_end_clean();
+        }
+
+        $mensajeTecnico = $e->getMessage();
+        ?>
+        <div class="view" id="view-<?= htmlspecialchars($viewId, ENT_QUOTES, 'UTF-8') ?>">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title"><?= htmlspecialchars($tituloModulo, ENT_QUOTES, 'UTF-8') ?></h1>
+                    <p class="page-subtitle">Este módulo no se pudo cargar porque falta una tabla o hay una consulta pendiente de ajustar.</p>
+                </div>
+            </div>
+
+            <div class="card" style="border:1px solid rgba(255,140,0,.45); background:rgba(255,140,0,.08);">
+                <div class="card-header">
+                    <span class="card-title" style="color:#ffd166;">
+                        <i class="fas fa-exclamation-triangle"></i> Módulo temporalmente detenido
+                    </span>
+                </div>
+                <p style="margin:0 0 10px; color:var(--text-muted);">
+                    La pantalla principal sigue funcionando. El problema real está dentro del módulo
+                    <strong><?= htmlspecialchars($tituloModulo, ENT_QUOTES, 'UTF-8') ?></strong>.
+                </p>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:12px; padding:12px; border-radius:10px; background:rgba(0,0,0,.35); color:#ffd166; overflow:auto;">
+                    <?= htmlspecialchars($mensajeTecnico, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -471,21 +520,21 @@
 
 
       <!-- ══ VISTA 3: TERRITORIO (partial) ══ -->
-      <?php include __DIR__ . '/partials/territorio.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/territorio.php', 'territorio', 'Territorio'); ?>
 
 
       <!-- ══ VISTA 4: OPERACIONES (partial) ══ -->
-      <?php include __DIR__ . '/partials/operaciones.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/operaciones.php', 'operaciones', 'Operaciones'); ?>
 
       <!-- ══ VISTA 4a: COBROS (partial) ══ -->
-      <?php include __DIR__ . '/partials/cobros.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/cobros.php', 'cobros', 'Cobros'); ?>
 
       <!-- ══ VISTA 4b: ESTADÍSTICAS (partial) ══ -->
-      <?php include __DIR__ . '/partials/estadisticas.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/estadisticas.php', 'estadisticas', 'Estadísticas'); ?>
 
 
       <!-- ══ VISTA 5: REPORTES (partial) ══ -->
-      <?php include __DIR__ . '/partials/reportes.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/reportes.php', 'reportes', 'Reportes'); ?>
 
 
       <!-- ══════════════════════════════════
@@ -782,6 +831,79 @@ function toggleMoraValor(tipo) {
     input.step         = '0.01';
   }
 }
+</script>
+
+<!-- FIX SEGURO DE NAVEGACIÓN SIDEBAR - -->
+<script>
+(function () {
+  const viewLabels = {
+    dashboard: 'Dashboard',
+    clientes: 'Clientes',
+    territorio: 'Territorio',
+    operaciones: 'Operaciones',
+    cobros: 'Cobros',
+    reportes: 'Reportes',
+    estadisticas: 'Estadísticas',
+    config: 'Configuración'
+  };
+
+  function activarVista(nombreVista) {
+    const vistaObjetivo = document.getElementById('view-' + nombreVista);
+
+    if (!vistaObjetivo) {
+      console.warn('No existe la vista:', 'view-' + nombreVista);
+      return;
+    }
+
+    document.querySelectorAll('.view').forEach(function (vista) {
+      vista.classList.remove('active');
+    });
+
+    vistaObjetivo.classList.add('active');
+
+    document.querySelectorAll('.nav-item[data-view]').forEach(function (item) {
+      item.classList.remove('active');
+
+      if (item.getAttribute('data-view') === nombreVista) {
+        item.classList.add('active');
+      }
+    });
+
+    const breadPage = document.getElementById('breadPage');
+    if (breadPage) {
+      breadPage.textContent = viewLabels[nombreVista] || nombreVista;
+    }
+
+    try {
+      history.replaceState(null, '', '#' + nombreVista);
+    } catch (e) {}
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  window.addEventListener('load', function () {
+    window.showView = activarVista;
+
+    document.querySelectorAll('.nav-item[data-view]').forEach(function (item) {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const nombreVista = item.getAttribute('data-view');
+        activarVista(nombreVista);
+      }, true);
+    });
+
+    const vistaInicial = window.location.hash.replace('#', '');
+
+    if (vistaInicial && document.getElementById('view-' + vistaInicial)) {
+      activarVista(vistaInicial);
+    }
+  });
+})();
 </script>
 
 </body>
