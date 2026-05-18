@@ -1,4 +1,73 @@
-<?php require_once __DIR__ . '/data_loader.php'; ?>
+<?php
+require_once __DIR__ . '/data_loader.php';
+
+
+function hidra_render_partial_seguro(string $partialPath, string $viewId, string $tituloModulo): void
+{
+    $nivelBuffer = ob_get_level();
+
+    try {
+        if (!file_exists($partialPath)) {
+            throw new RuntimeException('No se encontró el archivo partial: ' . $partialPath);
+        }
+
+        // ── CORRECCIÓN CRÍTICA ────────────────────────────────────────────────
+        // Los includes dentro de una función PHP tienen su propio scope aislado.
+        // Las variables definidas en data_loader.php ($lecturas_recientes,
+        // $sectores_lista, $clientes_lista, etc.) son globales pero NO están
+        // disponibles automáticamente dentro de esta función.
+        // extract($GLOBALS) las inyecta al scope local antes del include,
+        // resolviendo el "Undefined variable $lecturas_recientes" en operaciones.php.
+        // Se excluyen claves internas de PHP para evitar colisiones.
+        $safeGlobals = array_diff_key(
+            $GLOBALS,
+            array_flip(['GLOBALS', '_SERVER', '_GET', '_POST', '_FILES',
+                        '_COOKIE', '_SESSION', '_REQUEST', '_ENV'])
+        );
+        extract($safeGlobals, EXTR_SKIP);
+        // ─────────────────────────────────────────────────────────────────────
+
+        ob_start();
+        include $partialPath;
+        echo ob_get_clean();
+
+    } catch (Throwable $e) {
+        while (ob_get_level() > $nivelBuffer) {
+            ob_end_clean();
+        }
+
+        $mensajeTecnico = $e->getMessage();
+        // Incluir archivo + línea para acelerar el debug
+        $mensajeTecnico .= ' — en ' . str_replace(realpath(__DIR__ . '/../../'), '', $e->getFile())
+                         . ':' . $e->getLine();
+        ?>
+        <div class="view" id="view-<?= htmlspecialchars($viewId, ENT_QUOTES, 'UTF-8') ?>">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title"><?= htmlspecialchars($tituloModulo, ENT_QUOTES, 'UTF-8') ?></h1>
+                    <p class="page-subtitle">Este módulo no se pudo cargar porque falta una tabla o hay una consulta pendiente de ajustar.</p>
+                </div>
+            </div>
+
+            <div class="card" style="border:1px solid rgba(255,140,0,.45); background:rgba(255,140,0,.08);">
+                <div class="card-header">
+                    <span class="card-title" style="color:#ffd166;">
+                        <i class="fas fa-exclamation-triangle"></i> Módulo temporalmente detenido
+                    </span>
+                </div>
+                <p style="margin:0 0 10px; color:var(--text-muted);">
+                    La pantalla principal sigue funcionando. El problema real está dentro del módulo
+                    <strong><?= htmlspecialchars($tituloModulo, ENT_QUOTES, 'UTF-8') ?></strong>.
+                </p>
+                <div style="font-family:'JetBrains Mono', monospace; font-size:12px; padding:12px; border-radius:10px; background:rgba(0,0,0,.35); color:#ffd166; overflow:auto;">
+                    <?= htmlspecialchars($mensajeTecnico, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,6 +86,8 @@
   <link rel="stylesheet" href="../../assets/css/modals.css" />
   <link rel="stylesheet" href="../../assets/css/utilities.css" />
   <link rel="stylesheet" href="../../assets/css/operaciones.css" />
+  <link rel="stylesheet" href="../../assets/css/territorio.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
@@ -350,16 +421,11 @@
             <h1 class="page-title">Clientes</h1>
             <p class="page-subtitle">Gestión del padrón de abonados</p>
           </div>
-          <div class="btn-group">
-            <button class="btn btn-ghost btn-sm">Exportar CSV</button>
-            <button class="btn btn-primary btn-sm" id="btnNuevoCliente">+ Nuevo cliente</button>
-          </div>
         </div>
 
         <div class="section-tabs" data-group="clientes-tabs">
           <div class="section-tab active" data-panel="cli-listado" data-group="clientes-tabs"><i class="fas fa-list"></i> Listado</div>
           <div class="section-tab" data-panel="cli-registro" data-group="clientes-tabs"><i class="fas fa-edit"></i> Registro</div>
-          <div class="section-tab" data-panel="cli-historial" data-group="clientes-tabs"><i class="fas fa-calendar"></i> Historial</div>
         </div>
 
         <div class="tab-panel active" data-panel="cli-listado" data-group="clientes-tabs">
@@ -432,19 +498,41 @@
         <div class="tab-panel" data-panel="cli-registro" data-group="clientes-tabs">
           <div class="card" style="max-width:620px;">
             <div class="card-header"><span class="card-title">Nuevo Cliente</span></div>
-            <form onsubmit="event.preventDefault(); showToast('Cliente guardado correctamente','success');">
-              <div class="form-row">
-                <div class="form-group"><label class="form-label">Nombres</label><input type="text" class="form-control" placeholder="Nombre(s)" required /></div>
-                <div class="form-group"><label class="form-label">Apellidos</label><input type="text" class="form-control" placeholder="Apellido(s)" required /></div>
+            <form id="formRegistroCliente" onsubmit="registrarClienteNuevo(event)">
+              <div class="form-group">
+                <label class="form-label">Código de Usuario</label>
+                <div class="input-group" style="display:flex;">
+                  <select class="form-control form-select" id="reg_prefijo" style="max-width:120px;border-top-right-radius:0;border-bottom-right-radius:0;border-right:none;">
+                    <option value="USR-">USR-</option>
+                    <option value="JRD-">JRD-</option>
+                  </select>
+                  <input type="text" class="form-control" placeholder="Autogenerado al guardar" disabled style="border-top-left-radius:0;border-bottom-left-radius:0;background:var(--bg-card);color:var(--text-muted);" />
+                </div>
               </div>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">DUI</label><input type="text" class="form-control" placeholder="00000000-0" /></div>
-                <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" class="form-control" placeholder="0000-0000" /></div>
+                <div class="form-group"><label class="form-label">Nombres</label><input type="text" id="reg_nombres" class="form-control" placeholder="Nombre(s)" required /></div>
+                <div class="form-group"><label class="form-label">Apellidos</label><input type="text" id="reg_apellidos" class="form-control" placeholder="Apellido(s)" required /></div>
               </div>
-              <div class="form-group"><label class="form-label">Dirección</label><input type="text" class="form-control" placeholder="Calle, colonia, número…" /></div>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">Sector</label><select class="form-control form-select"><option>A-1</option><option>A-2</option><option>A-3</option><option>B-1</option><option>B-2</option><option>B-3</option><option>C-1</option><option>C-2</option></select></div>
-                <div class="form-group"><label class="form-label">Tarifa mensual</label><select class="form-control form-select"><option>$12.50 — Doméstica básica</option><option>$15.00 — Doméstica plus</option><option>$25.00 — Comercial</option></select></div>
+                <div class="form-group"><label class="form-label">Identificador (DUI/NIT)</label><input type="text" id="reg_identificador" class="form-control" placeholder="00000000-0" /></div>
+                <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" id="reg_telefono" class="form-control" placeholder="0000-0000" /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Dirección</label><input type="text" id="reg_direccion" class="form-control" placeholder="Calle, colonia, número…" /></div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Sector</label>
+                  <select id="reg_sector" class="form-control form-select">
+                    <?php foreach($sectores_lista as $s): ?>
+                      <option value="<?= $s['id_sector'] ?>"><?= htmlspecialchars($s['nombre_sector']) ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="form-group"><label class="form-label">Tarifa mensual</label>
+                  <select id="reg_tarifa" class="form-control form-select">
+                    <option>$12.50 — Doméstica básica</option>
+                    <option>$15.00 — Doméstica plus</option>
+                    <option>$25.00 — Comercial</option>
+                  </select>
+                </div>
               </div>
               <div class="flex-gap mt-16">
                 <button type="submit" class="btn btn-primary">Guardar cliente</button>
@@ -454,53 +542,26 @@
           </div>
         </div>
 
-        <div class="tab-panel" data-panel="cli-historial" data-group="clientes-tabs">
-          <div class="grid-2-1">
-            <div class="card">
-              <div class="card-header">
-                <span class="card-title">Historial de pagos</span>
-                <div class="search-bar"><span class="search-icon"><i class="fas fa-search"></i></span><input type="text" placeholder="Buscar cliente…" style="min-width:140px;" /></div>
-              </div>
-              <div class="timeline">
-                <div class="timeline-item"><div class="timeline-dot paid"><i class="fas fa-check"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Abril 2026</div><div class="timeline-meta">Pagado el 28/04/2026 · Ref: #2026-0431</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid"><i class="fas fa-check"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Marzo 2026</div><div class="timeline-meta">Pagado el 05/03/2026 · Ref: #2026-0312</div><div class="timeline-amount">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot overdue"><i class="fas fa-times"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Febrero 2026</div><div class="timeline-meta">Vencido — sin pago registrado</div><div class="timeline-amount" style="color:var(--danger)">$12.50</div></div></div>
-                <div class="timeline-item"><div class="timeline-dot paid"><i class="fas fa-check"></i></div><div class="timeline-body"><div class="timeline-title">Ana Martínez — Enero 2026</div><div class="timeline-meta">Pagado el 10/01/2026 · Ref: #2026-0101</div><div class="timeline-amount">$12.50</div></div></div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header"><span class="card-title">Perfil del cliente</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Código</span><span class="td-mono">CLT-001</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Nombre</span><span style="font-weight:700; font-size:.84rem;">Ana Martínez</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Sector</span><span class="badge badge-blue">A-3</span></div>
-              <div class="stat-row"><span class="text-muted" style="font-size:.75rem">Estado</span><span class="badge badge-green">Al día</span></div>
-              <div class="stat-row" style="margin-bottom:16px;"><span class="text-muted" style="font-size:.75rem">Tarifa</span><span class="td-mono">$12.50/mes</span></div>
-              <div style="font-size:.7rem; color:var(--text-muted); margin-bottom:6px;">Cumplimiento de pago</div>
-              <div class="progress-bar-wrap mb-8"><div class="progress-bar-fill" style="width:83%"></div></div>
-              <div style="font-size:.7rem; color:var(--text-muted);">10 de 12 meses pagados a tiempo (83%)</div>
-              <div class="btn-group mt-16"><button class="btn btn-primary btn-sm w-full" onclick="showToast('Abriendo registro de pago…','info')">+ Registrar pago</button></div>
-            </div>
-          </div>
-        </div>
+
       </div><!-- /clientes -->
 
 
       <!-- ══ VISTA 3: TERRITORIO (partial) ══ -->
-      <?php include __DIR__ . '/partials/territorio.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/territorio.php', 'territorio', 'Territorio'); ?>
 
 
       <!-- ══ VISTA 4: OPERACIONES (partial) ══ -->
-      <?php include __DIR__ . '/partials/operaciones.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/operaciones.php', 'operaciones', 'Operaciones'); ?>
 
       <!-- ══ VISTA 4a: COBROS (partial) ══ -->
-      <?php include __DIR__ . '/partials/cobros.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/cobros.php', 'cobros', 'Cobros'); ?>
 
       <!-- ══ VISTA 4b: ESTADÍSTICAS (partial) ══ -->
-      <?php include __DIR__ . '/partials/estadisticas.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/estadisticas.php', 'estadisticas', 'Estadísticas'); ?>
 
 
       <!-- ══ VISTA 5: REPORTES (partial) ══ -->
-      <?php include __DIR__ . '/partials/reportes.php'; ?>
+      <?php hidra_render_partial_seguro(__DIR__ . '/partials/reportes.php', 'reportes', 'Reportes'); ?>
 
 
       <!-- ══════════════════════════════════
@@ -739,11 +800,47 @@
 <script src="../../assets/js/sidebar-animations.js" defer></script>
 <script src="../../assets/js/router.js"             defer></script>
 <script src="../../assets/js/dashboard.js"          defer></script>
-<script src="../../assets/js/territorio.js"         defer></script>
+<script>window.TERR_API = '../../api/territorio_api.php';</script>
+<script src="../../assets/js/territorio.js"></script>
 <script src="../../assets/js/operaciones.js"        defer></script>
 <script src="../../assets/js/cobros.js"             defer></script>
 <script src="../../assets/js/ui.js"                 defer></script>
 <script>
+async function registrarClienteNuevo(e) {
+  e.preventDefault();
+  const data = {
+    prefijo_codigo: document.getElementById('reg_prefijo').value,
+    nombres: document.getElementById('reg_nombres').value,
+    apellidos: document.getElementById('reg_apellidos').value,
+    identificador: document.getElementById('reg_identificador').value,
+    direccion: document.getElementById('reg_direccion').value,
+    id_sector: document.getElementById('reg_sector').value
+  };
+
+  try {
+    const res = await fetch('../../api/registrar_cliente.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    if (result.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Cliente guardado',
+        text: 'Código asignado: ' + result.codigo_usuario,
+        confirmButtonColor: 'var(--celeste)'
+      }).then(() => {
+        window.location.reload();
+      });
+    } else {
+      Swal.fire({icon: 'error', title: 'Error', text: result.error});
+    }
+  } catch (err) {
+    Swal.fire({icon: 'error', title: 'Error', text: 'Error de conexión'});
+  }
+}
+
 function toggleMoraValor(tipo) {
   const lbl   = document.getElementById('mora-valor-label');
   const unidad = document.getElementById('mora-unidad');
@@ -761,6 +858,79 @@ function toggleMoraValor(tipo) {
     input.step         = '0.01';
   }
 }
+</script>
+
+<!-- FIX SEGURO DE NAVEGACIÓN SIDEBAR - -->
+<script>
+(function () {
+  const viewLabels = {
+    dashboard: 'Dashboard',
+    clientes: 'Clientes',
+    territorio: 'Territorio',
+    operaciones: 'Operaciones',
+    cobros: 'Cobros',
+    reportes: 'Reportes',
+    estadisticas: 'Estadísticas',
+    config: 'Configuración'
+  };
+
+  function activarVista(nombreVista) {
+    const vistaObjetivo = document.getElementById('view-' + nombreVista);
+
+    if (!vistaObjetivo) {
+      console.warn('No existe la vista:', 'view-' + nombreVista);
+      return;
+    }
+
+    document.querySelectorAll('.view').forEach(function (vista) {
+      vista.classList.remove('active');
+    });
+
+    vistaObjetivo.classList.add('active');
+
+    document.querySelectorAll('.nav-item[data-view]').forEach(function (item) {
+      item.classList.remove('active');
+
+      if (item.getAttribute('data-view') === nombreVista) {
+        item.classList.add('active');
+      }
+    });
+
+    const breadPage = document.getElementById('breadPage');
+    if (breadPage) {
+      breadPage.textContent = viewLabels[nombreVista] || nombreVista;
+    }
+
+    try {
+      history.replaceState(null, '', '#' + nombreVista);
+    } catch (e) {}
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  window.addEventListener('load', function () {
+    window.showView = activarVista;
+
+    document.querySelectorAll('.nav-item[data-view]').forEach(function (item) {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const nombreVista = item.getAttribute('data-view');
+        activarVista(nombreVista);
+      }, true);
+    });
+
+    const vistaInicial = window.location.hash.replace('#', '');
+
+    if (vistaInicial && document.getElementById('view-' + vistaInicial)) {
+      activarVista(vistaInicial);
+    }
+  });
+})();
 </script>
 
 </body>
