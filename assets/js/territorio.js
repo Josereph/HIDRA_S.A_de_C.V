@@ -125,49 +125,86 @@ function terrRenderSectorCards(sectores) {
     }).join('');
 }
 
+// ══════════════════════════════════════════════════════
+// MODAL DE CASAS POR SECTOR
+// ══════════════════════════════════════════════════════
+
+/**
+ * Abre el modal amplio con las mini-cards de viviendas del sector seleccionado.
+ * Hace un fetch a get_viviendas_sector y renderiza el resultado dentro del modal.
+ * El subview inline queda desactivado — la interacción es 100% en el modal.
+ */
 async function terrOpenSectorSubview(sectorId, nombre) {
+    // Marcar card activa visualmente
     document.querySelectorAll('.sector-main-card').forEach(c => c.classList.remove('active-card'));
     const card = document.querySelector(`.sector-main-card[data-id="${sectorId}"]`);
     if (card) card.classList.add('active-card');
 
-    const sub = document.getElementById('sectorSubview');
-    if (!sub) return;
-    sub.classList.add('visible');
-    document.getElementById('subviewSectorName').textContent = nombre;
-    document.getElementById('miniCasasGrid').innerHTML =
-        '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Cargando...</p></div>';
+    // Abrir modal y mostrar spinner
+    terrOpenModal('terrModalSectorCasas');
+    document.getElementById('terrSectorCasasNombre').textContent = nombre;
+    document.getElementById('terrSectorCasasConteo').textContent = '';
+    document.getElementById('terrModalCasasGrid').innerHTML =
+        '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Cargando viviendas...</p></div>';
 
     try {
         const r = await terrAPI('get_viviendas_sector', 'GET', null, { sector_id: sectorId });
-        terrRenderMiniCasas(r.data || []);
-    } catch(e) {
-        document.getElementById('miniCasasGrid').innerHTML =
-            '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Error al cargar viviendas</p></div>';
+        const casas = r.data || [];
+        document.getElementById('terrSectorCasasConteo').textContent =
+            casas.length === 1 ? '1 vivienda' : `${casas.length} viviendas`;
+        terrRenderMiniCasas(casas);
+    } catch (e) {
+        document.getElementById('terrModalCasasGrid').innerHTML =
+            '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Error al cargar las viviendas</p></div>';
     }
 }
 
-function terrCloseSectorSubview() {
-    document.getElementById('sectorSubview')?.classList.remove('visible');
+/** Cierra el modal de sector y limpia la selección de cards. */
+function terrCloseSectorModal() {
+    terrCloseModal('terrModalSectorCasas');
     document.querySelectorAll('.sector-main-card').forEach(c => c.classList.remove('active-card'));
 }
 
+/** Alias retrocompatible — por si algún botón existente llama a terrCloseSectorSubview */
+function terrCloseSectorSubview() { terrCloseSectorModal(); }
+
+/**
+ * Renderiza las mini-cards de viviendas DENTRO del modal.
+ * Al clicar una mini-card se abre el modal de detalle de vivienda
+ * (terrOpenViviendaDetail) sin cerrar el modal padre — JS maneja
+ * la pila de modales de forma independiente.
+ */
 function terrRenderMiniCasas(casas) {
-    const grid = document.getElementById('miniCasasGrid');
+    const grid = document.getElementById('terrModalCasasGrid');
+    if (!grid) return;
+
     if (!casas.length) {
-        grid.innerHTML = '<div class="empty-state"><i class="fas fa-home"></i><p>No hay viviendas en este sector.</p></div>';
+        grid.innerHTML = '<div class="empty-state"><i class="fas fa-home"></i><p>No hay viviendas registradas en este sector.</p></div>';
         return;
     }
-    const iconCls  = { 'Activa':'activa','Suspendida':'suspendida','En revisión':'revision' };
-    const badgeCls = { 'Activa':'badge-green','Suspendida':'badge-red','En revisión':'badge-yellow' };
+
+    const iconCls  = { 'Activa': 'activa', 'Suspendida': 'suspendida', 'En revisión': 'revision' };
+    const badgeCls = { 'Activa': 'badge-green', 'Suspendida': 'badge-red', 'En revisión': 'badge-yellow' };
+
     grid.innerHTML = casas.map(v => `
-        <div class="mini-casa-card" onclick="terrOpenViviendaDetail(${v.id})">
-          <div class="mini-casa-icon ${iconCls[v.estado]||'revision'}"><i class="fas fa-home"></i></div>
-          <div class="mini-casa-dir">${terrEsc(v.direccion)}</div>
-          <div class="mini-casa-cliente"><i class="fas fa-user"></i>
-            ${v.cliente_nombre ? terrEsc(v.cliente_nombre) : 'Sin asignar'}
+        <div class="mini-casa-card"
+             role="button"
+             tabindex="0"
+             onclick="terrOpenViviendaDetail(${v.id})"
+             onkeydown="if(event.key==='Enter')terrOpenViviendaDetail(${v.id})">
+          <div class="mini-casa-icon ${iconCls[v.estado] || 'revision'}">
+            <i class="fas fa-home"></i>
           </div>
-          <span class="badge ${badgeCls[v.estado]||'badge-yellow'} mini-casa-estado">${terrEsc(v.estado)}</span>
-        </div>`).join('');
+          <div class="mini-casa-dir">${terrEsc(v.direccion)}</div>
+          <div class="mini-casa-cliente">
+            <i class="fas fa-user"></i>
+            ${v.cliente_nombre ? terrEsc(v.cliente_nombre) : '<span style="color:var(--text-muted)">Sin asignar</span>'}
+          </div>
+          <span class="badge ${badgeCls[v.estado] || 'badge-yellow'} mini-casa-estado">
+            ${terrEsc(v.estado)}
+          </span>
+        </div>`
+    ).join('');
 }
 
 // ══════════════════════════════════════════════════════
@@ -505,11 +542,17 @@ function terrCloseModal(id) {
     setTimeout(() => { ov.style.display = 'none'; }, 300);
 }
 
-// Cerrar al hacer clic en backdrop
+// Cerrar modales al hacer clic en el backdrop (overlay)
 document.addEventListener('click', e => {
-    if (e.target.classList.contains('modal-overlay') &&
-        e.target.id.startsWith('terr')) {
-        terrCloseModal(e.target.id);
+    if (!e.target.classList.contains('modal-overlay')) return;
+    // Solo modales del módulo Territorio
+    if (e.target.id.startsWith('terr')) {
+        // El modal de casas también limpia la selección de cards
+        if (e.target.id === 'terrModalSectorCasas') {
+            terrCloseSectorModal();
+        } else {
+            terrCloseModal(e.target.id);
+        }
     }
 });
 

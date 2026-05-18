@@ -7,28 +7,39 @@
  */
 
 // Paginación de viviendas (servidor para primer render)
+// Usar el mismo $pdo que ya está disponible vía extract($GLOBALS)
 $pdo_terr = Database::getInstance();
 $terr_page    = max(1, (int)($_GET['page'] ?? 1));
 $terr_perPage = 10;
 $terr_offset  = ($terr_page - 1) * $terr_perPage;
 
-$terr_total = (int)$pdo_terr->query("SELECT COUNT(*) FROM viviendas")->fetchColumn();
-$terr_last  = max(1, (int)ceil($terr_total / $terr_perPage));
+// Proteger contra tabla 'viviendas' inexistente
+try {
+    $terr_total = (int)$pdo_terr->query("SELECT COUNT(*) FROM viviendas")->fetchColumn();
+    $terr_last  = max(1, (int)ceil($terr_total / $terr_perPage));
 
-$stmt_viv = $pdo_terr->prepare("
-    SELECT v.*,
-           s.nombre_sector,
-           CONCAT(u.nombres, ' ', IFNULL(u.apellidos,'')) AS cliente_nombre
-    FROM viviendas v
-    INNER JOIN sectores s ON v.sector_id = s.id_sector
-    LEFT JOIN usuarios u ON v.cliente_id = u.id_usuario
-    ORDER BY v.fecha_creacion DESC
-    LIMIT :lim OFFSET :off
-");
-$stmt_viv->bindValue(':lim', $terr_perPage, PDO::PARAM_INT);
-$stmt_viv->bindValue(':off', $terr_offset,  PDO::PARAM_INT);
-$stmt_viv->execute();
-$viviendas_pag = $stmt_viv->fetchAll(PDO::FETCH_ASSOC);
+    $stmt_viv = $pdo_terr->prepare("
+        SELECT v.*,
+               s.nombre_sector,
+               CONCAT(u.nombres, ' ', IFNULL(u.apellidos,'')) AS cliente_nombre
+        FROM viviendas v
+        INNER JOIN sectores s ON v.sector_id = s.id_sector
+        LEFT JOIN usuarios u ON v.cliente_id = u.id_usuario
+        ORDER BY v.fecha_creacion DESC
+        LIMIT :lim OFFSET :off
+    ");
+    $stmt_viv->bindValue(':lim', $terr_perPage, PDO::PARAM_INT);
+    $stmt_viv->bindValue(':off', $terr_offset,  PDO::PARAM_INT);
+    $stmt_viv->execute();
+    $viviendas_pag = $stmt_viv->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable $e) {
+    // La tabla 'viviendas' aún no existe o hay un error de esquema.
+    // El módulo se carga igual, pero sin datos de viviendas.
+    error_log('[HIDRA territorio.php] ' . $e->getMessage());
+    $terr_total    = 0;
+    $terr_last     = 1;
+    $viviendas_pag = [];
+}
 ?>
 
 <!-- Inyectar BASE_PATH para el JS del módulo -->
@@ -74,6 +85,7 @@ $viviendas_pag = $stmt_viv->fetchAll(PDO::FETCH_ASSOC);
             <span class="terr-toolbar-title"><i class="fas fa-map-marked-alt"></i> Sectores del Servicio</span>
         </div>
 
+        <!-- Grid de cards de sectores — JS llena este contenedor -->
         <div id="sectorCardsGrid" class="sector-cards-grid">
             <?php foreach($sectores_lista as $s): ?>
             <div class="sector-card-skeleton skeleton-card">
@@ -83,21 +95,6 @@ $viviendas_pag = $stmt_viv->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </div>
 
-        <!-- Sub-vista de casas por sector -->
-        <div id="sectorSubview" class="sector-subview">
-            <div class="subview-header">
-                <div class="subview-breadcrumb">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Sectores</span>
-                    <span class="sep">/</span>
-                    <strong id="subviewSectorName">—</strong>
-                </div>
-                <button class="btn btn-ghost btn-sm" onclick="terrCloseSectorSubview()">
-                    <i class="fas fa-times"></i> Cerrar
-                </button>
-            </div>
-            <div id="miniCasasGrid" class="mini-cards-grid"></div>
-        </div>
     </div>
 
     <!-- ══ TAB 2: SECTORES CRUD ══════════════════════════ -->
@@ -216,7 +213,57 @@ $viviendas_pag = $stmt_viv->fetchAll(PDO::FETCH_ASSOC);
 
 
 <!-- ══════════════════════════════════════════════════
-     MODALES DEL MÓDULO TERRITORIO
+     MODAL: VIVIENDAS DEL SECTOR
+     Amplío (terr-modal-xl) para mostrar la grilla de mini-cards.
+     Controlado íntegramente por territorio.js.
+══════════════════════════════════════════════════ -->
+<div class="modal-overlay terr-modal-xl" id="terrModalSectorCasas"
+     style="display:none" role="dialog" aria-modal="true"
+     aria-labelledby="terrSectorCasasNombre">
+    <div class="modal modal-sector-casas">
+
+        <div class="modal-header">
+            <div class="sector-modal-title-group">
+                <span class="sector-modal-icon"><i class="fas fa-map-marked-alt"></i></span>
+                <div>
+                    <span class="modal-title" id="terrSectorCasasNombre">Sector</span>
+                    <span class="sector-modal-conteo" id="terrSectorCasasConteo"></span>
+                </div>
+            </div>
+            <button class="modal-close"
+                    onclick="terrCloseSectorModal()"
+                    aria-label="Cerrar">
+                ✕
+            </button>
+        </div>
+
+        <div class="modal-body modal-body-casas">
+            <!-- JS inyecta aquí las mini-cards de viviendas -->
+            <div id="terrModalCasasGrid" class="mini-cards-grid">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Cargando viviendas...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <span class="sector-modal-hint">
+                <i class="fas fa-info-circle"></i>
+                Haz clic en una vivienda para ver su detalle completo
+            </span>
+            <button class="btn btn-ghost btn-sm"
+                    onclick="terrCloseSectorModal()">
+                Cerrar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     MODALES DEL MÓDULO TERRITORIO (CRUD)
 ══════════════════════════════════════════════════ -->
 
 <!-- Modal: Crear / Editar Sector -->

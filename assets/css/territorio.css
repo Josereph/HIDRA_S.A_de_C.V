@@ -520,3 +520,102 @@
   .form-modal-grid { grid-template-columns: 1fr; }
 }
 .form-modal-grid .full-col { grid-column: 1 / -1; }
+
+/* ══════════════════════════════════════════════════
+   MODAL XL — VIVIENDAS DEL SECTOR
+   Overlay amplio para mostrar la grilla de mini-cards.
+   ID: #terrModalSectorCasas
+══════════════════════════════════════════════════ */
+
+/* Tamaño: 90vw hasta 900px */
+.modal-overlay.terr-modal-xl .modal,
+.terr-modal-xl .modal-sector-casas {
+  max-width: 900px;
+  width: 92vw;
+}
+
+/* Body: scroll interno si hay muchas casas */
+.modal-body.modal-body-casas {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 24px;
+  /* scrollbar delgada tipo webkit */
+  scrollbar-width: thin;
+  scrollbar-color: var(--celeste-lt) transparent;
+}
+.modal-body.modal-body-casas::-webkit-scrollbar { width: 5px; }
+.modal-body.modal-body-casas::-webkit-scrollbar-thumb {
+  background: var(--celeste-lt);
+  border-radius: 10px;
+}
+
+/* Grilla dentro del modal: columnas más anchas que en el subview */
+#terrModalCasasGrid.mini-cards-grid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* Grupo título del header del modal */
+.sector-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sector-modal-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--negro) 0%, var(--celeste-dk) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--blanco);
+  flex-shrink: 0;
+}
+
+.sector-modal-conteo {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* Hint en el footer */
+.sector-modal-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sector-modal-hint i { color: var(--celeste-dk); }
+
+/* Mini-card dentro del modal: ligero realce al hover */
+.modal-body-casas .mini-casa-card:hover {
+  box-shadow: 0 10px 28px rgba(102,179,255,0.18);
+}
+
+/* Responsive: en móvil el modal ocupa casi toda la pantalla */
+@media (max-width: 600px) {
+  .modal-overlay.terr-modal-xl .modal,
+  .terr-modal-xl .modal-sector-casas {
+    width: 98vw;
+    margin: 8px;
+  }
+  .modal-body.modal-body-casas {
+    max-height: 70vh;
+  }
+  #terrModalCasasGrid.mini-cards-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 400px) {
+  #terrModalCasasGrid.mini-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

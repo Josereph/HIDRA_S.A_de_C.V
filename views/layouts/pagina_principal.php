@@ -11,15 +11,35 @@ function hidra_render_partial_seguro(string $partialPath, string $viewId, string
             throw new RuntimeException('No se encontró el archivo partial: ' . $partialPath);
         }
 
+        // ── CORRECCIÓN CRÍTICA ────────────────────────────────────────────────
+        // Los includes dentro de una función PHP tienen su propio scope aislado.
+        // Las variables definidas en data_loader.php ($lecturas_recientes,
+        // $sectores_lista, $clientes_lista, etc.) son globales pero NO están
+        // disponibles automáticamente dentro de esta función.
+        // extract($GLOBALS) las inyecta al scope local antes del include,
+        // resolviendo el "Undefined variable $lecturas_recientes" en operaciones.php.
+        // Se excluyen claves internas de PHP para evitar colisiones.
+        $safeGlobals = array_diff_key(
+            $GLOBALS,
+            array_flip(['GLOBALS', '_SERVER', '_GET', '_POST', '_FILES',
+                        '_COOKIE', '_SESSION', '_REQUEST', '_ENV'])
+        );
+        extract($safeGlobals, EXTR_SKIP);
+        // ─────────────────────────────────────────────────────────────────────
+
         ob_start();
         include $partialPath;
         echo ob_get_clean();
+
     } catch (Throwable $e) {
         while (ob_get_level() > $nivelBuffer) {
             ob_end_clean();
         }
 
         $mensajeTecnico = $e->getMessage();
+        // Incluir archivo + línea para acelerar el debug
+        $mensajeTecnico .= ' — en ' . str_replace(realpath(__DIR__ . '/../../'), '', $e->getFile())
+                         . ':' . $e->getLine();
         ?>
         <div class="view" id="view-<?= htmlspecialchars($viewId, ENT_QUOTES, 'UTF-8') ?>">
             <div class="page-header">
